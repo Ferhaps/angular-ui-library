@@ -1,0 +1,25 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-title {
+  padding-inline: 2rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+
+  .title {
+    // max-width: 300px;
+  }
+
+  .closer {
+    right: 3%;
+  }
+}
+
+.dialog-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  // max-height: 65vh;
+  padding-bottom: 1rem;
+}

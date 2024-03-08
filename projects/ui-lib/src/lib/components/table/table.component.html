@@ -1,0 +1,68 @@
+<div class="flexer upper-row">
+  <div class="row-heading-labels">{{config.title}}</div>
+  <ng-content select=".upper-part"></ng-content>
+  <div class="flexer action" (click)="action.emit({action: 'add'})" *ngIf="config.withAdd">
+    <img ngSrc="assets/images/plus.svg" alt="+" width="20" height="20" priority="priority">
+    <div class="add">add</div>
+  </div>
+</div>
+
+<div class="scroll" #scrollContainer (scroll)="onScroll()">
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let heading of config.tableHeadings; index as i">
+          <div class="flexer">
+            {{heading}}
+            <app-table-sort-header
+              *ngIf="config.sortable"
+              class="ml05"
+              [selected]="currentSortColumn === i"
+              (click)="currentSortColumn = i"
+              (sort)="sortByProp(config.dataProps[i], $event)" />
+          </div>
+        </th>
+        <th *ngIf="config.options.length > 0" class="table-heading-accent"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let obj of config.data; trackBy: trackById; index as i"
+        (mouseover)="hoverRowIndex = i"
+        (mouseleave)="hoverRowIndex = -1"
+        [ngClass]="{
+          'hover-row': hoverRowIndex == i,
+          'selected-row': config.selectableRows && selectedRowIndex == i,
+        }"
+        (click)="onRowClick(obj, i)"
+        @fadeInOut>
+        <td
+          *ngFor="let prop of config.dataProps; index as cellIndex">
+          
+          <div [ngClass]="{
+              'red': obj[prop] && prop?.toLowerCase()?.includes('status') && obj[prop]?.toUpperCase() != 'ACTIVE',
+              'green': obj[prop] && prop?.toLowerCase()?.includes('status') && obj[prop]?.toUpperCase() == 'ACTIVE',
+            }">
+            <div class="data">{{obj[prop] | blankFiller}}</div>
+          </div>
+        </td>
+  
+        <td *ngIf="config.options.length > 0" class="right-align" (click)="$event.stopPropagation()">
+          <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #optionsMenu="matMenu">
+            <div *ngFor="let option of config.options"
+              mat-menu-item (click)="selectOption(option, obj, i)"
+              [ngClass]="{
+                'red': option == 'Remove' || option == 'Delete',
+              }">
+              {{option}}
+            </div>
+          </mat-menu>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

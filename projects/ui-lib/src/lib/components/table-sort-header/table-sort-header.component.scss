@@ -1,0 +1,17 @@
+.sorting-container {
+  display: flex;
+  align-items: center;
+
+  * {
+    cursor: pointer;
+  }
+
+  .selected {
+    color: #31ADFF;
+    background-color: #ebf7fc;
+  }
+  
+  .rotated {
+    transform: rotate(180deg) scaleX(-1);
+  }
+}
