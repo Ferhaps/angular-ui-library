@@ -18,7 +18,6 @@ import { MatButtonModule } from '@angular/material/button';
       color: white !important;
       padding: 5px 40px !important;
       font-size: 20px !important;
-      font-weight: bold !important;
     }
     button[disabled='true'] {
       background-color: #D0D5DD !important;

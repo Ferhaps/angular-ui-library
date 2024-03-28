@@ -39,13 +39,7 @@
         @fadeInOut>
         <td
           *ngFor="let prop of config.dataProps; index as cellIndex">
-          
-          <div [ngClass]="{
-              'red': obj[prop] && prop?.toLowerCase()?.includes('status') && obj[prop]?.toUpperCase() != 'ACTIVE',
-              'green': obj[prop] && prop?.toLowerCase()?.includes('status') && obj[prop]?.toUpperCase() == 'ACTIVE',
-            }">
-            <div class="data">{{obj[prop] | blankFiller}}</div>
-          </div>
+          <div class="data">{{obj[prop] | blankFiller}}</div>
         </td>
   
         <td *ngIf="config.options.length > 0" class="right-align" (click)="$event.stopPropagation()">
