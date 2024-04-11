@@ -17,7 +17,7 @@ export type PageState = 'loading' | 'loaded' | 'error';
   styleUrls: ['./page-state.component.scss']
 })
 export class PageStateComponent {
-  @Input({ required: true} ) state!: PageState;
+  @Input({ required: true }) state!: PageState;
 
   @Output() retry = new EventEmitter();
 }

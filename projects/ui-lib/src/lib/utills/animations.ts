@@ -10,16 +10,6 @@ export const fader = trigger('fadeInOut', [
   ]),
 ]);
 
-export const popupFader = trigger('popupFader', [
-  transition('closed => opened', [
-    style({ opacity: 0, transform: 'translateY(100px)' }),
-    animate('200ms', style({ opacity: 1, transform: 'translateY(0)' })),
-  ]),
-  transition('opened => closed', [
-    animate('200ms', style({ opacity: 0 })),
-  ]),
-]);
-
 export const openDropdown = trigger('open-close-dropdown', [
   transition(':enter', [
     style({ height: 0, overflow: 'hidden' }),
