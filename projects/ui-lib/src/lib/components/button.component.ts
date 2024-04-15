@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
       font-size: 20px !important;
     }
     button[disabled='true'] {
+      cursor: not-allowed !important;
       background-color: #D0D5DD !important;
     }
     .secondary {
