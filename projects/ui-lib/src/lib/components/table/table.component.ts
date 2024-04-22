@@ -7,6 +7,7 @@ import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-
 import { fader } from '../../utills/animations';
 import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
 import { SnakeCaseParserPipe } from '../../pipes/snake-case-parser.pipe';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
 
 export type TableEvent = {
   action: string;
@@ -26,6 +27,7 @@ export type Config = {
   withAdd: boolean;
   selectableRows: boolean;
   sortable: boolean;
+  draggable?: boolean;
 };
 
 @Component({
@@ -42,43 +44,50 @@ export type Config = {
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    TableSortHeaderComponent
+    TableSortHeaderComponent,
+    DragDropModule
   ],
 })
 export class TableComponent {
-  @Input({ required: true }) public config!: Config;
+  @Input({ required: true }) config!: Config;
   
-  @Output() protected action = new EventEmitter<TableEvent>();
+  @Output() action = new EventEmitter<TableEvent>();
 
   @ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>
 
-  public selectedRowIndex: number = -1;
-  protected hoverRowIndex: number = -1;
-  protected currentSortColumn: number = -1;
+  selectedRowIndex: number = -1;
+  hoverRowIndex: number = -1;
+  currentSortColumn: number = -1;
 
-  protected trackById(index: number, obj: any): number {
-    return obj.id || index;
+  drop(event: CdkDragDrop<any>) {
+    if (this.config.draggable) {
+      moveItemInArray(this.config.data, event.previousIndex, event.currentIndex);
+      this.action.emit({ action: 'drag', obj: this.config.data[event.currentIndex], index: event.currentIndex });
+    }
   }
 
-  protected onScroll() {
+  onScroll() {
     const container = this.scrollContainer.nativeElement;
     // console.log(Math.ceil(container.scrollTop), container.offsetHeight, container.scrollHeight)
     if ((Math.ceil(container.scrollTop) + container.offsetHeight) >= container.scrollHeight) {
-      console.log('scroll')
       this.action.emit({ action: 'scrolled' });
     }
   }
 
-  protected onRowClick(obj: any, index: number): void {
+  onRowClick(obj: any, index: number): void {
     this.selectedRowIndex = index === this.selectedRowIndex ? -1 : index;
     this.action.emit({ action: 'rowClick', obj, index, selected: this.selectedRowIndex === index });
   }
 
-  protected selectOption(оption: string, obj: any, index: number): void {
+  selectOption(оption: string, obj: any, index: number): void {
     this.action.emit({ action: оption.toLowerCase(), obj, index, selected: this.selectedRowIndex === index });
   }
 
-  protected sortByProp(prop: string, sortState: SortState): void {
+  sortByProp(prop: string, sortState: SortState): void {
     this.action.emit({ action: 'sort', prop, sortState });
+  }
+
+  trackById(index: number, obj: any): number {
+    return obj.id || index;
   }
 }
