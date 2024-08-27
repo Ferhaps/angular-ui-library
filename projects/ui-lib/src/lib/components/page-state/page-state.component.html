@@ -1,6 +1,0 @@
-<ng-container [ngSwitch]="state">
-  <div class="loader" *ngSwitchCase="'loading'">
-    <mat-spinner />
-  </div>
-  <app-page-error *ngSwitchCase="'error'" (retry)="retry.emit()" />
-</ng-container>

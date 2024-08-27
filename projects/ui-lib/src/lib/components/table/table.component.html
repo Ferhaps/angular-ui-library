@@ -33,15 +33,16 @@
         (mouseleave)="hoverRowIndex = -1"
         cdkDrag cdkDragLockAxis="y"
         [ngClass]="{
-          'hover-row': hoverRowIndex == i && !config.draggable,
+          'hover-row': hoverRowIndex == i,
           'selected-row': config.selectableRows && selectedRowIndex == i
         }"
         (click)="onRowClick(obj, i)"
         @fadeInOut>
         <td
-          *ngFor="let prop of config.dataProps; index as cellIndex">
-          <div class="data" [ngClass]="{ 'flexer': config.draggable && cellIndex === 0 }">
-            <mat-icon *ngIf="config.draggable && cellIndex === 0" class="ml05 draggable" cdkDragHandle>
+          *ngFor="let prop of config.dataProps; index as cellIndex"
+          [ngClass]="{ 'dragCol': cellIndex === 0 }">
+          <div class="data" [ngClass]="{ 'flexer': cellIndex === 0 }">
+            <mat-icon *ngIf="cellIndex === 0" class="draggable" cdkDragHandle>
               drag_indicator
             </mat-icon>
             {{obj[prop] | blankFiller}}
@@ -78,7 +79,7 @@
         @fadeInOut>
         <td
           *ngFor="let prop of config.dataProps; index as cellIndex">
-          <div class="data" [ngClass]="{ 'flexer': cellIndex === 0 }">
+          <div class="data">
             {{obj[prop] | blankFiller}}
           </div>
         </td>
