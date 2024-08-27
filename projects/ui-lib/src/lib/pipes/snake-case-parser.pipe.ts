@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class SnakeCaseParserPipe implements PipeTransform {
-  transform(str: string | undefined): string {
+  public transform(str: string | undefined): string {
     if (str) {
       let temp = str.split('_').map(word => {
         return word.toLowerCase();

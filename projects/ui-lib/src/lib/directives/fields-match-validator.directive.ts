@@ -1,6 +1,5 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
-
 
 @Directive({
   selector: '[appFieldsMatchValidator]',
@@ -14,16 +13,16 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
   ],
 })
 export class FieldsMatchValidatorDirective implements Validator {
-  @Input('appFieldsMatchValidator') fieldToMatch: string = '';
+  public fieldToMatch = input.required<string>();
 
-  validate(control: AbstractControl): { [key: string]: any } | null {
+  public validate(control: AbstractControl): { [key: string]: any } | null {
     const value = control.value;
 
     if (!value) {
       return null;
     }
 
-    const matchingControl = control.root.get(this.fieldToMatch);
+    const matchingControl = control.root.get(this.fieldToMatch());
     if (!matchingControl) {
       return null;
     }
