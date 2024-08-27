@@ -1,3 +1,3 @@
 <div class="sorting-container" (click)="onSortClick()">
-  <mat-icon [ngClass]="{'selected': selected && sortState != 'none', 'rotated': sortState == 'asc'}">sort</mat-icon>
+  <mat-icon [ngClass]="{'selected': selected() && sortState != 'none', 'rotated': sortState == 'asc'}">sort</mat-icon>
 </div>

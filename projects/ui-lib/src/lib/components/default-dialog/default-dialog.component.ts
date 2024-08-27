@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, input, output, TemplateRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-default-dialog',
@@ -16,9 +15,10 @@ import { MatDialogModule } from '@angular/material/dialog';
   styleUrls: ['./default-dialog.component.scss']
 })
 export class DefaultDialogComponent {
-  @Input() public temRef: TemplateRef<any> | undefined;
-  @Input() public title: string = '';
-  @Input() public withBack: boolean = false;
+  @Input() temRef!: TemplateRef<any>;
+  
+  public title = input<string>();
+  public withBack = input<boolean>();
 
-  @Output() public back = new EventEmitter();
+  protected back = output<void>();
 }

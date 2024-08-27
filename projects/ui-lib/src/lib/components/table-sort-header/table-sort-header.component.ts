@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -15,9 +15,8 @@ export type SortState = 'none' | 'asc' | 'desc';
   styleUrls: ['./table-sort-header.component.scss']
 })
 export class TableSortHeaderComponent {
-  @Input() public selected: boolean = false;
-
-  @Output() public sort = new EventEmitter<SortState>();
+  public selected = input.required<boolean>();
+  public sort = output<SortState>();
 
   protected sortState: SortState = 'none';
 

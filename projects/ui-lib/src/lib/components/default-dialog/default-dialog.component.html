@@ -1,14 +1,16 @@
 <div class="modal">
   <div class="dialog-title pos-rel flex fs20 justify-content-center">
-    <div class="pointer mr05" *ngIf="withBack" (click)="back.emit()">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </div>
-    <h4 class="title">{{title}}</h4>
+    @if (withBack()) {
+      <div class="pointer mr05" (click)="back.emit()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </div>
+    }
+    <h4 class="title">{{title()}}</h4>
     <div class="pointer pos-abs closer" mat-dialog-close>
       <mat-icon>close</mat-icon>
     </div>
   </div>
-  
+
   <div class="dialog-content flex-col align-items-center">
     <ng-content select=".dialog-content"></ng-content>
     <ng-template #tempBody></ng-template>

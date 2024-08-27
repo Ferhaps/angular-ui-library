@@ -1,5 +1,5 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import { Component, output, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
       <img ngSrc="assets/images/searchIcon.svg" width="22" height="22" priority="priority" alt="search">
       <input
         class="search-input" type="search" name="field"
-        placeholder="Search {{for}}" autocomplete="off" formControlName="search">
+        [placeholder]="'Search ' + for()" autocomplete="off" formControlName="search">
     </form>
   `,
   styles: [`
@@ -40,16 +40,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   `],
   standalone: true,
   imports: [
-    CommonModule,
     NgOptimizedImage,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ]
 })
-
 export class SearchBarComponent {
-  @Input() public for: string = '';
-
-  @Output() private search = new EventEmitter<string>();
+  public for = input.required<string>();
+  protected search = output<string>();
 
   protected searchForm: FormGroup = new FormGroup({
     search: new FormControl('')

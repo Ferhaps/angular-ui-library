@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, OnInit } from '@angular/core';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
 import { SystemError } from '../utills/types';
@@ -8,9 +8,8 @@ import { SystemError } from '../utills/types';
   selector: 'app-error-dispaly',
   standalone: true,
   imports: [
-    CommonModule,
     SnakeCaseParserPipe
-  ],
+],
   template: `<strong class="err-container">{{ displayError | snakeCaseParser }}</strong>`,
   styles: [`
     .err-container {
@@ -26,21 +25,21 @@ import { SystemError } from '../utills/types';
   `]
 })
 export class ErrorDispalyComponent implements OnInit {
-  @Input({ required: true }) error: SystemError;
+  public error = input.required<SystemError>();
 
   protected displayError: string = '';
 
   public ngOnInit(): void {
-    if (this.error instanceof HttpErrorResponse) {
-      if (typeof this.error.error === 'string') {
-        this.displayError = this.error.error;
-      } else if (this.error && this.error.error && this.error.error.message) {
-        this.displayError = this.error.error.message;
+    if (this.error() instanceof HttpErrorResponse) {
+      if (typeof (this.error() as HttpErrorResponse).error === 'string') {
+        this.displayError = (this.error() as HttpErrorResponse).error;
+      } else if (this.error && (this.error() as HttpErrorResponse).error.message) {
+        this.displayError = (this.error() as HttpErrorResponse).error.message;
       } else {
         this.displayError = 'Unknown error';
       }
-    } else if (typeof this.error === 'string') {
-      this.displayError = this.error;
+    } else if (typeof this.error() === 'string') {
+      this.displayError = (this.error() as string);
     } else {
       this.displayError = 'Unknown error';
     }

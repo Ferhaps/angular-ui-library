@@ -1,104 +1,128 @@
 <div class="flexer upper-row">
-  <div class="row-heading-labels">{{config.title}}</div>
+  <div class="row-heading-labels">{{config().title}}</div>
   <ng-content select=".upper-part"></ng-content>
-  <div class="flexer action" (click)="action.emit({action: 'add'})" *ngIf="config.withAdd">
-    <img ngSrc="assets/images/plus.svg" alt="+" width="20" height="20" priority="priority">
-    <div class="add">add</div>
-  </div>
+  @if (config().withAdd) {
+    <div class="flexer action" (click)="action.emit({action: 'add'})">
+      <img ngSrc="assets/images/plus.svg" alt="+" width="20" height="20" priority="priority">
+      <div class="add">add</div>
+    </div>
+  }
 </div>
 
 <div class="scroll" #scrollContainer (scroll)="onScroll()">
   <table>
     <thead>
       <tr>
-        <th
-          *ngFor="let heading of config.tableHeadings; index as i">
-          <div class="flexer">
-            {{heading}}
-            <app-table-sort-header
-              *ngIf="config.sortable && !config.draggable"
-              class="ml05"
-              [selected]="currentSortColumn === i"
-              (click)="currentSortColumn = i"
-              (sort)="sortByProp(config.dataProps[i], $event)" />
-          </div>
-        </th>
-        <th *ngIf="config.options.length > 0" class="table-heading-accent"></th>
+        @for (heading of config().tableHeadings; track heading; let i = $index) {
+          <th
+            >
+            <div class="flexer">
+              {{heading}}
+              @if (config().sortable && !config().draggable) {
+                <app-table-sort-header
+                  class="ml05"
+                  [selected]="currentSortColumn === i"
+                  (click)="currentSortColumn = i"
+                  (sort)="sortByProp(config().dataProps[i], $event)" />
+              }
+            </div>
+          </th>
+        }
+        @if (config().options.length > 0) {
+          <th class="table-heading-accent"></th>
+        }
       </tr>
     </thead>
-    <tbody cdkDropList (cdkDropListDropped)="drop($event)" *ngIf="config.draggable">
-      <tr
-        *ngFor="let obj of config.data; trackBy: trackById; index as i"
-        (mouseover)="hoverRowIndex = i"
-        (mouseleave)="hoverRowIndex = -1"
-        cdkDrag cdkDragLockAxis="y"
+    @if (config().draggable) {
+      <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        @for (obj of config().data; track trackById(i, obj); let i = $index) {
+          <tr
+            (mouseover)="hoverRowIndex = i"
+            (mouseleave)="hoverRowIndex = -1"
+            cdkDrag cdkDragLockAxis="y"
         [ngClass]="{
           'hover-row': hoverRowIndex == i,
-          'selected-row': config.selectableRows && selectedRowIndex == i
+          'selected-row': config().selectableRows && selectedRowIndex == i
         }"
-        (click)="onRowClick(obj, i)"
-        @fadeInOut>
-        <td
-          *ngFor="let prop of config.dataProps; index as cellIndex"
-          [ngClass]="{ 'dragCol': cellIndex === 0 }">
-          <div class="data" [ngClass]="{ 'flexer': cellIndex === 0 }">
-            <mat-icon *ngIf="cellIndex === 0" class="draggable" cdkDragHandle>
-              drag_indicator
-            </mat-icon>
-            {{obj[prop] | blankFiller}}
-          </div>
-        </td>
-  
-        <td *ngIf="config.options.length > 0" class="right-align" (click)="$event.stopPropagation()">
-          <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #optionsMenu="matMenu">
-            <div *ngFor="let option of config.options"
-              mat-menu-item (click)="selectOption(option, obj, i)"
+            (click)="onRowClick(obj, i)"
+            @fadeInOut>
+            @for (prop of config().dataProps; track prop; let cellIndex = $index) {
+              <td
+                [ngClass]="{ 'dragCol': cellIndex === 0 }">
+                <div class="data" [ngClass]="{ 'flexer': cellIndex === 0 }">
+                  @if (cellIndex === 0) {
+                    <mat-icon class="draggable" cdkDragHandle>
+                      drag_indicator
+                    </mat-icon>
+                  }
+                  {{obj[prop] | blankFiller}}
+                </div>
+              </td>
+            }
+            @if (config().options.length > 0) {
+              <td class="right-align" (click)="$event.stopPropagation()">
+                <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #optionsMenu="matMenu">
+                  @for (option of config().options; track option) {
+                    <div
+                      mat-menu-item (click)="selectOption(option, obj, i)"
               [ngClass]="{
                 'red': option == 'Remove' || option == 'Delete',
               }">
-              {{option}}
-            </div>
-          </mat-menu>
-        </td>
-      </tr>
-    </tbody>
+                      {{option}}
+                    </div>
+                  }
+                </mat-menu>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    }
 
-    <tbody *ngIf="!config.draggable">
-      <tr
-        *ngFor="let obj of config.data; trackBy: trackById; index as i"
-        (mouseover)="hoverRowIndex = i"
-        (mouseleave)="hoverRowIndex = -1"
+    @if (!config().draggable) {
+      <tbody>
+        @for (obj of config().data; track trackById(i, obj); let i = $index) {
+          <tr
+            (mouseover)="hoverRowIndex = i"
+            (mouseleave)="hoverRowIndex = -1"
         [ngClass]="{
           'hover-row': hoverRowIndex == i,
-          'selected-row': config.selectableRows && selectedRowIndex == i
+          'selected-row': config().selectableRows && selectedRowIndex == i
         }"
-        (click)="onRowClick(obj, i)"
-        @fadeInOut>
-        <td
-          *ngFor="let prop of config.dataProps; index as cellIndex">
-          <div class="data">
-            {{obj[prop] | blankFiller}}
-          </div>
-        </td>
-  
-        <td *ngIf="config.options.length > 0" class="right-align" (click)="$event.stopPropagation()">
-          <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #optionsMenu="matMenu">
-            <div *ngFor="let option of config.options"
-              mat-menu-item (click)="selectOption(option, obj, i)"
+            (click)="onRowClick(obj, i)"
+            @fadeInOut>
+            @for (prop of config().dataProps; track prop; let cellIndex = $index) {
+              <td
+                >
+                <div class="data">
+                  {{obj[prop] | blankFiller}}
+                </div>
+              </td>
+            }
+            @if (config().options.length > 0) {
+              <td class="right-align" (click)="$event.stopPropagation()">
+                <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #optionsMenu="matMenu">
+                  @for (option of config().options; track option) {
+                    <div
+                      mat-menu-item (click)="selectOption(option, obj, i)"
               [ngClass]="{
                 'red': option == 'Remove' || option == 'Delete',
               }">
-              {{option}}
-            </div>
-          </mat-menu>
-        </td>
-      </tr>
-    </tbody>
+                      {{option}}
+                    </div>
+                  }
+                </mat-menu>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    }
   </table>
 </div>
