@@ -28,6 +28,12 @@ export type Config = {
   selectableRows: boolean;
   sortable: boolean;
   draggable?: boolean;
+  classRules?: ClassRule[];
+};
+
+export type ClassRule = {
+	className: string;
+	condition: (obj: any, prop: string) => boolean;
 };
 
 @Component({
@@ -57,7 +63,20 @@ export class TableComponent {
   protected hoverRowIndex: number = -1;
   protected currentSortColumn: number = -1;
 
- protected  drop(event: CdkDragDrop<any>) {
+  protected getClass(obj: any, prop: string): string {
+		if (!this.config().classRules) return '';
+    
+		const classes: string[] = [];
+		for (let rule of (this.config().classRules as ClassRule[])) {
+			if (rule.condition(obj, prop)) {
+				classes.push(rule.className);
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+  protected drop(event: CdkDragDrop<any>) {
     if (this.config().draggable) {
       moveItemInArray(this.config().data, event.previousIndex, event.currentIndex);
       this.action.emit({ action: 'drag', obj: this.config().data[event.currentIndex], index: event.currentIndex });
