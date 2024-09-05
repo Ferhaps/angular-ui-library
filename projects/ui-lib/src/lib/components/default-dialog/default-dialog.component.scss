@@ -16,4 +16,6 @@
 .dialog-content {
   overflow-y: auto;
   overflow-x: hidden;
+  padding-bottom: 1rem;
+  max-height: 65vh;
 }
