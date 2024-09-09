@@ -1,0 +1,11 @@
+<app-default-dialog [title]="'Аn error has occurred'">
+  <div class="dialog-content flex-col align-items-center">
+    <div class="flexer mb05 fs20 fw600 gap05">
+      <div>{{error.status}}</div>
+      <div>{{error.statusText}}</div>
+    </div>
+    <div class="centerer">
+      <app-error-dispaly [error]="error" />
+    </div>
+  </div>
+</app-default-dialog>

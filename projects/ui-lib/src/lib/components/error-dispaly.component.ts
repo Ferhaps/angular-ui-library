@@ -10,17 +10,17 @@ import { SystemError } from '../utills/types';
   imports: [
     SnakeCaseParserPipe
 ],
-  template: `<strong class="err-container">{{ displayError | snakeCaseParser }}</strong>`,
+  template: `<strong class="err-container fs20">{{ displayError | snakeCaseParser }}</strong>`,
   styles: [`
     .err-container {
       display: block;
-      width: fit-content;
+      max-width: 300px;
       border: 1px solid red;
       border-radius: 5px;
-      padding: 1rem 2rem;
+      padding: 0.5rem 1.5rem;
       background-color: #ffe6e6;
       color: #ff0000;
-      font-size: 20px;
+      overflow-wrap: break-word;
     }
   `]
 })
