@@ -14,3 +14,4 @@ export * from './lib/utills/animations';
 export * from './lib/components/table-sort-header/table-sort-header.component';
 export * from './lib/components/table/table.component';
 export * from './lib/components/global-loader/global-loader.component';
+export * from './lib/services/loader.service';
