@@ -44,7 +44,7 @@
               'hover-row': hoverRowIndex == i,
               'selected-row': config().selectableRows && selectedRowIndex == i
             }"
-            (click)="onRowClick(obj, i)"
+            (click)="onRowClick($event, obj, i)"
             @fadeInOut>
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td
@@ -90,7 +90,7 @@
               'hover-row': hoverRowIndex == i,
               'selected-row': config().selectableRows && selectedRowIndex == i
             }"
-            (click)="onRowClick(obj, i)"
+            (click)="onRowClick($event, obj, i)"
             @fadeInOut>
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td>
