@@ -10,7 +10,7 @@ import { SystemError } from '../utills/types';
   imports: [
     SnakeCaseParserPipe
 ],
-  template: `<strong class="err-container fs20">{{ displayError | snakeCaseParser }}</strong>`,
+  template: `<strong class="err-container fs20 center">{{ displayError | snakeCaseParser }}</strong>`,
   styles: [`
     .err-container {
       display: block;
