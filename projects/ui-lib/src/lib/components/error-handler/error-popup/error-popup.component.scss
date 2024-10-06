@@ -1,0 +1,24 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-inline: 1rem;
+
+  .status-info {
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.5rem;
+  }
+
+  .error-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    .center {
+      text-align: center;
+    }
+  }
+}
