@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
-  selector: 'app-search-bar',
+  selector: 'lib-search-bar',
   template: `
     <form class="search-bar" [formGroup]="searchForm">
       <img ngSrc="assets/images/searchIcon.svg" width="22" height="22" priority="priority" alt="search">

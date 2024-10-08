@@ -18,7 +18,7 @@
             <div class="flexer">
               {{heading}}
               @if (config().sortable && !config().draggable) {
-                <app-table-sort-header
+                <lib-table-sort-header
                   class="ml05"
                   [selected]="currentSortColumn === i"
                   (click)="currentSortColumn = i"

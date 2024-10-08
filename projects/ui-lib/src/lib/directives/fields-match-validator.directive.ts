@@ -2,7 +2,7 @@ import { Directive, input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
-  selector: '[appFieldsMatchValidator]',
+  selector: '[libFieldsMatchValidator]',
   standalone: true,
   providers: [
     {

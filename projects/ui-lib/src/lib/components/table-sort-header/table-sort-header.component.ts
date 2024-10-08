@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 export type SortState = 'none' | 'asc' | 'desc';
 
 @Component({
-  selector: 'app-table-sort-header',
+  selector: 'lib-table-sort-header',
   standalone: true,
   imports: [
     CommonModule,

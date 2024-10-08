@@ -5,7 +5,7 @@ import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
 import { SystemError } from '../utills/types';
 
 @Component({
-  selector: 'app-error-dispaly',
+  selector: 'lib-error-dispaly',
   standalone: true,
   imports: [
     SnakeCaseParserPipe

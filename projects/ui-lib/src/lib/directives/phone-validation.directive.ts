@@ -1,7 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appPhoneValidation]',
+  selector: '[libPhoneValidation]',
   standalone: true
 })
 export class PhoneValidationDirective {

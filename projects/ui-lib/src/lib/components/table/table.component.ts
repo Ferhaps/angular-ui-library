@@ -38,7 +38,7 @@ export type ClassRule = {
 };
 
 @Component({
-	selector: 'app-table',
+	selector: 'lib-table',
 	templateUrl: 'table.component.html',
 	styleUrls: ['table.component.scss'],
 	animations: [fader],

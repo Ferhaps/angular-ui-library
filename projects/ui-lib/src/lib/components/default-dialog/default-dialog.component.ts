@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-default-dialog',
+  selector: 'lib-default-dialog',
   standalone: true,
   imports: [
     CommonModule,

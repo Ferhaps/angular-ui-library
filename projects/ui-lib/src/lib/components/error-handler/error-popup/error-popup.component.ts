@@ -5,7 +5,7 @@ import { DefaultDialogComponent } from '../../default-dialog/default-dialog.comp
 import { ErrorDispalyComponent } from '../../error-dispaly.component';
 
 @Component({
-  selector: 'app-error-popup',
+  selector: 'lib-error-popup',
   standalone: true,
   imports: [
     DefaultDialogComponent,
