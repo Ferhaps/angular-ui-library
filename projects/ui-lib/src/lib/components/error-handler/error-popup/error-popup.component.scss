@@ -13,13 +13,7 @@
   }
 
   .error-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-
-    .center {
-      text-align: center;
-    }
+    display: grid;
+    place-items: center;
   }
 }

@@ -1,11 +1,12 @@
 <lib-default-dialog [title]="'Аn error has occurred'">
   <div class="dialog-content">
     <div class="status-info">
-      <div>{{error.status}}</div>
-      <div>{{error.statusText}}</div>
+      <div>{{ error.status }}</div>
+      @if (error.status) {
+        <div>{{ httpStatusCodes[error.status] }}</div>
+      }
     </div>
     <div class="error-info">
-      <div>URL: {{error.url}}</div>
       <lib-error-dispaly [error]="error" />
     </div>
   </div>
