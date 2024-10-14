@@ -3,7 +3,7 @@
   <ng-content select=".upper-part"></ng-content>
   @if (config().withAdd) {
     <div class="flexer action" (click)="action.emit({action: 'add'})">
-      <img ngSrc="assets/images/plus.svg" alt="+" width="20" height="20" priority="priority">
+      <mat-icon>add_circle_outline</mat-icon>
       <div class="ml05">add</div>
     </div>
   }

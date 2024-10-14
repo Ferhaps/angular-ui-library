@@ -1,13 +1,13 @@
-import { NgOptimizedImage } from '@angular/common';
 import { Component, output, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'lib-search-bar',
   template: `
     <form class="search-bar" [formGroup]="searchForm">
-      <img ngSrc="assets/images/searchIcon.svg" width="22" height="22" priority="priority" alt="search">
+    <mat-icon>search</mat-icon>
       <input
         class="search-input" type="search" name="field"
         [placeholder]="'Search ' + for()" autocomplete="off" formControlName="search">
@@ -40,7 +40,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   `],
   standalone: true,
   imports: [
-    NgOptimizedImage,
+    MatIconModule,
     ReactiveFormsModule
   ]
 })
