@@ -2,9 +2,9 @@
   <div class="row-heading-labels">{{config().title}}</div>
   <ng-content select=".upper-part"></ng-content>
   @if (config().withAdd) {
-    <div class="flexer action" (click)="action.emit({action: 'add'})">
+    <div class="flexer action gap05" (click)="action.emit({action: 'add'})">
       <mat-icon>add_circle_outline</mat-icon>
-      <div class="ml05">add</div>
+      <div>add</div>
     </div>
   }
 </div>
@@ -15,11 +15,10 @@
       <tr>
         @for (heading of config().tableHeadings; track heading; let i = $index) {
           <th>
-            <div class="flexer">
+            <div class="flexer gap05">
               {{heading}}
               @if (config().sortable && !config().draggable) {
                 <lib-table-sort-header
-                  class="ml05"
                   [selected]="currentSortColumn === i"
                   (click)="currentSortColumn = i"
                   (sort)="sortByProp(config().dataProps[i], $event)"
