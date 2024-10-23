@@ -4,7 +4,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
-import { fader } from '../../utills/animations';
+import { fader } from '../../utils/animations';
 import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
 import { SnakeCaseParserPipe } from '../../pipes/snake-case-parser.pipe';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";

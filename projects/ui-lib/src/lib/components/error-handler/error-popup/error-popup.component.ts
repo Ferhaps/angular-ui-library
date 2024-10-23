@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DefaultDialogComponent } from '../../default-dialog/default-dialog.component';
 import { ErrorDispalyComponent } from '../../error-dispaly.component';
-import { HTTP_STATUS_CODES } from '../../../utills/utils';
+import { HTTP_STATUS_CODES } from '../../../utils/utils';
 
 @Component({
   selector: 'lib-error-popup',

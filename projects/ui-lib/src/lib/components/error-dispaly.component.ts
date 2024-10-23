@@ -2,7 +2,7 @@ import { Component, input, OnInit } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
-import { SystemError } from '../utills/types';
+import { SystemError } from '../utils/types';
 
 @Component({
   selector: 'lib-error-dispaly',
