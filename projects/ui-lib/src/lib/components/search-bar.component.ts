@@ -17,21 +17,27 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     .search-bar {
       width: 270px;
       border: 1px solid #A4A4A4;
-      padding: 7px 11px;
-      height: 20px;
       display: flex;
       align-items: center;
     }
+
     .search-input {
       border: none;
-      padding: 0;
-      margin-left: 1rem;
+      padding: 7px 11px;
+      height: 100%;
       width: 100%;
+      background-color: transparent;
     }
+
+    mat-icon {
+      margin-inline: 8px;
+    }
+
     .search-input:focus {
       border: none;
       outline: none;
     }
+
     @media (max-width: 1086px) {
       .search-bar {
         width: 170px;
