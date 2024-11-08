@@ -35,7 +35,7 @@ export class ErrorDispalyComponent implements OnInit {
     if (this.error() instanceof HttpErrorResponse) {
       if (typeof (this.error() as HttpErrorResponse).error === 'string') {
         this.displayError = (this.error() as HttpErrorResponse).error;
-      } else if (this.error && (this.error() as HttpErrorResponse).error.message) {
+      } else if (this.error && (this.error() as HttpErrorResponse)?.error?.message) {
         this.displayError = (this.error() as HttpErrorResponse).error.message;
       } else {
         this.displayError = 'Unknown error';
