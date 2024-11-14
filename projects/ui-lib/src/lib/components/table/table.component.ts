@@ -1,13 +1,12 @@
-import { NgOptimizedImage, CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
-import { fader } from '../../utils/animations';
 import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
-import { SnakeCaseParserPipe } from '../../pipes/snake-case-parser.pipe';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
+import { fader } from '../../utils/animations';
 
 export type TableEvent = {
   action: string;
@@ -44,10 +43,8 @@ export type ClassRule = {
   animations: [fader],
   standalone: true,
   imports: [
-    CommonModule,
+    NgClass,
     WhiteSpaceFillerPipe,
-    NgOptimizedImage,
-    SnakeCaseParserPipe,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
