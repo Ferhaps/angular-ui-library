@@ -7,10 +7,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   selector: 'lib-search-bar',
   template: `
     <form class="search-bar" [formGroup]="searchForm">
-    <mat-icon>search</mat-icon>
-      <input
-        class="search-input" type="search" name="field"
-        [placeholder]="'Search ' + for()" autocomplete="off" formControlName="search">
+      <mat-icon>search</mat-icon>
+      <input class="search-input" type="search" name="field"
+        [placeholder]="'Search ' + for()" autocomplete="off" formControlName="search" />
     </form>
   `,
   styles: [`
