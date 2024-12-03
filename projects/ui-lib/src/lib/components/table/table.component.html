@@ -10,7 +10,7 @@
 </div>
 
 <div class="scroll" #scrollContainer (scroll)="onScroll()">
-  <table>
+  <table [ngClass]="{'with-options': config().options.length > 0}">
     <thead>
       <tr>
         @for (heading of config().tableHeadings; track heading; let i = $index) {

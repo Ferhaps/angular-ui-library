@@ -7,6 +7,12 @@ table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0px;
+
+  &.with-options {
+    td {
+      padding-block: 3px !important;
+    }
+  }
 }
 
 .flexer {
@@ -59,7 +65,7 @@ table {
 }
 
 td, th {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   font-size: 14px;
 }
 
