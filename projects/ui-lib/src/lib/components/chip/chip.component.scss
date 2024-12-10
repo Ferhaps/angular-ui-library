@@ -1,0 +1,19 @@
+.chip {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: #e6e6e6;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #cccccc;
+  }
+
+  &.selected {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+}
