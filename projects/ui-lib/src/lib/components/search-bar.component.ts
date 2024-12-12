@@ -62,6 +62,10 @@ export class SearchBarComponent {
       pipe(
         debounceTime(1000),
         distinctUntilChanged(),
-      ).subscribe((searchTerm: string) => this.search.emit(searchTerm));
+      ).subscribe((searchTerm: string) => {
+        if (searchTerm.trim() !== '') {
+          this.search.emit(searchTerm);
+        }
+      });
   }
 }
