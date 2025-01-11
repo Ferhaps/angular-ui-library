@@ -1,5 +1,4 @@
 import { Component, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 export type SortState = 'none' | 'asc' | 'desc';
@@ -8,7 +7,6 @@ export type SortState = 'none' | 'asc' | 'desc';
   selector: 'lib-table-sort-header',
   standalone: true,
   imports: [
-    CommonModule,
     MatIconModule,
   ],
   templateUrl: './table-sort-header.component.html',

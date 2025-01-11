@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, ElementRef, input, output, viewChild } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,7 +42,6 @@ export type ClassRule = {
   animations: [fader],
   standalone: true,
   imports: [
-    NgClass,
     WhiteSpaceFillerPipe,
     MatMenuModule,
     MatIconModule,

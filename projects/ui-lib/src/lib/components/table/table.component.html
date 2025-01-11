@@ -10,7 +10,7 @@
 </div>
 
 <div class="scroll" #scrollContainer (scroll)="onScroll()">
-  <table [ngClass]="{'with-options': config().options?.length}">
+  <table [class.with-options]="config().options?.length">
     <thead>
       <tr>
         @for (heading of config().tableHeadings; track heading; let i = $index) {
@@ -39,16 +39,15 @@
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"
             cdkDrag cdkDragLockAxis="y"
-            [ngClass]="{
-              'hover-row': hoverRowIndex == i,
-              'selected-row': config().selectableRows && selectedRowIndex == i
-            }"
+            [class.hover-row]="hoverRowIndex == i"
+            [class.selected-row]="config().selectableRows && selectedRowIndex == i"
             (click)="onRowClick($event, obj, i)"
             @fadeInOut>
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td
-                [ngClass]="{ 'dragCol': cellIndex === 0 }">
-                <div class="data" [classList]="getClass(obj, prop)" [ngClass]="{ 'flexer': cellIndex === 0 }">
+                [class.dragCol]="cellIndex === 0">
+                <div class="data" [classList]="getClass(obj, prop)"
+                  [class.flexer]="cellIndex === 0">
                   @if (cellIndex === 0) {
                     <mat-icon class="draggable" cdkDragHandle>
                       drag_indicator
@@ -67,9 +66,7 @@
                   @for (option of config().options; track option) {
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
-                      [ngClass]="{
-                        'red': option == 'Remove' || option == 'Delete',
-                      }">
+                      [class.red]="option == 'Remove' || option == 'Delete'">
                       {{option}}
                     </div>
                   }
@@ -85,10 +82,8 @@
           <tr
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"
-            [ngClass]="{
-              'hover-row': hoverRowIndex == i,
-              'selected-row': config().selectableRows && selectedRowIndex == i
-            }"
+            [class.hover-row]="hoverRowIndex == i"
+            [class.selected-row]="config().selectableRows && selectedRowIndex == i"
             (click)="onRowClick($event, obj, i)"
             @fadeInOut>
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
@@ -107,9 +102,7 @@
                   @for (option of config().options; track option) {
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
-                      [ngClass]="{
-                        'red': option == 'Remove' || option == 'Delete',
-                      }">
+                      [class.red]="option == 'Remove' || option == 'Delete'">
                       {{option}}
                     </div>
                   }

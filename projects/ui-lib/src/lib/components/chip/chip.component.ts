@@ -1,11 +1,10 @@
-import { NgClass } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'lib-chip',
   standalone: true,
   imports: [
-    NgClass
+
   ],
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.scss'
