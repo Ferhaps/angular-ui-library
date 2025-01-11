@@ -23,10 +23,10 @@ export type Config = {
   title: string;
   dataProps: string[];
   tableHeadings: string[];
-  options: string[];
-  withAdd: boolean;
-  selectableRows: boolean;
-  sortable: boolean;
+  options?: string[];
+  withAdd?: boolean;
+  selectableRows?: boolean;
+  sortable?: boolean;
   draggable?: boolean;
   classRules?: ClassRule[];
 };

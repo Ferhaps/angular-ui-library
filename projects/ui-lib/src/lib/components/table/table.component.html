@@ -10,7 +10,7 @@
 </div>
 
 <div class="scroll" #scrollContainer (scroll)="onScroll()">
-  <table [ngClass]="{'with-options': config().options.length > 0}">
+  <table [ngClass]="{'with-options': config().options?.length}">
     <thead>
       <tr>
         @for (heading of config().tableHeadings; track heading; let i = $index) {
@@ -27,7 +27,7 @@
             </div>
           </th>
         }
-        @if (config().options.length > 0) {
+        @if (config().options?.length) {
           <th></th>
         }
       </tr>
@@ -58,7 +58,7 @@
                 </div>
               </td>
             }
-            @if (config().options.length > 0) {
+            @if (config().options?.length) {
               <td class="right-align" (click)="$event.stopPropagation()">
                 <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
                   <mat-icon>more_vert</mat-icon>
@@ -98,7 +98,7 @@
                 </div>
               </td>
             }
-            @if (config().options.length > 0) {
+            @if (config().options?.length) {
               <td class="right-align" (click)="$event.stopPropagation()">
                 <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
                   <mat-icon>more_vert</mat-icon>
