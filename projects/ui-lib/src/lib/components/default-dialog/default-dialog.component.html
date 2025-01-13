@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal" [style]="{'height': height()}">
   <div class="dialog-title">
     @if (withBack()) {
       <div class="back-arrow" (click)="back.emit()">
