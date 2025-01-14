@@ -3,7 +3,6 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@an
 
 @Directive({
   selector: '[libPasswordValidator]',
-  standalone: true,
   providers: [
     {
       provide: NG_VALIDATORS,

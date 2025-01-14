@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'snakeCaseParser',
-  standalone: true
 })
 export class SnakeCaseParserPipe implements PipeTransform {
   public transform(str: string | undefined): string {

@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[libPhoneValidation]',
-  standalone: true
 })
 export class PhoneValidationDirective {
   @HostListener('input', ['$event']) public onInput(event: InputEvent) {

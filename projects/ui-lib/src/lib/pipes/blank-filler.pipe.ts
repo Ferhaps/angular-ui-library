@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: 'blankFiller',
-  standalone: true
 })
 export class WhiteSpaceFillerPipe implements PipeTransform {
   public transform(value: any, fillWith: string = '-'): string {
