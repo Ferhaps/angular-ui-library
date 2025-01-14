@@ -17,7 +17,6 @@ import { CommonModule } from '@angular/common';
 export class DefaultDialogComponent {
   @Input() temRef!: TemplateRef<any>;
   public height = input<string>();
-  
   public title = input<string>();
   public withBack = input<boolean>();
 
