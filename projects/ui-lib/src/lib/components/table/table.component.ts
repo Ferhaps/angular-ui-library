@@ -40,7 +40,6 @@ export type ClassRule = {
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.scss'],
   animations: [fader],
-  standalone: true,
   imports: [
     WhiteSpaceFillerPipe,
     MatMenuModule,
@@ -48,7 +47,7 @@ export type ClassRule = {
     MatButtonModule,
     TableSortHeaderComponent,
     DragDropModule
-  ],
+  ]
 })
 export class TableComponent {
   public config = input.required<Config>();

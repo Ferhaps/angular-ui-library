@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'lib-default-dialog',
-  standalone: true,
   imports: [
     CommonModule,
     MatIconModule,

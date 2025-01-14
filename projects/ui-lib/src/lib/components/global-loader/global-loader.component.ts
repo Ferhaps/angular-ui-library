@@ -5,7 +5,6 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'lib-global-loader',
-  standalone: true,
   imports: [
     AsyncPipe,
     MatProgressSpinnerModule

@@ -5,7 +5,6 @@ export type SortState = 'none' | 'asc' | 'desc';
 
 @Component({
   selector: 'lib-table-sort-header',
-  standalone: true,
   imports: [
     MatIconModule,
   ],

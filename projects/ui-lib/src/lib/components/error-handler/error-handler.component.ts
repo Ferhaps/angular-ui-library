@@ -11,7 +11,6 @@ import { ErrorService } from '../../services/error.service';
   selector: 'lib-error-handler',
   templateUrl: 'error-handler.component.html',
   styleUrls: ['error-handler.component.scss'],
-  standalone: true,
   imports: [
     MatDialogModule
   ]

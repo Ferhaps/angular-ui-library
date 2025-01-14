@@ -2,10 +2,7 @@ import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'lib-chip',
-  standalone: true,
-  imports: [
-
-  ],
+  imports: [],
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.scss'
 })
