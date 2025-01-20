@@ -1,8 +1,10 @@
-<div class="flexer upper-row">
-  <div class="row-heading-labels">{{config().title}}</div>
+<div class="flexer">
+  @if (config().title) {
+    <div class="row-heading-labels mb05">{{config().title}}</div>
+  }
   <ng-content select=".upper-part"></ng-content>
   @if (config().withAdd) {
-    <div class="flexer action gap05" (click)="action.emit({action: 'add'})">
+    <div class="flexer action gap05 mb05" (click)="action.emit({action: 'add'})">
       <mat-icon>add_circle_outline</mat-icon>
       <div>add</div>
     </div>

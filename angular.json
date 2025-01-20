@@ -60,6 +60,21 @@
               "zone.js/testing"
             ]
           }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "ui-lib:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ui-lib:build:production"
+            },
+            "development": {
+              "buildTarget": "ui-lib:build:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
