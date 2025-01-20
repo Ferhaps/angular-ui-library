@@ -4,7 +4,7 @@
   }
   <ng-content select=".upper-part"></ng-content>
   @if (config().withAdd) {
-    <div class="flexer action gap05 mb05" (click)="action.emit({action: 'add'})">
+    <div class="flexer action pointer gap05 mb05" (click)="action.emit({action: 'add'})">
       <mat-icon>add_circle_outline</mat-icon>
       <div>add</div>
     </div>
@@ -41,6 +41,7 @@
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"
             cdkDrag cdkDragLockAxis="y"
+            [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
             [class.selected-row]="config().selectableRows && selectedRowIndex == i"
             (click)="onRowClick($event, obj, i)"
@@ -84,6 +85,7 @@
           <tr
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"
+            [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
             [class.selected-row]="config().selectableRows && selectedRowIndex == i"
             (click)="onRowClick($event, obj, i)"
