@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ferhaps/angular-ui-library"
+    "url": "https://github.com/Ferhaps/angular-ui-library/tree/modules"
   },
   "peerDependencies": {
     "@angular/common": "^19.0.6",
