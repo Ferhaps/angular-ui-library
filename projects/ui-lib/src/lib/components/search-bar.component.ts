@@ -1,9 +1,11 @@
-import { Component, output, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, output, input, NgModule } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'lib-search-bar',
   template: `
   <form class="search-bar" [formGroup]="searchForm">
@@ -42,11 +44,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
       width: 170px;
     }
   }
-`],
-  imports: [
-    MatIconModule,
-    ReactiveFormsModule
-  ]
+`]
 })
 export class SearchBarComponent {
   public for = input.required<string>();
@@ -68,3 +66,18 @@ export class SearchBarComponent {
       });
   }
 }
+
+@NgModule({
+  declarations: [
+    SearchBarComponent
+  ],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    SearchBarComponent
+  ]
+})
+export class SearchBarModule { }

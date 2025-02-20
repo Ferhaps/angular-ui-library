@@ -1,11 +1,12 @@
-import { Component, ElementRef, input, output, viewChild } from '@angular/core';
+import { Component, ElementRef, input, NgModule, output, viewChild } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
-import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
+import { SortState, TableSortHeaderComponent, TableSortHeaderModule } from '../table-sort-header/table-sort-header.component';
+import { WhiteSpaceFillerModule, WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
 import { fader } from '../../utils/animations';
+import { CommonModule } from '@angular/common';
 
 export type TableEvent = {
   action: string;
@@ -36,18 +37,11 @@ export type ClassRule = {
 };
 
 @Component({
+  standalone: false,
   selector: 'lib-table',
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.scss'],
-  animations: [fader],
-  imports: [
-    WhiteSpaceFillerPipe,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    TableSortHeaderComponent,
-    DragDropModule
-  ]
+  animations: [fader]
 })
 export class TableComponent {
   public config = input.required<Config>();
@@ -103,3 +97,22 @@ export class TableComponent {
     return obj.id || index;
   }
 }
+
+@NgModule({
+  declarations: [
+    TableComponent
+  ],
+  imports: [
+    CommonModule,
+    WhiteSpaceFillerModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    TableSortHeaderModule,
+    DragDropModule
+  ],
+  exports: [
+    TableComponent
+  ]
+})
+export class TableModule { }

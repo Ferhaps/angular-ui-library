@@ -1,19 +1,18 @@
-import { OnDestroy, inject } from '@angular/core';
+import { NgModule, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { ErrorService } from '../../services/error.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: false,
   selector: 'lib-error-handler',
   templateUrl: 'error-handler.component.html',
   styleUrls: ['error-handler.component.scss'],
-  imports: [
-    MatDialogModule
-  ]
 })
 export class ErrorHandlerComponent implements OnDestroy {
   private errSubscriptions = new Subscription();
@@ -42,3 +41,16 @@ export class ErrorHandlerComponent implements OnDestroy {
     this.errSubscriptions.unsubscribe();
   }
 }
+
+@NgModule({
+  declarations: [
+    ErrorHandlerComponent
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    ErrorHandlerComponent
+  ]
+})
+export class ErrorHandlerModule { }

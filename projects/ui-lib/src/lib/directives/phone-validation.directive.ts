@@ -1,9 +1,11 @@
-import { Directive, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Directive, HostListener, NgModule } from '@angular/core';
 
 @Directive({
+  standalone: false,
   selector: '[libPhoneValidation]',
 })
-export class PhoneValidationDirective {
+export class PhoneValidatorDirective {
   @HostListener('input', ['$event']) public onInput(event: InputEvent) {
     const input = event.target as HTMLInputElement;
     if (!input.value.includes('+')) {
@@ -22,3 +24,16 @@ export class PhoneValidationDirective {
     }
   }
 }
+
+@NgModule({
+  declarations: [
+    PhoneValidatorDirective
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    PhoneValidatorDirective
+  ]
+})
+export class PhoneValidationDirective { }

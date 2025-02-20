@@ -1,14 +1,13 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, NgModule, OnInit } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
+import { SnakeCaseParserModule, SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
 import { SystemError } from '../utils/types';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: false,
   selector: 'lib-error-dispaly',
-  imports: [
-    SnakeCaseParserPipe
-  ],
   template: `<strong class="err-container">{{ displayError | snakeCaseParser }}</strong>`,
   styles: [`
   .err-container {
@@ -46,3 +45,17 @@ export class ErrorDispalyComponent implements OnInit {
     }
   }
 }
+
+@NgModule({
+  declarations: [
+    ErrorDispalyComponent
+  ],
+  imports: [
+    CommonModule,
+    SnakeCaseParserModule,
+  ],
+  exports: [
+    ErrorDispalyComponent
+  ]
+})
+export class ErrorDispalyModule { }

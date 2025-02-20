@@ -1,6 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
+  standalone: false,
   name: 'snakeCaseParser',
 })
 export class SnakeCaseParserPipe implements PipeTransform {
@@ -15,3 +17,16 @@ export class SnakeCaseParserPipe implements PipeTransform {
     return '';
   }
 }
+
+@NgModule({
+  declarations: [
+    SnakeCaseParserPipe
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    SnakeCaseParserPipe
+  ]
+})
+export class SnakeCaseParserModule { }

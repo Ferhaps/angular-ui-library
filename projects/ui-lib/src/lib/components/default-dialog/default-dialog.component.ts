@@ -1,15 +1,11 @@
-import { Component, Input, input, output, TemplateRef } from '@angular/core';
+import { Component, Input, input, NgModule, output, TemplateRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: false,
   selector: 'lib-default-dialog',
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatDialogModule
-  ],
   templateUrl: './default-dialog.component.html',
   styleUrls: ['./default-dialog.component.scss']
 })
@@ -21,3 +17,18 @@ export class DefaultDialogComponent {
 
   protected back = output<void>();
 }
+
+@NgModule({
+  declarations: [
+    DefaultDialogComponent
+  ],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatDialogModule
+  ],
+  exports: [
+    DefaultDialogComponent
+  ]
+})
+export class DefaultDialogModule { }

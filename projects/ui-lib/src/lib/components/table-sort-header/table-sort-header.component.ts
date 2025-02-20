@@ -1,13 +1,12 @@
-import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, input, NgModule, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 export type SortState = 'none' | 'asc' | 'desc';
 
 @Component({
+  standalone: false,
   selector: 'lib-table-sort-header',
-  imports: [
-    MatIconModule,
-  ],
   templateUrl: './table-sort-header.component.html',
   styleUrls: ['./table-sort-header.component.scss']
 })
@@ -29,3 +28,17 @@ export class TableSortHeaderComponent {
     this.sort.emit(this.sortState);
   }
 }
+
+@NgModule({
+  declarations: [
+    TableSortHeaderComponent
+  ],
+  imports: [
+    CommonModule,
+    MatIconModule
+  ],
+  exports: [
+    TableSortHeaderComponent
+  ]
+})
+export class TableSortHeaderModule { }

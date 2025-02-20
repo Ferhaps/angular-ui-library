@@ -1,8 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, input, NgModule, output } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'lib-chip',
-  imports: [],
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.scss'
 })
@@ -21,3 +22,16 @@ export class ChipComponent {
     this.selected.emit(this.value());
   }
 }
+
+@NgModule({
+  declarations: [
+    ChipComponent
+  ],
+  imports: [
+    CommonModule
+  ],
+  exports: [
+    ChipComponent
+  ]
+})
+export class ChipModule { }

@@ -1,6 +1,8 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NgModule, Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
+  standalone: false,
   name: 'blankFiller',
 })
 export class WhiteSpaceFillerPipe implements PipeTransform {
@@ -11,3 +13,16 @@ export class WhiteSpaceFillerPipe implements PipeTransform {
     return value ? value : fillWith;
   }
 }
+
+@NgModule({
+  declarations: [
+    WhiteSpaceFillerPipe
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    WhiteSpaceFillerPipe
+  ]
+})
+export class WhiteSpaceFillerModule { }

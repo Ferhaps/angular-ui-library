@@ -1,7 +1,9 @@
-import { Directive, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Directive, input, NgModule } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
+  standalone: false,
   selector: '[libFieldsMatchValidator]',
   providers: [
     {
@@ -33,3 +35,16 @@ export class FieldsMatchValidatorDirective implements Validator {
     return null;
   }
 }
+
+@NgModule({
+  declarations: [
+    FieldsMatchValidatorDirective
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    FieldsMatchValidatorDirective
+  ]
+})
+export class FieldsMatchModule { }
