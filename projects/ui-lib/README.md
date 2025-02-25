@@ -17,17 +17,6 @@ This library requires:
 
 ## Components
 
-### ChipComponent
-A selectable chip component for displaying tags or filters.
-```typescript
-<lib-chip
-  [value]="value"
-  [isSelected]="isSelected"
-  [text]="displayText"
-  (selected)="onChipSelected($event)">
-</lib-chip>
-```
-
 ### TableComponent
 A feature-rich table component supporting:
 - Sorting
@@ -51,6 +40,7 @@ A feature-rich table component supporting:
     draggable: true
   }"
   (action)="handleTableAction($event)">
+  <div class="upper-part">Optional content to be displyed at the top of the table</div>
 </lib-table>
 ```
 
@@ -80,13 +70,26 @@ A customizable dialog component with optional back button.
 ### GlobalLoaderComponent
 A centered spinner overlay for loading states.
 ```typescript
-<lib-global-loader></lib-global-loader>
+<lib-global-loader />
+
+private loaderService = inject(LoaderService);
+this.loaderService.setLoading(true);
+// do stuff
+this.loaderService.setLoading(false);
 ```
 
 ### ErrorHandlerComponent
 Displays error messages in a dialog format.
 ```typescript
-<lib-error-handler></lib-error-handler>
+<lib-error-handler />
+
+private errorService = inject(ErrorService);
+try {
+  this.apiCall();
+}
+catch (e: HttpErrorResponse) {
+  this.errorService.sendError(e);
+}
 ```
 
 ## Directives
@@ -99,13 +102,26 @@ Validates if two form fields match (useful for password confirmation).
 ```
 
 ### PasswordValidatorDirective
-Ensures password meets complexity requirements.
+Ensures password meets the following requirments:
+* At least one uppercase letter
+* At least one lowercase letter
+* At least one special character from the specified set
+* At least one number
+* Minimum length of 8 characters
+
 ```typescript
 <input type="password" libPasswordValidator />
 ```
 
 ### PhoneValidationDirective
-Formats and validates phone number input.
+Formats and validates phone number input as follows:
+* Ensures the input always starts with a '+' symbol
+If missing, automatically prepends it to the value
+
+* Allows only numbers and the plus sign
+
+* Prevents removing the initial '+' symbol:
+
 ```typescript
 <input type="tel" libPhoneValidation />
 ```
@@ -129,18 +145,21 @@ Converts snake_case to Title Case text.
 ### LoaderService
 Manages global loading state.
 ```typescript
-constructor(private loaderService: LoaderService) {
-  loaderService.setLoading(true);
-  // ... async operation
-  loaderService.setLoading(false);
-}
+private loaderService = inject(LoaderService);
+this.loaderService.setLoading(true);
+// do stuff
+this.loaderService.setLoading(false);
 ```
 
 ### ErrorService
 Handles global error display.
 ```typescript
-constructor(private errorService: ErrorService) {
-  errorService.sendError(error);
+private errorService = inject(ErrorService);
+try {
+  this.apiCall();
+}
+catch (e: HttpErrorResponse) {
+  this.errorService.sendError(e);
 }
 ```
 
