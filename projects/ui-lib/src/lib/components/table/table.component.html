@@ -36,7 +36,7 @@
     </thead>
     @if (config().draggable) {
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-        @for (obj of config().data; track trackById(i, obj); let i = $index) {
+        @for (obj of config().data; let i = $index; track i;) {
           <tr
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"
@@ -81,7 +81,7 @@
       </tbody>
     } @else {
       <tbody>
-        @for (obj of config().data; track trackById(i, obj); let i = $index) {
+        @for (obj of config().data;  let i = $index; track i;) {
           <tr
             (mouseover)="hoverRowIndex = i"
             (mouseleave)="hoverRowIndex = -1"

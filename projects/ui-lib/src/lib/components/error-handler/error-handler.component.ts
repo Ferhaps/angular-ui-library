@@ -25,7 +25,7 @@ export class ErrorHandlerComponent implements OnDestroy {
       this.errorService.error$.subscribe((err: HttpErrorResponse) => {
         console.log(err);
         this.showPopup(err);
-      }),
+      })
     );
   }
 
@@ -34,6 +34,7 @@ export class ErrorHandlerComponent implements OnDestroy {
     this.dialog.open(ErrorPopupComponent, {
       data: error,
       width: '400px',
+      autoFocus: false,
       scrollStrategy: new NoopScrollStrategy(),
     });
   }

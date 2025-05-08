@@ -7,32 +7,32 @@ import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
 import { fader } from '../../utils/animations';
 
-export type TableEvent = {
-  action: string;
-  obj?: any;
-  prop?: string;
+export type TableEvent<T = any> = {
+  action: 'rowClick' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
+  obj?: T;
+  prop?: keyof T;
   index?: number;
   selected?: boolean;
   sortState?: SortState;
   event?: Event;
 };
 
-export type Config = {
-  data: any[];
+export type Config<T = any> = {
+  data: T[];
   title: string;
-  dataProps: string[];
+  dataProps: (keyof T)[];
   tableHeadings: string[];
   options?: string[];
   withAdd?: boolean;
   selectableRows?: boolean;
   sortable?: boolean;
   draggable?: boolean;
-  classRules?: ClassRule[];
+  classRules?: ClassRule<T>[];
 };
 
-export type ClassRule = {
+export type ClassRule<T = any> = {
   className: string;
-  condition: (obj: any, prop: string) => boolean;
+  condition: (obj: T, prop: keyof T) => boolean;
 };
 
 @Component({
@@ -49,20 +49,20 @@ export type ClassRule = {
     DragDropModule
   ]
 })
-export class TableComponent {
-  public config = input.required<Config>();
-  protected action = output<TableEvent>();
+export class TableComponent<T = any> {
+  public config = input.required<Config<T>>();
+  protected action = output<TableEvent<T>>();
   protected scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
   protected selectedRowIndex: number = -1;
   protected hoverRowIndex: number = -1;
   protected currentSortColumn: number = -1;
 
-  protected getClass(obj: any, prop: string): string {
+  protected getClass(obj: T, prop: keyof T): string {
     if (!this.config().classRules) return '';
 
     const classes: string[] = [];
-    for (let rule of (this.config().classRules as ClassRule[])) {
+    for (let rule of (this.config().classRules as ClassRule<T>[])) {
       if (rule.condition(obj, prop)) {
         classes.push(rule.className);
       }
@@ -71,7 +71,7 @@ export class TableComponent {
     return classes.join(' ');
   }
 
-  protected drop(event: CdkDragDrop<any>) {
+  protected drop(event: CdkDragDrop<T[]>) {
     if (this.config().draggable) {
       moveItemInArray(this.config().data, event.previousIndex, event.currentIndex);
       this.action.emit({ action: 'drag', obj: this.config().data[event.currentIndex], index: event.currentIndex });
@@ -80,26 +80,21 @@ export class TableComponent {
 
   protected onScroll() {
     const container = this.scrollContainer().nativeElement;
-    // console.log(Math.ceil(container.scrollTop), container.offsetHeight, container.scrollHeight)
     if ((Math.ceil(container.scrollTop) + container.offsetHeight) >= container.scrollHeight) {
       this.action.emit({ action: 'scrolled' });
     }
   }
 
-  protected onRowClick(event: Event, obj: any, index: number): void {
+  protected onRowClick(event: Event, obj: T, index: number): void {
     this.selectedRowIndex = index === this.selectedRowIndex ? -1 : index;
     this.action.emit({ action: 'rowClick', obj, index, selected: this.selectedRowIndex === index, event });
   }
 
-  protected selectOption(оption: string, obj: any, index: number): void {
+  protected selectOption(оption: string, obj: T, index: number): void {
     this.action.emit({ action: оption.toLowerCase(), obj, index, selected: this.selectedRowIndex === index });
   }
 
-  protected sortByProp(prop: string, sortState: SortState): void {
+  protected sortByProp(prop: keyof T, sortState: SortState): void {
     this.action.emit({ action: 'sort', prop, sortState });
-  }
-
-  protected trackById(index: number, obj: any): number {
-    return obj.id || index;
   }
 }
