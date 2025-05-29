@@ -26,7 +26,7 @@ A feature-rich table component supporting:
 - Infinite scroll
 - Customizable styles
 
-```typescript
+```html
 <lib-table
   [config]="{
     data: items,
@@ -46,7 +46,8 @@ A feature-rich table component supporting:
 
 ### SearchBarComponent
 A styled search input with debounce functionality.
-```typescript
+The search event emits either a string or Event. Event is emitted when the "X" button is pressed
+```html
 <lib-search-bar
   [for]="'users'"
   (search)="onSearch($event)">
@@ -55,7 +56,7 @@ A styled search input with debounce functionality.
 
 ### DefaultDialogComponent
 A customizable dialog component with optional back button.
-```typescript
+```html
 <lib-default-dialog
   [dialogTitle]="'User Details'"
   [height]="'400px'"
@@ -69,9 +70,11 @@ A customizable dialog component with optional back button.
 
 ### GlobalLoaderComponent
 A centered spinner overlay for loading states.
-```typescript
+```html
 <lib-global-loader />
+```
 
+``` typescript
 private loaderService = inject(LoaderService);
 this.loaderService.setLoading(true);
 // do stuff
@@ -80,9 +83,10 @@ this.loaderService.setLoading(false);
 
 ### ErrorHandlerComponent
 Displays error messages in a dialog format.
-```typescript
+```html
 <lib-error-handler />
-
+```
+``` typescript
 private errorService = inject(ErrorService);
 try {
   this.apiCall();
@@ -96,7 +100,7 @@ catch (e: HttpErrorResponse) {
 
 ### FieldsMatchValidatorDirective
 Validates if two form fields match (useful for password confirmation).
-```typescript
+```html
 <input type="password" />
 <input type="password-repeat" [libFieldsMatchValidator]="'password'" />
 ```
@@ -109,7 +113,7 @@ Ensures password meets the following requirments:
 * At least one number
 * Minimum length of 8 characters
 
-```typescript
+```html
 <input type="password" libPasswordValidator />
 ```
 
@@ -122,7 +126,7 @@ If missing, automatically prepends it to the value
 
 * Prevents removing the initial '+' symbol:
 
-```typescript
+```html
 <input type="tel" libPhoneValidation />
 ```
 
@@ -130,14 +134,14 @@ If missing, automatically prepends it to the value
 
 ### BlankFillerPipe
 Replaces empty values with a specified character.
-```typescript
-{{ someValue | blankFiller:'-' }}
+```html
+<div>{{ someValue | blankFiller:'-' }}</div>
 ```
 
 ### SnakeCaseParserPipe
 Converts snake_case to Title Case text.
-```typescript
-{{ 'user_name' | snakeCaseParser }} <!-- Output: User name -->
+```html
+<div>{{ 'user_name' | snakeCaseParser }}</div> <!-- Output: User name -->
 ```
 
 ## Services
@@ -161,6 +165,19 @@ try {
 catch (e: HttpErrorResponse) {
   this.errorService.sendError(e);
 }
+```
+
+## Animations
+
+### Fade animation when the element appears and disappears
+```html
+<div @fadeInOut>Some text</div>
+```
+
+### Text fader
+The text of the element will fade in/out whenever it changes
+```html
+<div [@textFader]="someValue">{{ someValue }}</div>
 ```
 
 ## Contributing
