@@ -50,6 +50,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 })
 export class SearchBarComponent {
   public for = input.required<string>();
+
   protected search = output<string>();
 
   protected searchForm: FormGroup = new FormGroup({
@@ -62,9 +63,7 @@ export class SearchBarComponent {
         debounceTime(1000),
         distinctUntilChanged(),
       ).subscribe((searchTerm: string) => {
-        if (searchTerm.trim() !== '') {
-          this.search.emit(searchTerm);
-        }
+        this.search.emit(searchTerm.trim());
       });
   }
 }
