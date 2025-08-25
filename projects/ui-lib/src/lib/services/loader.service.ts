@@ -11,4 +11,8 @@ export class LoaderService {
   public setLoading(loadingState: boolean) {
     this.loadingSubject.next(loadingState);
   }
+
+  public isLoading(): boolean {
+    return this.loadingSubject.getValue();
+  }
 }
