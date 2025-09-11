@@ -39,7 +39,7 @@ export type ClassRule<T = any> = {
   selector: 'lib-table',
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.scss'],
-  animations: [fader],
+  animations: [ fader ],
   imports: [
     WhiteSpaceFillerPipe,
     MatMenuModule,
@@ -51,10 +51,12 @@ export type ClassRule<T = any> = {
 })
 export class TableComponent<T = any> {
   public config = input.required<Config<T>>();
-  protected action = output<TableEvent<T>>();
-  protected scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
-  protected selectedRowIndex: number = -1;
+  protected action = output<TableEvent<T>>();
+
+  public scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
+
+  public selectedRowIndex: number = -1;
   protected hoverRowIndex: number = -1;
   protected currentSortColumn: number = -1;
 
