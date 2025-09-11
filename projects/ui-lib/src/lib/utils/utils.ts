@@ -1,4 +1,4 @@
-export const HTTP_STATUS_CODES: any = {
+export const HTTP_STATUS_CODES: Record<number | string, string> = {
   100: 'Continue',
   101: 'Switching Protocols',
   102: 'Processing',
@@ -62,4 +62,42 @@ export const HTTP_STATUS_CODES: any = {
   508: 'Loop Detected',
   510: 'Not Extended',
   511: 'Network Authentication Required'
+};
+
+export const JSON_HTTP_OPTIONS: Object = {
+  headers: {
+    'Accept': 'application/json',
+    'Accept-language': 'bg',
+  },
+  responseType: 'json'
+};
+
+export const STRING_HTTP_OPTIONS: Object = {
+  responseType: 'text'
+};
+
+export const BLOB_HTTP_OPTIONS: Object = {
+  headers: {
+    'Content-type': 'application/octet-stream',
+    'Accept-language': 'bg',
+  },
+  responseType: 'blob',
+};
+
+export const SKIP_ERROR_OPTIONS: Object = {
+  headers: {
+    'Accept': 'application/json',
+    'Accept-language': 'bg',
+    'X-Skip-Error': 'true',
+  },
+  responseType: 'json',
+};
+
+export const JSON_OPTIONS_WITH_GLOBAL_LOADER: Object = {
+  headers: {
+    'Accept': 'application/json',
+    'Accept-language': 'bg',
+    'X-Global-Loader': 'true',
+  },
+  responseType: 'json'
 };
