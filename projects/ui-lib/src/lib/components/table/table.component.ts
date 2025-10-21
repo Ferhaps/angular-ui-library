@@ -3,9 +3,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
-import { WhiteSpaceFillerPipe } from '../../pipes/blank-filler.pipe';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
-import { fader } from '../../utils/animations';
 
 export type TableEvent<T = any> = {
   action: 'rowClick' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
@@ -39,9 +37,7 @@ export type ClassRule<T = any> = {
   selector: 'lib-table',
   templateUrl: 'table.component.html',
   styleUrls: ['table.component.scss'],
-  animations: [ fader ],
   imports: [
-    WhiteSpaceFillerPipe,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,

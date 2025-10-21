@@ -1,8 +1,10 @@
 <div class="flexer">
   @if (config().title) {
-    <div class="row-heading-labels mb05">{{config().title}}</div>
+    <div class="row-heading-labels mb05">{{ config().title }}</div>
   }
-  <ng-content select=".upper-part"></ng-content>
+
+  <ng-content select=".upper-part" />
+
   @if (config().withAdd) {
     <div class="flexer action pointer gap05 mb05" (click)="action.emit({action: 'add'})">
       <mat-icon>add_circle_outline</mat-icon>
@@ -18,7 +20,7 @@
         @for (heading of config().tableHeadings; track heading; let i = $index) {
           <th>
             <div class="flexer gap05">
-              {{heading}}
+              {{ heading }}
               @if (config().sortable && !config().draggable) {
                 <lib-table-sort-header
                   [selected]="currentSortColumn === i"
@@ -29,6 +31,7 @@
             </div>
           </th>
         }
+
         @if (config().options?.length) {
           <th></th>
         }
@@ -44,8 +47,7 @@
             [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
             [class.selected-row]="config().selectableRows && selectedRowIndex == i"
-            (click)="onRowClick($event, obj, i)"
-            @fadeInOut>
+            (click)="onRowClick($event, obj, i)">
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td
                 [class.dragCol]="cellIndex === 0">
@@ -56,7 +58,7 @@
                       drag_indicator
                     </mat-icon>
                   }
-                  {{obj[prop] | blankFiller}}
+                  {{ obj[prop] || '-' }}
                 </div>
               </td>
             }
@@ -70,7 +72,7 @@
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
                       [class.red]="option == 'Remove' || option == 'Delete'">
-                      {{option}}
+                      {{ option }}
                     </div>
                   }
                 </mat-menu>
@@ -87,13 +89,11 @@
             (mouseleave)="hoverRowIndex = -1"
             [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
-            [class.selected-row]="config().selectableRows && selectedRowIndex == i"
-            (click)="onRowClick($event, obj, i)"
-            @fadeInOut>
+            [class.selected-row]="config().selectableRows && selectedRowIndex == i">
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td>
                 <div class="data" [classList]="getClass(obj, prop)">
-                  {{obj[prop] | blankFiller}}
+                  {{ obj[prop] || '-' }}
                 </div>
               </td>
             }
@@ -107,7 +107,7 @@
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
                       [class.red]="option == 'Remove' || option == 'Delete'">
-                      {{option}}
+                      {{ option }}
                     </div>
                   }
                 </mat-menu>

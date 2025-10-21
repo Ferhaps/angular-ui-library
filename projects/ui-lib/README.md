@@ -161,19 +161,6 @@ catch (e: HttpErrorResponse) {
 }
 ```
 
-## Animations
-
-### Fade animation when the element appears and disappears
-```html
-<div @fadeInOut>Some text</div>
-```
-
-### Text fader
-The text of the element will fade in/out whenever it changes
-```html
-<div [@textFader]="someValue">{{ someValue }}</div>
-```
-
 ## Contributing
 Please read our contributing guidelines and code of conduct before submitting pull requests.
 
