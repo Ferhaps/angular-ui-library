@@ -6,9 +6,12 @@ import { Directive, HostListener } from '@angular/core';
 export class PhoneValidationDirective {
   @HostListener('input', ['$event']) public onInput(event: InputEvent) {
     const input = event.target as HTMLInputElement;
+    
     if (!input.value.includes('+')) {
       input.value = `+${input.value}`;
     }
+    
+    // Only allow digits and plus sign
     const regex = /^[0-9+]*$/;
     if (!regex.test(input.value)) {
       input.value = input.value.replace(/[^0-9+]/g, '');
