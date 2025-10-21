@@ -132,12 +132,6 @@ If missing, automatically prepends it to the value
 
 ## Pipes
 
-### BlankFillerPipe
-Replaces empty values with a specified character.
-```html
-<div>{{ someValue | blankFiller:'-' }}</div>
-```
-
 ### SnakeCaseParserPipe
 Converts snake_case to Title Case text.
 ```html
