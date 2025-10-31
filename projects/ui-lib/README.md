@@ -20,11 +20,12 @@ This library requires:
 ### TableComponent
 A feature-rich table component supporting:
 - Sorting
-- Row selection
+- Single and Multi row selection
 - Drag & drop rows
 - Custom options menu
 - Infinite scroll
 - Customizable styles
+- Custom header
 
 ```html
 <lib-table
@@ -35,13 +36,31 @@ A feature-rich table component supporting:
     tableHeadings: ['ID', 'Name', 'Email'],
     options: ['Edit', 'Delete'],
     withAdd: true,
-    selectableRows: true,
+    selectableRows: 'single' | 'multiple',
     sortable: true,
     draggable: true
   }"
   (action)="handleTableAction($event)">
   <div class="upper-part">Optional content to be displyed at the top of the table</div>
+  <tr class="custom-headers">Custom header elements will be shown only if tableHeadings is empty</tr>
 </lib-table>
+```
+
+``` typescript
+export type SortState = 'none' | 'asc' | 'desc';
+
+export type TableEvent<T = any> = {
+  action: 'rowClick' | 'rowSelect' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
+  obj?: T;
+  prop?: keyof T;
+  index?: number;
+  selected?: boolean;
+  selectedRows?: number[];
+  sortState?: SortState;
+  event?: Event;
+};
+
+handleTableAction(event: TableEvent) {}
 ```
 
 ### SearchBarComponent
