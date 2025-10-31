@@ -16,30 +16,34 @@
 <div class="scroll" #scrollContainer (scroll)="onScroll()">
   <table [class.with-options]="config().options?.length">
     <thead>
-      <tr>
-        @if (config().selectableRows === 'multiple') {
-          <th></th>
-        }
+      @if (config().tableHeadings.length > 0) {
+        <tr>
+          @if (config().selectableRows === 'multiple') {
+            <th></th>
+          }
 
-        @for (heading of config().tableHeadings; track heading; let i = $index) {
-          <th>
-            <div class="flexer gap05">
-              {{ heading }}
-              @if (config().sortable && !config().draggable) {
-                <lib-table-sort-header
-                  [selected]="currentSortColumn === i"
-                  (click)="currentSortColumn = i"
-                  (sort)="sortByProp(config().dataProps[i], $event)"
-                />
-              }
-            </div>
-          </th>
-        }
+          @for (heading of config().tableHeadings; track heading; let i = $index) {
+            <th>
+              <div class="flexer gap05">
+                {{ heading }}
+                @if (config().sortable && !config().draggable) {
+                  <lib-table-sort-header
+                    [selected]="currentSortColumn === i"
+                    (click)="currentSortColumn = i"
+                    (sort)="sortByProp(config().dataProps[i], $event)"
+                  />
+                }
+              </div>
+            </th>
+          }
 
-        @if (config().options?.length) {
-          <th></th>
-        }
-      </tr>
+          @if (config().options?.length) {
+            <th></th>
+          }
+        </tr>
+      } @else {
+        <ng-content select=".custom-headers" />
+      }
     </thead>
     @if (config().draggable) {
       <tbody cdkDropList (cdkDropListDropped)="drop($event)">
