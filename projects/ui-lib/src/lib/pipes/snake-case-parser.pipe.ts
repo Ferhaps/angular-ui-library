@@ -4,18 +4,13 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'snakeCaseParser',
 })
 export class SnakeCaseParserPipe implements PipeTransform {
-  public transform(value: string | undefined): string {
-    if (value) {
-      if (typeof value === 'string') {
-        let temp = value.split('_').map(word => {
-          return word.toLowerCase();
-        }).join(' ');
-        return temp.charAt(0).toUpperCase() + temp.slice(1);
-      }
-
-      return String(value);
+  public transform(value: unknown): string {
+    if (typeof value === 'string') {
+      let temp = value.replaceAll('_', ' ');
+      temp = temp.charAt(0).toUpperCase() + temp.slice(1).toLowerCase();
+      return temp;
     }
 
-    return '';
+    return String(value);
   }
 }
