@@ -17,6 +17,10 @@
   <table [class.with-options]="config().options?.length">
     <thead>
       <tr>
+        @if (config().selectableRows === 'multiple') {
+          <th></th>
+        }
+
         @for (heading of config().tableHeadings; track heading; let i = $index) {
           <th>
             <div class="flexer gap05">
@@ -46,8 +50,19 @@
             cdkDrag cdkDragLockAxis="y"
             [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
-            [class.selected-row]="config().selectableRows && selectedRowIndex == i"
+            [class.selected-row]="(config().selectableRows === 'single' && selectedRowIndex == i) ||
+              (config().selectableRows === 'multiple' && selectedIndices.has(i))"
             (click)="onRowClick($event, obj, i)">
+            @if (config().selectableRows === 'multiple') {
+              <td>
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  [checked]="selectedIndices.has(i)"
+                  (change)="toggleRowSelection(i)">
+                </mat-checkbox>
+              </td>
+            }
+
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td
                 [class.dragCol]="cellIndex === 0">
@@ -89,7 +104,19 @@
             (mouseleave)="hoverRowIndex = -1"
             [class.pointer]="config().selectableRows"
             [class.hover-row]="hoverRowIndex == i"
-            [class.selected-row]="config().selectableRows && selectedRowIndex == i">
+            [class.selected-row]="(config().selectableRows === 'single' && selectedRowIndex == i) ||
+              (config().selectableRows === 'multiple' && selectedIndices.has(i))"
+            (click)="onRowClick($event, obj, i)">
+            @if (config().selectableRows === 'multiple') {
+              <td>
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  [checked]="selectedIndices.has(i)"
+                  (change)="toggleRowSelection(i)">
+                </mat-checkbox>
+              </td>
+            }
+
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td>
                 <div class="data" [classList]="getClass(obj, prop)">

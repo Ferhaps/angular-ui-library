@@ -4,13 +4,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 export type TableEvent<T = any> = {
-  action: 'rowClick' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
+  action: 'rowClick' | 'rowSelect' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
   obj?: T;
   prop?: keyof T;
   index?: number;
   selected?: boolean;
+  selectedRows?: number[];
   sortState?: SortState;
   event?: Event;
 };
@@ -22,7 +24,7 @@ export type Config<T = any> = {
   tableHeadings: string[];
   options?: string[];
   withAdd?: boolean;
-  selectableRows?: boolean;
+  selectableRows?: 'single' | 'multiple';
   sortable?: boolean;
   draggable?: boolean;
   classRules?: ClassRule<T>[];
@@ -42,7 +44,8 @@ export type ClassRule<T = any> = {
     MatIconModule,
     MatButtonModule,
     TableSortHeaderComponent,
-    DragDropModule
+    DragDropModule,
+    MatCheckboxModule
   ]
 })
 export class TableComponent<T = any> {
@@ -53,6 +56,7 @@ export class TableComponent<T = any> {
   public scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
   public selectedRowIndex: number = -1;
+  public selectedIndices: Set<number> = new Set<number>();
   protected hoverRowIndex: number = -1;
   protected currentSortColumn: number = -1;
 
@@ -85,11 +89,38 @@ export class TableComponent<T = any> {
 
   protected onRowClick(event: Event, obj: T, index: number): void {
     this.selectedRowIndex = index === this.selectedRowIndex ? -1 : index;
-    this.action.emit({ action: 'rowClick', obj, index, selected: this.selectedRowIndex === index, event });
+    this.action.emit({
+      action: 'rowClick',
+      obj,
+      index,
+      selected: this.selectedRowIndex === index || this.selectedIndices.has(index),
+      event
+    });
   }
 
   protected selectOption(оption: string, obj: T, index: number): void {
-    this.action.emit({ action: оption.toLowerCase(), obj, index, selected: this.selectedRowIndex === index });
+    this.action.emit({
+      action: оption.toLowerCase(),
+      obj,
+      index,
+      selected: this.selectedRowIndex === index || this.selectedIndices.has(index)
+    });
+  }
+
+  protected toggleRowSelection(index: number): void {
+    if (this.config().selectableRows === 'multiple') {
+      if (this.selectedIndices.has(index)) {
+        this.selectedIndices.delete(index);
+      } else {
+        this.selectedIndices.add(index);
+      }
+      
+      this.action.emit({
+        action: 'rowSelect',
+        index,
+        selectedRows: [...this.selectedIndices]
+      });
+    }
   }
 
   protected sortByProp(prop: keyof T, sortState: SortState): void {
