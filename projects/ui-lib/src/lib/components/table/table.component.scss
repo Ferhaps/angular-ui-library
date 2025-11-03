@@ -67,6 +67,16 @@ table {
   }
 }
 
+.with-checkboxes {
+  td, th {
+    padding-block: 0 !important;
+
+    &:is(:first-child) {
+      padding-inline: 0 !important;
+    }
+  }
+}
+
 td, th {
   padding: 0.5rem 1rem;
   font-size: 14px;

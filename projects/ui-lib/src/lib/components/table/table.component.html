@@ -13,13 +13,18 @@
   }
 </div>
 
-<div class="scroll" #scrollContainer (scroll)="onScroll()">
+<div class="scroll" #scrollContainer (scroll)="onScroll()" [class.with-checkboxes]="config().selectableRows === 'multiple'">
   <table [class.with-options]="config().options?.length">
     <thead>
       @if (config().tableHeadings.length > 0) {
         <tr>
           @if (config().selectableRows === 'multiple') {
-            <th></th>
+            <th class="box-cell">
+              <mat-checkbox
+                (change)="toggleSelectAll($event)"
+                [checked]="areAllRowsSelected()">
+              </mat-checkbox>
+            </th>
           }
 
           @for (heading of config().tableHeadings; track heading; let i = $index) {

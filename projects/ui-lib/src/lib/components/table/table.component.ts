@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SortState, TableSortHeaderComponent } from '../table-sort-header/table-sort-header.component';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from "@angular/cdk/drag-drop";
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 
 export type TableEvent<T = any> = {
   action: 'rowClick' | 'rowSelect' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
@@ -104,6 +104,23 @@ export class TableComponent<T = any> {
       obj,
       index,
       selected: this.selectedRowIndex === index || this.selectedIndices.has(index)
+    });
+  }
+
+  protected areAllRowsSelected(): boolean {
+    return this.selectedIndices.size === this.config().data.length;
+  }
+
+  protected toggleSelectAll(event: MatCheckboxChange): void {
+    if (event.checked) {
+      this.config().data.forEach((_, index) => this.selectedIndices.add(index));
+    } else {
+      this.selectedIndices.clear();
+    }
+
+    this.action.emit({
+      action: 'rowSelect',
+      selectedRows: [...this.selectedIndices]
     });
   }
 
