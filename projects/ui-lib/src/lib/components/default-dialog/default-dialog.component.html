@@ -1,19 +1,21 @@
-<div class="modal" [style]="{'height': height()}">
+<div class="modal" [style]="{ 'height': height() }">
   <div class="dialog-title">
     @if (withBack()) {
       <div class="back-arrow" (click)="back.emit()">
         <mat-icon>keyboard_arrow_left</mat-icon>
       </div>
     }
+
     <h4 class="title">{{ dialogTitle() }}</h4>
+
     <div class="closer" mat-dialog-close>
       <mat-icon>close</mat-icon>
     </div>
   </div>
 
   <div class="dialog-content">
-    <ng-content select=".dialog-content"></ng-content>
-    <ng-template #tempBody></ng-template>
+    <ng-content select=".dialog-content" />
+    <ng-template #tempBody />
     <ng-container *ngTemplateOutlet="temRef ? temRef: tempBody" />
   </div>
 </div>
