@@ -53,7 +53,7 @@ export class TableComponent<T = any> {
 
   protected action = output<TableEvent<T>>();
 
-  public scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
+  protected scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
   public selectedRowIndex: number = -1;
   public selectedIndices: Set<number> = new Set<number>();
@@ -80,8 +80,9 @@ export class TableComponent<T = any> {
     }
   }
 
-  protected onScroll() {
+  protected onScroll(e: Event): void {
     const container = this.scrollContainer().nativeElement;
+    this.action.emit({ action: 'scroll', event: e });
     if ((Math.ceil(container.scrollTop) + container.offsetHeight) >= container.scrollHeight) {
       this.action.emit({ action: 'scrolled' });
     }

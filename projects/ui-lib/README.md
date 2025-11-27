@@ -50,7 +50,7 @@ A feature-rich table component supporting:
 export type SortState = 'none' | 'asc' | 'desc';
 
 export type TableEvent<T = any> = {
-  action: 'rowClick' | 'rowSelect' | 'drag' | 'scrolled' | 'sort' | 'add' | string;
+  action: 'rowClick' | 'rowSelect' | 'drag' | 'scroll' | 'scrolled' | 'sort' | 'add' | string;
   obj?: T;
   prop?: keyof T;
   index?: number;
