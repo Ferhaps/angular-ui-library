@@ -16,7 +16,7 @@
 <div class="scroll" #scrollContainer (scroll)="onScroll($event)" [class.with-checkboxes]="config().selectableRows === 'multiple'">
   <table [class.with-options]="config().options?.length">
     <thead>
-      @if (config().tableHeadings.length > 0) {
+      @if ((config().tableHeadings || []).length > 0) {
         <tr>
           @if (config().selectableRows === 'multiple') {
             <th class="box-cell">

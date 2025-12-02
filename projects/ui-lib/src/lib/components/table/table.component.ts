@@ -21,7 +21,7 @@ export type Config<T = any> = {
   data: T[];
   title: string;
   dataProps: (keyof T)[];
-  tableHeadings: string[];
+  tableHeadings?: string[];
   options?: string[];
   withAdd?: boolean;
   selectableRows?: 'single' | 'multiple';
