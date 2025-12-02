@@ -1,6 +1,6 @@
 {
   "name": "@ferhaps/easy-ui-lib",
-  "version": "21.0.3",
+  "version": "21.0.4",
   "description": "Angular UI components, directives and pipes library with Angular Material",
   "keywords": ["angular", "ui", "components", "pipes", "directives", "library"],
   "author": {
@@ -16,8 +16,8 @@
   "peerDependencies": {
     "@angular/common": "^21.0.2",
     "@angular/core": "^21.0.2",
-    "@angular/material": "^21.0.2",
-    "@angular/cdk": "^21.0.2"
+    "@angular/material": "^21.0.1",
+    "@angular/cdk": "^21.0.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"
