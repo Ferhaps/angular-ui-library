@@ -4,7 +4,7 @@ import { Directive, HostListener } from '@angular/core';
   selector: '[libPhoneValidation]',
 })
 export class PhoneValidationDirective {
-  @HostListener('input', ['$event']) public onInput(event: InputEvent) {
+  @HostListener('input', ['$event']) public onInput(event: Event) {
     const input = event.target as HTMLInputElement;
     
     if (!input.value.includes('+')) {
