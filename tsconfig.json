@@ -23,11 +23,7 @@
       "ui-lib": [
         "dist/ui-lib"
       ]
-    },
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
