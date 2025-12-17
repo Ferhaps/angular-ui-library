@@ -22,7 +22,7 @@ export type Config<T = any> = {
   title: string;
   dataProps: (keyof T)[];
   tableHeadings?: string[];
-  options?: string[];
+  options?: string[] | ((obj: T) => string[]);
   withAdd?: boolean;
   selectableRows?: 'single' | 'multiple';
   sortable?: boolean;
@@ -143,5 +143,15 @@ export class TableComponent<T = any> {
 
   protected sortByProp(prop: keyof T, sortState: SortState): void {
     this.action.emit({ action: 'sort', prop, sortState });
+  }
+
+  protected getOptionsForRow(obj: T): string[] {
+    const options = this.config().options;
+    if (!options) return [];
+    return typeof options === 'function' ? options(obj) : options;
+  }
+
+  protected hasOptions(): boolean {
+    return !!this.config().options;
   }
 }

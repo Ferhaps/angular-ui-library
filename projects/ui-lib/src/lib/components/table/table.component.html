@@ -14,7 +14,7 @@
 </div>
 
 <div class="scroll" #scrollContainer (scroll)="onScroll($event)" [class.with-checkboxes]="config().selectableRows === 'multiple'">
-  <table [class.with-options]="config().options?.length">
+  <table [class.with-options]="hasOptions()">
     <thead>
       @if ((config().tableHeadings || []).length > 0) {
         <tr>
@@ -42,7 +42,7 @@
             </th>
           }
 
-          @if (config().options?.length) {
+          @if (hasOptions()) {
             <th></th>
           }
         </tr>
@@ -86,13 +86,13 @@
                 </div>
               </td>
             }
-            @if (config().options?.length) {
+            @if (hasOptions()) {
               <td class="right-align" (click)="$event.stopPropagation()">
                 <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #optionsMenu="matMenu">
-                  @for (option of config().options; track option) {
+                  @for (option of getOptionsForRow(obj); track option) {
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
                       [class.red]="option == 'Remove' || option == 'Delete'">
@@ -133,13 +133,13 @@
                 </div>
               </td>
             }
-            @if (config().options?.length) {
+            @if (hasOptions()) {
               <td class="right-align" (click)="$event.stopPropagation()">
                 <button mat-icon-button class="pointer dots right" [matMenuTriggerFor]="optionsMenu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #optionsMenu="matMenu">
-                  @for (option of config().options; track option) {
+                  @for (option of getOptionsForRow(obj); track option) {
                     <div
                       mat-menu-item (click)="selectOption(option, obj, i)"
                       [class.red]="option == 'Remove' || option == 'Delete'">
