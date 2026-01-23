@@ -3,11 +3,11 @@
     <div class="status-info">
       <div>{{ error.status }}</div>
       @if (error.status) {
-        <div>{{ httpStatusCodes[error.status] }}</div>
+        <div>{{ httpStatusCodes[error.status] || 500 }}</div>
       }
     </div>
     <div class="error-info">
-      <lib-error-dispaly [error]="error" />
+      <lib-error-display [error]="error" />
     </div>
   </div>
 </lib-default-dialog>

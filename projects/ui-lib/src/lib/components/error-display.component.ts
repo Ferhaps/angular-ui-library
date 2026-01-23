@@ -5,7 +5,7 @@ import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
 import { SystemError } from '../utils/types';
 
 @Component({
-  selector: 'lib-error-dispaly',
+  selector: 'lib-error-display',
   imports: [
     SnakeCaseParserPipe
   ],
@@ -25,7 +25,7 @@ import { SystemError } from '../utils/types';
   }
 `]
 })
-export class ErrorDispalyComponent implements OnInit {
+export class ErrorDisplayComponent implements OnInit {
   public error = input.required<SystemError>();
 
   protected displayError: string = '';
