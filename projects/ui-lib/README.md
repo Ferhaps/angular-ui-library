@@ -11,9 +11,9 @@ npm install @ferhaps/easy-ui-lib
 ## Dependencies
 
 This library requires:
-- Angular ^20.3.3
-- Angular Material ^20.2.7
-- Angular CDK ^20.3.3
+- Angular ^21.0.2
+- Angular Material ^21.0.1
+- Angular CDK ^21.0.1
 
 ## Components
 
