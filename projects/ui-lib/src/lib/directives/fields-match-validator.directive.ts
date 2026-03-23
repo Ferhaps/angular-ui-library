@@ -1,5 +1,5 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
   selector: '[libFieldsMatchValidator]',
@@ -14,7 +14,7 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 export class FieldsMatchValidatorDirective implements Validator {
   public fieldToMatch = input.required<string>();
 
-  public validate(control: AbstractControl): { [key: string]: any } | null {
+  public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
     if (!value) {

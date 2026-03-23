@@ -75,7 +75,7 @@
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td
                 [class.dragCol]="cellIndex === 0">
-                <div class="data" [classList]="getClass(obj, prop)"
+                <div [class]="'data ' + getClass(obj, prop)"
                   [class.flexer]="cellIndex === 0">
                   @if (cellIndex === 0) {
                     <mat-icon class="draggable" cdkDragHandle>
@@ -128,7 +128,7 @@
 
             @for (prop of config().dataProps; track prop; let cellIndex = $index) {
               <td>
-                <div class="data" [classList]="getClass(obj, prop)">
+                <div [class]="'data ' + getClass(obj, prop)">
                   {{ obj[prop] || '-' }}
                 </div>
               </td>

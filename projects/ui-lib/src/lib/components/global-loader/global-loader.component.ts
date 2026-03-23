@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoaderService } from '../../services/loader.service';
 import { AsyncPipe } from '@angular/common';
@@ -10,7 +10,8 @@ import { AsyncPipe } from '@angular/common';
     MatProgressSpinnerModule
   ],
   templateUrl: './global-loader.component.html',
-  styleUrl: './global-loader.component.scss'
+  styleUrl: './global-loader.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalLoaderComponent {
   protected loaderService = inject(LoaderService);

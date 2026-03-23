@@ -1,4 +1,4 @@
-import { Component, Input, input, output, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, TemplateRef } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatDialogModule
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './default-dialog.component.html',
   styleUrls: ['./default-dialog.component.scss']
 })
 export class DefaultDialogComponent {
-  @Input() temRef!: TemplateRef<any>;
+  public temRef = input<TemplateRef<unknown>>();
   
   public height = input<string>();
   public dialogTitle = input<string>();

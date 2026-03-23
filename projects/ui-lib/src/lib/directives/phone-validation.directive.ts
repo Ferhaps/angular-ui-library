@@ -1,10 +1,14 @@
-import { Directive, HostListener } from '@angular/core';
+import { Directive } from '@angular/core';
 
 @Directive({
   selector: '[libPhoneValidation]',
+  host: {
+    '(input)': 'onInput($event)',
+    '(keydown)': 'onKeyDown($event)'
+  }
 })
 export class PhoneValidationDirective {
-  @HostListener('input', ['$event']) public onInput(event: Event) {
+  public onInput(event: Event) {
     const input = event.target as HTMLInputElement;
     
     if (!input.value.includes('+')) {
@@ -18,7 +22,7 @@ export class PhoneValidationDirective {
     }
   }
 
-  @HostListener('keydown', ['$event']) public onKeyDown(event: KeyboardEvent): void {
+  public onKeyDown(event: KeyboardEvent): void {
     const inputValue = (event.target as HTMLInputElement).value;
     if (event.key === 'Backspace' && inputValue === '+') {
       event.preventDefault();

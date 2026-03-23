@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, OnInit } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
@@ -23,7 +23,8 @@ import { SystemError } from '../utils/types';
     color: #ff0000;
     overflow-wrap: break-word;
   }
-`]
+`],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorDisplayComponent implements OnInit {
   public error = input.required<SystemError>();

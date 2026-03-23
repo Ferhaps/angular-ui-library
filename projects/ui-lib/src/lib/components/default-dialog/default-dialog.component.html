@@ -16,6 +16,6 @@
   <div class="dialog-content">
     <ng-content select=".dialog-content" />
     <ng-template #tempBody />
-    <ng-container *ngTemplateOutlet="temRef ? temRef: tempBody" />
+    <ng-container *ngTemplateOutlet="temRef() ? temRef() : tempBody" />
   </div>
 </div>

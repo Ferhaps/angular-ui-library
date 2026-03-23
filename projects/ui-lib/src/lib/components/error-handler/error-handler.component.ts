@@ -1,6 +1,6 @@
 import { OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
@@ -13,7 +13,8 @@ import { ErrorService } from '../../services/error.service';
   styleUrls: ['error-handler.component.scss'],
   imports: [
     MatDialogModule
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorHandlerComponent implements OnDestroy {
   private errSubscriptions = new Subscription();

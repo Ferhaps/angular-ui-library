@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 export type SortState = 'none' | 'asc' | 'desc';
@@ -9,7 +9,8 @@ export type SortState = 'none' | 'asc' | 'desc';
     MatIconModule,
   ],
   templateUrl: './table-sort-header.component.html',
-  styleUrls: ['./table-sort-header.component.scss']
+  styleUrls: ['./table-sort-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableSortHeaderComponent {
   public selected = input.required<boolean>();
