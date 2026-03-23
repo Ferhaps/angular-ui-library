@@ -1,6 +1,6 @@
 {
   "name": "@ferhaps/easy-ui-lib",
-  "version": "21.0.7",
+  "version": "21.0.8",
   "description": "Angular UI components, directives and pipes library with Angular Material",
   "keywords": ["angular", "ui", "components", "pipes", "directives", "library"],
   "author": {
