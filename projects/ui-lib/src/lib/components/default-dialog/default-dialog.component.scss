@@ -1,42 +1,42 @@
 .modal {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .dialog-title {
-  padding-inline: 2rem;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  position: relative;
-  display: flex;
-  font-size: 20px;
-  justify-content: center;
+	padding-inline: 2rem;
+	padding-top: 1rem;
+	margin-bottom: 1rem;
+	position: relative;
+	display: flex;
+	font-size: 20px;
+	justify-content: center;
 
-  .back-arrow {
-    cursor: pointer;
-    position: absolute;
-    left: 1rem;
-  }
+	.back-arrow {
+		cursor: pointer;
+		position: absolute;
+		left: 1rem;
+	}
 
-  .title {
-    font-weight: 700;
-    font-size: 24px;
-    margin: 0 !important;
-  }
+	.title {
+		font-weight: 700;
+		font-size: 24px;
+		margin: 0 !important;
+	}
 
-  .closer {
-    right: 3%;
-    position: absolute;
-    cursor: pointer;
-  }
+	.closer {
+		right: 3%;
+		position: absolute;
+		cursor: pointer;
+	}
 }
 
 .dialog-content {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  padding-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+	padding-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }

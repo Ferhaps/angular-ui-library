@@ -1,17 +1,17 @@
 .sorting-container {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 
-  * {
-    cursor: pointer;
-  }
+	* {
+		cursor: pointer;
+	}
 
-  .selected {
-    color: #31ADFF;
-    background-color: #ebf7fc;
-  }
-  
-  .rotated {
-    transform: rotate(180deg) scaleX(-1);
-  }
+	.selected {
+		color: #31adff;
+		background-color: #ebf7fc;
+	}
+
+	.rotated {
+		transform: rotate(180deg) scaleX(-1);
+	}
 }

@@ -1,122 +1,127 @@
 .scroll {
-  overflow-y: auto;
-  max-height: 94%;
+	overflow-y: auto;
+	max-height: 94%;
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0px;
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
 
-  &.with-options {
-    td {
-      padding-block: 3px !important;
-    }
-  }
+	&.with-options {
+		td {
+			padding-block: 3px !important;
+		}
+	}
 }
 
 .flexer {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .action {
-  color: #009ddc;
-  font-weight: 500;
-  text-align: right;
-  margin-left: auto;
+	color: #009ddc;
+	font-weight: 500;
+	text-align: right;
+	margin-left: auto;
 }
 
 .pointer {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .gap05 {
-  gap: 0.5rem;
+	gap: 0.5rem;
 }
 
 .mb05 {
-  margin-bottom: 0.5;
+	margin-bottom: 0.5;
 }
 
 .row-heading-labels {
-  font-weight: 700;
-  font-size: 20px;
+	font-weight: 700;
+	font-size: 20px;
 }
 
 .selected-row td {
-  background-color: #d3edf8;
+	background-color: #d3edf8;
 }
 
 .hover-row {
-  background-color: #ebf7fc;
+	background-color: #ebf7fc;
 }
 
 .red {
-  color: #ff0000;
+	color: #ff0000;
 }
 
 @media (max-width: 1086px) {
-  table td, table th {
-    padding: 3px !important;
-    width: auto !important;
-  }
+	table td,
+	table th {
+		padding: 3px !important;
+		width: auto !important;
+	}
 }
 
 .with-checkboxes {
-  td, th {
-    padding-block: 0 !important;
+	td,
+	th {
+		padding-block: 0 !important;
 
-    &:is(:first-child) {
-      padding-inline: 0 !important;
-    }
-  }
+		&:is(:first-child) {
+			padding-inline: 0 !important;
+		}
+	}
 }
 
-td, th {
-  padding: 0.5rem 1rem;
-  font-size: 14px;
+td,
+th {
+	padding: 0.5rem 1rem;
+	font-size: 14px;
 }
 
 th {
-  background-color: #f6f6f6;
-  text-align: left;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  border-top: 2px solid #E5E4E7;
+	background-color: #f6f6f6;
+	text-align: left;
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	border-top: 2px solid #e5e4e7;
 }
 
 td {
-  border-bottom: 2px solid #E5E4E7;
-  border-top: 2px solid #E5E4E7;
+	border-bottom: 2px solid #e5e4e7;
+	border-top: 2px solid #e5e4e7;
 }
 
 .dots {
-  width: fit-content;
+	width: fit-content;
 }
 
 .draggable {
-  cursor: grabbing;
+	cursor: grabbing;
 }
 
 .dragCol {
-  padding-left: 0 !important;
+	padding-left: 0 !important;
 }
 
 .cdk-drag-preview {
-  box-sizing: border-box;
-  border-radius: 4px;
-  font-size: 1.5em;
-  text-align: center;
-  opacity: 0.8;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	border-radius: 4px;
+	font-size: 1.5em;
+	text-align: center;
+	opacity: 0.8;
+	box-shadow:
+		0 5px 5px -3px rgba(0, 0, 0, 0.2),
+		0 8px 10px 1px rgba(0, 0, 0, 0.14),
+		0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .dragdrop-placeholder {
-  background: #ccc;
-  border: dotted 3px #999;
-  min-height: 30px;
-  transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
+	background: #ccc;
+	border: dotted 3px #999;
+	min-height: 30px;
+	transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
 }

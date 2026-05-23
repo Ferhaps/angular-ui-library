@@ -1,13 +1,13 @@
 <lib-default-dialog [dialogTitle]="'Аn error has occurred'">
-  <div class="dialog-content">
-    <div class="status-info">
-      <div>{{ error.status }}</div>
-      @if (error.status) {
-        <div>{{ httpStatusCodes[error.status] || 500 }}</div>
-      }
-    </div>
-    <div class="error-info">
-      <lib-error-display [error]="error" />
-    </div>
-  </div>
+	<div class="dialog-content">
+		<div class="status-info">
+			<div>{{ error.status }}</div>
+			@if (error.status) {
+				<div>{{ httpStatusCodes[error.status] || 500 }}</div>
+			}
+		</div>
+		<div class="error-info">
+			<lib-error-display [error]="error" />
+		</div>
+	</div>
 </lib-default-dialog>

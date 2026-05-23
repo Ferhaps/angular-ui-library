@@ -1,32 +1,35 @@
-import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import {
+	Component,
+	input,
+	output,
+	ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 export type SortState = 'none' | 'asc' | 'desc';
 
 @Component({
-  selector: 'lib-table-sort-header',
-  imports: [
-    MatIconModule,
-  ],
-  templateUrl: './table-sort-header.component.html',
-  styleUrls: ['./table-sort-header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'lib-table-sort-header',
+	imports: [MatIconModule],
+	templateUrl: './table-sort-header.component.html',
+	styleUrls: ['./table-sort-header.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableSortHeaderComponent {
-  public selected = input.required<boolean>();
-  public sort = output<SortState>();
+	public selected = input.required<boolean>();
+	public sort = output<SortState>();
 
-  protected sortState: SortState = 'none';
+	protected sortState: SortState = 'none';
 
-  protected onSortClick(): void {
-    if (this.sortState === 'none') {
-      this.sortState = 'desc';
-    } else if (this.sortState === 'desc') {
-      this.sortState = 'asc';
-    } else {
-      this.sortState = 'none';
-    }
+	protected onSortClick(): void {
+		if (this.sortState === 'none') {
+			this.sortState = 'desc';
+		} else if (this.sortState === 'desc') {
+			this.sortState = 'asc';
+		} else {
+			this.sortState = 'none';
+		}
 
-    this.sort.emit(this.sortState);
-  }
+		this.sort.emit(this.sortState);
+	}
 }

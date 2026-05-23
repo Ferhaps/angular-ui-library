@@ -1,35 +1,40 @@
 import { Directive, input } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import {
+	AbstractControl,
+	NG_VALIDATORS,
+	ValidationErrors,
+	Validator,
+} from '@angular/forms';
 
 @Directive({
-  selector: '[libFieldsMatchValidator]',
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: FieldsMatchValidatorDirective,
-      multi: true,
-    },
-  ],
+	selector: '[libFieldsMatchValidator]',
+	providers: [
+		{
+			provide: NG_VALIDATORS,
+			useExisting: FieldsMatchValidatorDirective,
+			multi: true,
+		},
+	],
 })
 export class FieldsMatchValidatorDirective implements Validator {
-  public fieldToMatch = input.required<string>();
+	public fieldToMatch = input.required<string>();
 
-  public validate(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
+	public validate(control: AbstractControl): ValidationErrors | null {
+		const value = control.value;
 
-    if (!value) {
-      return null;
-    }
+		if (!value) {
+			return null;
+		}
 
-    const matchingControl = control.root.get(this.fieldToMatch());
-    if (!matchingControl) {
-      return null;
-    }
+		const matchingControl = control.root.get(this.fieldToMatch());
+		if (!matchingControl) {
+			return null;
+		}
 
-    if (value !== matchingControl.value) {
-      return { mismatch: true };
-    }
+		if (value !== matchingControl.value) {
+			return { mismatch: true };
+		}
 
-    return null;
-  }
+		return null;
+	}
 }

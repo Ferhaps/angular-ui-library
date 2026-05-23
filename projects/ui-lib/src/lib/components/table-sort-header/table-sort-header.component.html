@@ -1,7 +1,8 @@
 <div class="sorting-container" (click)="onSortClick()">
-  <mat-icon
-    [class.selected]="selected() && sortState != 'none'"
-    [class.rotated]="sortState == 'asc'">
-    sort
-  </mat-icon>
+	<mat-icon
+		[class.selected]="selected() && sortState != 'none'"
+		[class.rotated]="sortState == 'asc'"
+	>
+		sort
+	</mat-icon>
 </div>

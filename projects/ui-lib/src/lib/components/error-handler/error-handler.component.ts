@@ -8,39 +8,37 @@ import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { ErrorService } from '../../services/error.service';
 
 @Component({
-  selector: 'lib-error-handler',
-  templateUrl: 'error-handler.component.html',
-  styleUrls: ['error-handler.component.scss'],
-  imports: [
-    MatDialogModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'lib-error-handler',
+	templateUrl: 'error-handler.component.html',
+	styleUrls: ['error-handler.component.scss'],
+	imports: [MatDialogModule],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorHandlerComponent implements OnDestroy {
-  private errSubscriptions = new Subscription();
-  private errorService = inject(ErrorService);
-  private dialog = inject(MatDialog);
+	private errSubscriptions = new Subscription();
+	private errorService = inject(ErrorService);
+	private dialog = inject(MatDialog);
 
-  constructor() {
-    this.errSubscriptions.add(
-      this.errorService.error$.subscribe((err: HttpErrorResponse) => {
-        console.log(err);
-        this.showPopup(err);
-      })
-    );
-  }
+	constructor() {
+		this.errSubscriptions.add(
+			this.errorService.error$.subscribe((err: HttpErrorResponse) => {
+				console.log(err);
+				this.showPopup(err);
+			}),
+		);
+	}
 
-  private showPopup(error: HttpErrorResponse): void {
-    this.dialog.closeAll();
-    this.dialog.open(ErrorPopupComponent, {
-      data: error,
-      width: '400px',
-      autoFocus: false,
-      scrollStrategy: new NoopScrollStrategy(),
-    });
-  }
+	private showPopup(error: HttpErrorResponse): void {
+		this.dialog.closeAll();
+		this.dialog.open(ErrorPopupComponent, {
+			data: error,
+			width: '400px',
+			autoFocus: false,
+			scrollStrategy: new NoopScrollStrategy(),
+		});
+	}
 
-  public ngOnDestroy(): void {
-    this.errSubscriptions.unsubscribe();
-  }
+	public ngOnDestroy(): void {
+		this.errSubscriptions.unsubscribe();
+	}
 }
