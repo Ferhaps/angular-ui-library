@@ -1,7 +1,13 @@
-import { Component, output, input, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, output, input, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+
+const CUSTOM_CONROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => SearchBarComponent),
+  multi: true,
+};
 
 @Component({
   selector: 'lib-search-bar',
@@ -47,9 +53,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
     MatIconModule,
     ReactiveFormsModule
   ],
+  providers: [CUSTOM_CONROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBarComponent {
+export class SearchBarComponent implements ControlValueAccessor {
   public for = input.required<string>();
 
   protected search = output<string | Event>();
@@ -67,8 +74,20 @@ export class SearchBarComponent {
         if (typeof searchTerm === 'string') {
           searchTerm = searchTerm.trim();
         }
-        
+
         this.search.emit(searchTerm);
       });
+  }
+
+  writeValue(value: string): void {
+    this.searchForm.get('search')?.setValue(value, { emitEvent: false });
+  }
+
+  registerOnChange(fn: any): void {
+    this.searchForm.get('search')?.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    // Implement if needed
   }
 }
