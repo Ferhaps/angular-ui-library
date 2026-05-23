@@ -3,12 +3,6 @@ import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Reacti
 import { MatIconModule } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
-const CUSTOM_CONROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SearchBarComponent),
-  multi: true,
-};
-
 @Component({
   selector: 'lib-search-bar',
   template: `
@@ -53,7 +47,13 @@ const CUSTOM_CONROL_VALUE_ACCESSOR: any = {
     MatIconModule,
     ReactiveFormsModule
   ],
-  providers: [CUSTOM_CONROL_VALUE_ACCESSOR],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SearchBarComponent),
+      multi: true,
+    }
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBarComponent implements ControlValueAccessor {
@@ -65,29 +65,26 @@ export class SearchBarComponent implements ControlValueAccessor {
     search: new FormControl('')
   });
 
-  constructor() {
-    this.searchForm.get('search')?.valueChanges.
-      pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-      ).subscribe((searchTerm: string | Event) => {
-        if (typeof searchTerm === 'string') {
-          searchTerm = searchTerm.trim();
-        }
+  private onChange: (value: string) => void = () => { };
+  private onTouched: () => void = () => { };
 
-        this.search.emit(searchTerm);
+  constructor() {
+    this.searchForm.get('search')?.valueChanges
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((term: string) => {
+        const trimmed = term.trim();
+        this.onChange(trimmed);    // notifies parent form control
+        this.search.emit(trimmed); // existing output still works
       });
   }
 
   writeValue(value: string): void {
-    this.searchForm.get('search')?.setValue(value, { emitEvent: false });
+    this.searchForm.get('search')?.setValue(value ?? '', { emitEvent: false });
   }
 
-  registerOnChange(fn: any): void {
-    this.searchForm.get('search')?.valueChanges.subscribe(fn);
-  }
-
-  registerOnTouched(fn: any): void {
-    // Implement if needed
+  registerOnChange(fn: (value: string) => void): void { this.onChange = fn; }
+  registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void {
+    isDisabled ? this.searchForm.disable() : this.searchForm.enable();
   }
 }
