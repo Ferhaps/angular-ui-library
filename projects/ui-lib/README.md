@@ -64,14 +64,27 @@ handleTableAction(event: TableEvent) {}
 ```
 
 ### SearchBarComponent
-A styled search input with debounce functionality.
-The search event emits either a string or Event. Event is emitted when the "X" button is pressed
+A styled search input with debounce functionality. Implements `ControlValueAccessor`, so it can be used as a standard form control with reactive forms or template-driven forms.
+
+**Standalone usage (output only)**
 ```html
 <lib-search-bar
   [for]="'users'"
   (search)="onSearch($event)">
 </lib-search-bar>
 ```
+
+**Reactive forms**
+```html
+<lib-search-bar [for]="'users'" formControlName="search" />
+```
+
+**Template-driven forms**
+```html
+<lib-search-bar [for]="'users'" [(ngModel)]="searchTerm" />
+```
+
+The `search` output still emits on every debounced change and can be used alongside form binding. The emitted value is the trimmed search string.
 
 ### DefaultDialogComponent
 A customizable dialog component with optional back button.
