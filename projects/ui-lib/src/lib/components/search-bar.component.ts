@@ -56,6 +56,17 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 				outline: none;
 			}
 
+			.search-bar:has(.search-input:disabled) {
+				border-color: #d4d4d4;
+				background-color: #f5f5f5;
+				cursor: not-allowed;
+			}
+
+			.search-input:disabled {
+				color: #a4a4a4;
+				cursor: not-allowed;
+			}
+
 			@media (max-width: 1086px) {
 				.search-bar {
 					width: 170px;
@@ -103,9 +114,11 @@ export class SearchBarComponent implements ControlValueAccessor {
 	registerOnChange(fn: (value: string) => void): void {
 		this.onChange = fn;
 	}
+
 	registerOnTouched(fn: () => void): void {
 		this.onTouched = fn;
 	}
+
 	setDisabledState(isDisabled: boolean): void {
 		isDisabled ? this.searchForm.disable() : this.searchForm.enable();
 	}

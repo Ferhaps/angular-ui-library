@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "rootDir": ".",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
@@ -21,7 +21,7 @@
     "useDefineForClassFields": false,
     "paths": {
       "ui-lib": [
-        "dist/ui-lib"
+        "./dist/ui-lib"
       ]
     }
   },
