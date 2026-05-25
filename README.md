@@ -1,1 +1,1 @@
-In this project I have gathered components, directives and pipes that I have been using in almost all of my Angular porjects.
+This is an Angular UI library published to npm. It provides a collection of reusable components, directives, and pipes shared across multiple Angular projects.
