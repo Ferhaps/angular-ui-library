@@ -1,0 +1,32 @@
+<app-page-heading
+	title="Table"
+	kind="Component · TableComponent<T>"
+	lead="A single generic component driven entirely by a typed Config<T>
+	object. It emits one TableEvent<T> output for every interaction —
+	sorting, selection, drag-drop, row options, the add button and
+	infinite scroll."
+/>
+
+<app-demo-card
+	heading="Sorting · row options · conditional styling · infinite scroll"
+	hint="single-row select"
+>
+	<div class="table-host">
+		<lib-table [config]="sortableConfig()" (action)="onSortable($event)" />
+	</div>
+	<app-event-log title="TableEvent output" [events]="sortableLog()" />
+</app-demo-card>
+
+<app-demo-card
+	heading="Drag to reorder · multi-select · add button"
+	hint="draggable disables sort"
+>
+	<div class="table-host short">
+		<lib-table [config]="draggableConfig()" (action)="onDraggable($event)" />
+	</div>
+	<app-event-log title="TableEvent output" [events]="draggableLog()" />
+</app-demo-card>
+
+<app-demo-card heading="The config that powers the first table">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

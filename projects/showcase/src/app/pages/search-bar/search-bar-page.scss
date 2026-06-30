@@ -1,0 +1,22 @@
+.row {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+}
+
+.readout {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 0.25rem 1rem;
+	margin: 0;
+}
+
+.readout dt {
+	font-weight: 500;
+}
+
+.readout dd {
+	margin: 0;
+}

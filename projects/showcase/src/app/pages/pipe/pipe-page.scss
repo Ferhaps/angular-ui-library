@@ -1,0 +1,34 @@
+.field {
+	width: 100%;
+	max-width: 360px;
+}
+
+.result {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	font-size: 1.25rem;
+}
+
+.arrow {
+	color: var(--mat-sys-on-surface-variant);
+}
+
+.examples {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.examples th,
+.examples td {
+	text-align: left;
+	padding: 0.5rem 0.75rem;
+	border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.examples th {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	color: var(--mat-sys-on-surface-variant);
+}

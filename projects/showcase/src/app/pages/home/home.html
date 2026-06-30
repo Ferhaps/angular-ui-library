@@ -1,0 +1,32 @@
+<section class="hero">
+	<span class="eyebrow">Angular {{ angularMajor }} · Material</span>
+	<h1><code>&#64;ferhaps/easy-ui-lib</code></h1>
+	<p class="lead muted">
+		A small, opinionated set of reusable Angular components, directives,
+		pipes and services built on Angular Material &amp; CDK. This app
+		demonstrates every public feature the library ships.
+	</p>
+
+	<app-code-block [code]="installSnippet" />
+</section>
+
+<h2 class="section-title">Explore the features</h2>
+<div class="grid">
+	@for (item of items; track item.path) {
+		<a class="feature-link" [routerLink]="item.path">
+			<mat-card appearance="outlined" class="feature">
+				<mat-card-content>
+					<div class="feature-top">
+						<mat-icon>{{ item.icon }}</mat-icon>
+						<mat-chip-set>
+							<mat-chip disableRipple>{{ item.kind }}</mat-chip>
+						</mat-chip-set>
+					</div>
+					<h3>{{ item.title }}</h3>
+					<p class="muted">{{ item.blurb }}</p>
+					<span class="go">Open <mat-icon>arrow_forward</mat-icon></span>
+				</mat-card-content>
+			</mat-card>
+		</a>
+	}
+</div>

@@ -55,7 +55,7 @@ From the project's established style (formerly in `.github/copilot-instructions.
 - Use `inject()` instead of constructor injection; services are `providedIn: 'root'`.
 - Put host bindings in the `host` object of the decorator — do NOT use `@HostBinding`/`@HostListener`.
 - Templates: native control flow (`@if`/`@for`/`@switch`), `class`/`style` bindings (not `ngClass`/`ngStyle`), reactive forms over template-driven, `async` pipe for observables.
-- Prefer inline templates/styles for small components; when external, use paths relative to the component's `.ts` file.
+- Every component lives in its own folder with separate `.ts`, `.html`, and `.scss` files — no inline `template`/`styles`. Wire them with `templateUrl`/`styleUrl` (paths relative to the `.ts` file). One component per folder.
 - `NgOptimizedImage` for static images (not for inline base64).
 
 **Accessibility:** must pass AXE checks and meet WCAG AA (focus management, color contrast, ARIA).

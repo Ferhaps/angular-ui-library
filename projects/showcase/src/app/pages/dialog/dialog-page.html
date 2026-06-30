@@ -1,0 +1,37 @@
+<app-page-heading
+	title="Default Dialog"
+	kind="Component · DefaultDialogComponent"
+	lead="A reusable MatDialog shell with a centered title, an optional back
+	arrow (with its own output), a built-in close button and a configurable
+	height. Feed it either projected content or a TemplateRef."
+/>
+
+<app-demo-card
+	heading="Projected content · back arrow · custom height"
+	hint="opened with MatDialog"
+>
+	<button mat-flat-button (click)="openProfile()">
+		<mat-icon>open_in_new</mat-icon> Open profile dialog
+	</button>
+</app-demo-card>
+
+<app-demo-card heading="TemplateRef content" hint="via the temRef input">
+	<button mat-stroked-button (click)="openTemplate()">
+		<mat-icon>description</mat-icon> Open template dialog
+	</button>
+
+	<ng-template #promo>
+		<div class="promo">
+			<mat-icon class="promo-icon">auto_awesome</mat-icon>
+			<p>
+				This block is an <code>&lt;ng-template&gt;</code> declared on the
+				page and rendered by the dialog through its
+				<code>temRef</code> input — no content projection involved.
+			</p>
+		</div>
+	</ng-template>
+</app-demo-card>
+
+<app-demo-card heading="Usage">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

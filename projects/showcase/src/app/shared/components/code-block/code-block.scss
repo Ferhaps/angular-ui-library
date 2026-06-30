@@ -1,0 +1,23 @@
+.code-wrap {
+	position: relative;
+	background: #1e1b24;
+	border-radius: 12px;
+	overflow: hidden;
+}
+
+pre {
+	margin: 0;
+	padding: 1rem 1.1rem;
+	overflow-x: auto;
+	color: #e8e3f0;
+	font-size: 0.83rem;
+	line-height: 1.55;
+}
+
+.copy {
+	position: absolute;
+	top: 0.4rem;
+	right: 0.4rem;
+	--mdc-icon-button-icon-color: #e8e3f0;
+	--mat-icon-button-state-layer-color: #fff;
+}

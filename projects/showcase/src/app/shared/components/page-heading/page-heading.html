@@ -1,0 +1,14 @@
+<header class="page-head">
+	<div class="row">
+		<h1>{{ title() }}</h1>
+		@if (kind()) {
+			<mat-chip-set>
+				<mat-chip disableRipple>{{ kind() }}</mat-chip>
+			</mat-chip-set>
+		}
+	</div>
+	@if (lead()) {
+		<p class="lead muted">{{ lead() }}</p>
+	}
+	<ng-content />
+</header>

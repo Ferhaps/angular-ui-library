@@ -1,0 +1,28 @@
+<app-page-heading
+	title="Error Display"
+	kind="Component · ErrorDisplayComponent"
+	lead="Takes a SystemError — a string, an HttpErrorResponse, or
+	undefined — and renders a friendly, human-readable message. The text is
+	run through the SnakeCaseParser pipe, so snake_case codes become real
+	sentences."
+/>
+
+<app-demo-card heading="Every SystemError shape">
+	<div class="grid">
+		@for (ex of examples; track ex.label) {
+			<div class="example">
+				<div class="meta">
+					<mat-chip-set>
+						<mat-chip disableRipple>{{ ex.label }}</mat-chip>
+					</mat-chip-set>
+					<code class="mono">{{ ex.input }}</code>
+				</div>
+				<lib-error-display [error]="ex.error" />
+			</div>
+		}
+	</div>
+</app-demo-card>
+
+<app-demo-card heading="Usage">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

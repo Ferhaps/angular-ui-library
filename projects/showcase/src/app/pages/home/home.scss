@@ -1,0 +1,100 @@
+.hero {
+	margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+	font-size: 0.8rem;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--mat-sys-primary);
+}
+
+.hero h1 {
+	margin: 0.5rem 0 0.75rem;
+	font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.hero h1 code {
+	font-family: inherit;
+}
+
+.lead {
+	max-width: 70ch;
+	font-size: 1.05rem;
+	line-height: 1.55;
+	margin: 0 0 1.5rem;
+}
+
+.section-title {
+	margin: 0 0 1rem;
+	font-size: 1.3rem;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1rem;
+}
+
+.feature-link {
+	display: block;
+	border-radius: 12px;
+}
+
+.feature {
+	height: 100%;
+	transition:
+		transform 0.15s ease,
+		box-shadow 0.15s ease,
+		border-color 0.15s ease;
+}
+
+.feature-link:hover .feature {
+	transform: translateY(-3px);
+	border-color: var(--mat-sys-primary);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.feature-link:focus-visible {
+	outline: 2px solid var(--mat-sys-primary);
+	outline-offset: 2px;
+}
+
+.feature-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.25rem;
+}
+
+.feature-top mat-icon {
+	color: var(--mat-sys-primary);
+}
+
+.feature h3 {
+	margin: 0.25rem 0 0;
+	font-size: 1.1rem;
+}
+
+.feature p {
+	margin: 0.35rem 0 0;
+	font-size: 0.9rem;
+	line-height: 1.45;
+}
+
+.go {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-top: 0.75rem;
+	font-size: 0.85rem;
+	font-weight: 500;
+	color: var(--mat-sys-primary);
+}
+
+.go mat-icon {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}

@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatChipsModule } from '@angular/material/chips';
 import { ErrorDisplayComponent, SystemError } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/components/page-heading';
-import { DemoCard } from '../../shared/components/demo-card';
-import { CodeBlock } from '../../shared/components/code-block';
+import { PageHeading } from '../../shared/components/page-heading/page-heading';
+import { DemoCard } from '../../shared/components/demo-card/demo-card';
+import { CodeBlock } from '../../shared/components/code-block/code-block';
 
 type Example = { label: string; input: string; error: SystemError };
 
@@ -17,66 +17,8 @@ type Example = { label: string; input: string; error: SystemError };
 		DemoCard,
 		CodeBlock,
 	],
-	template: `
-		<app-page-heading
-			title="Error Display"
-			kind="Component · ErrorDisplayComponent"
-			lead="Takes a SystemError — a string, an HttpErrorResponse, or
-			undefined — and renders a friendly, human-readable message. The text is
-			run through the SnakeCaseParser pipe, so snake_case codes become real
-			sentences."
-		/>
-
-		<app-demo-card heading="Every SystemError shape">
-			<div class="grid">
-				@for (ex of examples; track ex.label) {
-					<div class="example">
-						<div class="meta">
-							<mat-chip-set>
-								<mat-chip disableRipple>{{ ex.label }}</mat-chip>
-							</mat-chip-set>
-							<code class="mono">{{ ex.input }}</code>
-						</div>
-						<lib-error-display [error]="ex.error" />
-					</div>
-				}
-			</div>
-		</app-demo-card>
-
-		<app-demo-card heading="Usage">
-			<app-code-block [code]="snippet" />
-		</app-demo-card>
-	`,
-	styles: [
-		`
-			.grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-				gap: 1.25rem;
-				align-items: start;
-			}
-			.example {
-				display: flex;
-				flex-direction: column;
-				gap: 0.6rem;
-			}
-			.meta {
-				display: flex;
-				flex-direction: column;
-				gap: 0.3rem;
-			}
-			.tag {
-				font-size: 0.7rem;
-				text-transform: uppercase;
-				letter-spacing: 0.05em;
-				color: var(--mat-sys-on-surface-variant, #6b6b6b);
-			}
-			.meta code {
-				font-size: 0.78rem;
-				word-break: break-word;
-			}
-		`,
-	],
+	templateUrl: './error-display-page.html',
+	styleUrl: './error-display-page.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorDisplayPage {

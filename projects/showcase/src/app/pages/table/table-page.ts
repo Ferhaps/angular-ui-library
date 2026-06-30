@@ -6,10 +6,10 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import { Config, TableComponent, TableEvent } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/components/page-heading';
-import { DemoCard } from '../../shared/components/demo-card';
-import { CodeBlock } from '../../shared/components/code-block';
-import { EventLog } from '../../shared/components/event-log';
+import { PageHeading } from '../../shared/components/page-heading/page-heading';
+import { DemoCard } from '../../shared/components/demo-card/demo-card';
+import { CodeBlock } from '../../shared/components/code-block/code-block';
+import { EventLog } from '../../shared/components/event-log/event-log';
 
 type Member = {
 	id: number;
@@ -57,63 +57,8 @@ function makeMembers(): Member[] {
 @Component({
 	selector: 'app-table-page',
 	imports: [TableComponent, PageHeading, DemoCard, CodeBlock, EventLog],
-	template: `
-		<app-page-heading
-			title="Table"
-			kind="Component · TableComponent<T>"
-			lead="A single generic component driven entirely by a typed Config<T>
-			object. It emits one TableEvent<T> output for every interaction —
-			sorting, selection, drag-drop, row options, the add button and
-			infinite scroll."
-		/>
-
-		<app-demo-card
-			heading="Sorting · row options · conditional styling · infinite scroll"
-			hint="single-row select"
-		>
-			<div class="table-host">
-				<lib-table [config]="sortableConfig()" (action)="onSortable($event)" />
-			</div>
-			<app-event-log title="TableEvent output" [events]="sortableLog()" />
-		</app-demo-card>
-
-		<app-demo-card
-			heading="Drag to reorder · multi-select · add button"
-			hint="draggable disables sort"
-		>
-			<div class="table-host short">
-				<lib-table
-					[config]="draggableConfig()"
-					(action)="onDraggable($event)"
-				/>
-			</div>
-			<app-event-log title="TableEvent output" [events]="draggableLog()" />
-		</app-demo-card>
-
-		<app-demo-card heading="The config that powers the first table">
-			<app-code-block [code]="snippet" />
-		</app-demo-card>
-	`,
-	styles: [
-		`
-			.table-host {
-				display: block;
-				height: 360px;
-				margin-bottom: 1rem;
-				border: 1px solid var(--mat-sys-outline-variant, #e3e1e6);
-				border-radius: 12px;
-				padding: 0.75rem 1rem;
-				overflow: hidden;
-			}
-			.table-host.short {
-				height: auto;
-			}
-			lib-table {
-				display: block;
-				height: 100%;
-			}
-		`,
-	],
+	templateUrl: './table-page.html',
+	styleUrl: './table-page.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TablePage {

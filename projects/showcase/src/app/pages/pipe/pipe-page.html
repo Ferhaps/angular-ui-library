@@ -1,0 +1,46 @@
+<app-page-heading
+	title="Snake Case Parser"
+	kind="Pipe · snakeCaseParser"
+	lead="Turns snake_case (or SCREAMING_SNAKE_CASE) tokens into a readable
+	label: underscores become spaces, the first letter is capitalised and the
+	rest lower-cased. Handy for rendering API enum values and error codes."
+/>
+
+<app-demo-card heading="Try it live">
+	<mat-form-field appearance="outline" class="field">
+		<mat-label>Input</mat-label>
+		<input
+			matInput
+			[value]="value()"
+			(input)="value.set($any($event.target).value)"
+			placeholder="e.g. payment_failed"
+		/>
+	</mat-form-field>
+	<div class="result">
+		<span class="arrow">→</span>
+		<strong>{{ value() | snakeCaseParser }}</strong>
+	</div>
+</app-demo-card>
+
+<app-demo-card heading="Examples">
+	<table class="examples">
+		<thead>
+			<tr>
+				<th>Input</th>
+				<th>Output</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (sample of samples; track sample) {
+				<tr>
+					<td class="mono">{{ sample }}</td>
+					<td>{{ sample | snakeCaseParser }}</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</app-demo-card>
+
+<app-demo-card heading="Usage">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

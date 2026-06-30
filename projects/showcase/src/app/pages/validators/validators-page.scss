@@ -1,0 +1,23 @@
+.field {
+	width: 100%;
+	max-width: 360px;
+}
+
+.msg {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	margin: 0.25rem 0 0;
+	font-size: 0.9rem;
+	color: light-dark(#1b5e20, #81c784);
+}
+
+.msg mat-icon {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+.readout {
+	margin: 0.25rem 0 0;
+}

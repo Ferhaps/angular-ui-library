@@ -1,0 +1,39 @@
+.body {
+	gap: 0.25rem;
+	width: 300px;
+	max-width: 100%;
+}
+
+.avatar {
+	display: grid;
+	place-items: center;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	background: var(--mat-sys-secondary-container);
+	margin-bottom: 0.25rem;
+}
+
+.avatar mat-icon {
+	font-size: 36px;
+	width: 36px;
+	height: 36px;
+	color: var(--mat-sys-primary);
+}
+
+h4 {
+	margin: 0.25rem 0 0;
+}
+
+button mat-icon {
+	margin-right: 0.35rem;
+}
+
+.field {
+	width: 100%;
+}
+
+.hint {
+	font-size: 0.8rem;
+	margin: 0;
+}

@@ -1,0 +1,12 @@
+<div class="code-wrap">
+	<button
+		mat-icon-button
+		class="copy"
+		matTooltip="Copy to clipboard"
+		aria-label="Copy code"
+		(click)="copy()"
+	>
+		<mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
+	</button>
+	<pre class="mono"><code>{{ code() }}</code></pre>
+</div>

@@ -1,0 +1,30 @@
+<app-page-heading
+	title="Error Handler"
+	kind="Service · ErrorService + ErrorHandlerComponent"
+	lead="ErrorService is a root broadcast channel for HttpErrorResponses.
+	Drop <lib-error-handler /> once near the app root (this showcase does, in
+	its shell) and it listens, then opens a popup with the parsed status and
+	a friendly message — typically wired into an HTTP interceptor."
+/>
+
+<app-demo-card
+	heading="Broadcast an error"
+	hint="opens the popup mounted at the app root"
+>
+	<div class="buttons">
+		@for (t of triggers; track t.label) {
+			<button mat-stroked-button (click)="send(t.response)">
+				{{ t.label }}
+			</button>
+		}
+	</div>
+	<p class="muted note">
+		<mat-icon>info</mat-icon>
+		The popup is rendered by the single <code>&lt;lib-error-handler /&gt;</code>
+		in the app shell — not by this page.
+	</p>
+</app-demo-card>
+
+<app-demo-card heading="Typical wiring (HTTP interceptor)">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

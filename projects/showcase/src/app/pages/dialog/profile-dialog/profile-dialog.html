@@ -1,0 +1,28 @@
+<lib-default-dialog
+	[dialogTitle]="editing() ? 'Edit profile' : 'Profile'"
+	[withBack]="editing()"
+	height="auto"
+	(back)="editing.set(false)"
+>
+	<div class="dialog-content body">
+		@if (!editing()) {
+			<div class="avatar"><mat-icon>person</mat-icon></div>
+			<h4>Ada Lovelace</h4>
+			<p class="muted">ada.lovelace&#64;example.com</p>
+			<button mat-flat-button (click)="editing.set(true)">
+				<mat-icon>edit</mat-icon> Edit profile
+			</button>
+		} @else {
+			<mat-form-field appearance="outline" class="field">
+				<mat-label>Name</mat-label>
+				<input matInput value="Ada Lovelace" />
+			</mat-form-field>
+			<mat-form-field appearance="outline" class="field">
+				<mat-label>Email</mat-label>
+				<input matInput value="ada.lovelace@example.com" />
+				<mat-icon matSuffix>mail</mat-icon>
+			</mat-form-field>
+			<p class="muted hint">Use the back arrow ↖ to cancel.</p>
+		}
+	</div>
+</lib-default-dialog>

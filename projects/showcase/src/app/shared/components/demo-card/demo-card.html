@@ -1,0 +1,13 @@
+<mat-card appearance="outlined" class="demo-card">
+	@if (heading()) {
+		<mat-card-header>
+			<mat-card-title>{{ heading() }}</mat-card-title>
+			@if (hint()) {
+				<mat-card-subtitle>{{ hint() }}</mat-card-subtitle>
+			}
+		</mat-card-header>
+	}
+	<mat-card-content>
+		<ng-content />
+	</mat-card-content>
+</mat-card>

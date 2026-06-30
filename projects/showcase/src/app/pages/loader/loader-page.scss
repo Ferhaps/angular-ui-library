@@ -1,0 +1,36 @@
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-bottom: 1rem;
+}
+
+.buttons mat-icon {
+	margin-right: 0.35rem;
+}
+
+.state {
+	margin: 0 0 0.75rem;
+}
+
+.state strong {
+	color: var(--mat-sys-on-surface-variant, #6b6b6b);
+}
+
+.state strong.on {
+	color: var(--mat-sys-primary, #6750a4);
+}
+
+.note {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin: 0;
+	font-size: 0.88rem;
+}
+
+.note mat-icon {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}

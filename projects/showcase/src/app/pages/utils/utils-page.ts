@@ -6,10 +6,7 @@ import {
 } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-	MatChipListboxChange,
-	MatChipsModule,
-} from '@angular/material/chips';
+import { MatChipListboxChange, MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {
 	BLOB_HTTP_OPTIONS,
@@ -20,9 +17,9 @@ import {
 	STRING_HTTP_OPTIONS,
 	withAcceptLanguage,
 } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/components/page-heading';
-import { DemoCard } from '../../shared/components/demo-card';
-import { CodeBlock } from '../../shared/components/code-block';
+import { PageHeading } from '../../shared/components/page-heading/page-heading';
+import { DemoCard } from '../../shared/components/demo-card/demo-card';
+import { CodeBlock } from '../../shared/components/code-block/code-block';
 
 @Component({
 	selector: 'app-utils-page',
@@ -35,100 +32,8 @@ import { CodeBlock } from '../../shared/components/code-block';
 		DemoCard,
 		CodeBlock,
 	],
-	template: `
-		<app-page-heading
-			title="HTTP Utils"
-			kind="Utilities · utils.ts"
-			lead="Plain helpers for HTTP work: a status-code map, ready-made request
-			option presets (including the X-Skip-Error and X-Global-Loader header
-			conventions the error/loader systems key off) and an Accept-Language
-			helper."
-		/>
-
-		<app-demo-card heading="HTTP_STATUS_CODES lookup">
-			<mat-form-field appearance="outline" class="code-field">
-				<mat-label>Status code</mat-label>
-				<input
-					matInput
-					type="number"
-					[value]="code()"
-					(input)="code.set($any($event.target).value)"
-				/>
-			</mat-form-field>
-			<p class="result">
-				<code class="mono">HTTP_STATUS_CODES[{{ code() || '—' }}]</code>
-				<span class="arrow">→</span>
-				<strong>{{ statusName() }}</strong>
-			</p>
-			<mat-chip-set aria-label="Common status codes">
-				@for (c of commonCodes; track c) {
-					<mat-chip (click)="code.set(c)">{{ c }}</mat-chip>
-				}
-			</mat-chip-set>
-		</app-demo-card>
-
-		<app-demo-card heading="Request option presets">
-			<mat-accordion>
-				@for (preset of presets; track preset.name) {
-					<mat-expansion-panel>
-						<mat-expansion-panel-header>
-							<mat-panel-title>
-								<code class="mono">{{ preset.name }}</code>
-							</mat-panel-title>
-							<mat-panel-description>{{ preset.note }}</mat-panel-description>
-						</mat-expansion-panel-header>
-						<pre class="json mono">{{ preset.json }}</pre>
-					</mat-expansion-panel>
-				}
-			</mat-accordion>
-		</app-demo-card>
-
-		<app-demo-card heading="withAcceptLanguage(options, language)">
-			<mat-chip-listbox
-				[value]="language()"
-				(change)="onLanguage($event)"
-				aria-label="Accept-Language"
-			>
-				@for (lang of languages; track lang) {
-					<mat-chip-option [value]="lang">{{ lang }}</mat-chip-option>
-				}
-			</mat-chip-listbox>
-			<pre class="json mono">{{ localizedJson() }}</pre>
-		</app-demo-card>
-
-		<app-demo-card heading="Usage">
-			<app-code-block [code]="snippet" />
-		</app-demo-card>
-	`,
-	styles: [
-		`
-			.code-field {
-				width: 160px;
-			}
-			.result {
-				display: flex;
-				align-items: center;
-				gap: 0.6rem;
-				flex-wrap: wrap;
-				margin: 0.25rem 0 1rem;
-				font-size: 1.05rem;
-			}
-			.arrow {
-				color: var(--mat-sys-on-surface-variant);
-			}
-			.json {
-				margin: 0.75rem 0 0;
-				padding: 0.75rem 0.9rem;
-				background: var(--mat-sys-surface-container-high);
-				border-radius: 10px;
-				font-size: 0.82rem;
-				overflow-x: auto;
-			}
-			mat-expansion-panel .json {
-				margin-top: 0;
-			}
-		`,
-	],
+	templateUrl: './utils-page.html',
+	styleUrl: './utils-page.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UtilsPage {

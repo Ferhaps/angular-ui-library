@@ -1,0 +1,23 @@
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1.25rem;
+	align-items: start;
+}
+
+.example {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+
+.meta {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+.meta code {
+	font-size: 0.78rem;
+	word-break: break-word;
+}

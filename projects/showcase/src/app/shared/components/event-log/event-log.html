@@ -1,0 +1,18 @@
+<div class="log">
+	<div class="log-head">
+		<mat-icon>terminal</mat-icon>
+		<span>{{ title() }}</span>
+		<mat-chip-set>
+			<mat-chip disableRipple>{{ events().length }}</mat-chip>
+		</mat-chip-set>
+	</div>
+	@if (events().length) {
+		<ol>
+			@for (line of reversed(); track $index) {
+				<li class="mono">{{ line }}</li>
+			}
+		</ol>
+	} @else {
+		<p class="empty muted">Interact with the demo to see events here.</p>
+	}
+</div>
