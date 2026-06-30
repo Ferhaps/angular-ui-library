@@ -35,6 +35,9 @@
 					routerLinkActive
 					#rla="routerLinkActive"
 					[activated]="rla.isActive"
+					[matTooltip]="item.title"
+					matTooltipPosition="right"
+					[matTooltipShowDelay]="400"
 					(click)="onNavigate(drawer)"
 				>
 					<mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
