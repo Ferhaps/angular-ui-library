@@ -65,7 +65,7 @@
 		</thead>
 		@if (config().draggable) {
 			<tbody cdkDropList (cdkDropListDropped)="drop($event)">
-				@for (obj of config().data; let i = $index; track i) {
+				@for (obj of config().data; let i = $index; track keyOf(obj)) {
 					<tr
 						(mouseover)="hoverRowIndex = i"
 						(mouseleave)="hoverRowIndex = -1"
@@ -73,18 +73,15 @@
 						cdkDragLockAxis="y"
 						[class.pointer]="config().selectableRows"
 						[class.hover-row]="hoverRowIndex == i"
-						[class.selected-row]="
-							(config().selectableRows === 'single' && selectedRowIndex == i) ||
-							(config().selectableRows === 'multiple' && selectedIndices.has(i))
-						"
+						[class.selected-row]="isRowSelected(obj)"
 						(click)="onRowClick($event, obj, i)"
 					>
 						@if (config().selectableRows === "multiple") {
 							<td>
 								<mat-checkbox
 									(click)="$event.stopPropagation()"
-									[checked]="selectedIndices.has(i)"
-									(change)="toggleRowSelection(i)"
+									[checked]="isRowSelected(obj)"
+									(change)="toggleRowSelection(obj, i)"
 								>
 								</mat-checkbox>
 							</td>
@@ -136,24 +133,21 @@
 			</tbody>
 		} @else {
 			<tbody>
-				@for (obj of config().data; let i = $index; track i) {
+				@for (obj of config().data; let i = $index; track keyOf(obj)) {
 					<tr
 						(mouseover)="hoverRowIndex = i"
 						(mouseleave)="hoverRowIndex = -1"
 						[class.pointer]="config().selectableRows"
 						[class.hover-row]="hoverRowIndex == i"
-						[class.selected-row]="
-							(config().selectableRows === 'single' && selectedRowIndex == i) ||
-							(config().selectableRows === 'multiple' && selectedIndices.has(i))
-						"
+						[class.selected-row]="isRowSelected(obj)"
 						(click)="onRowClick($event, obj, i)"
 					>
 						@if (config().selectableRows === "multiple") {
 							<td>
 								<mat-checkbox
 									(click)="$event.stopPropagation()"
-									[checked]="selectedIndices.has(i)"
-									(change)="toggleRowSelection(i)"
+									[checked]="isRowSelected(obj)"
+									(change)="toggleRowSelection(obj, i)"
 								>
 								</mat-checkbox>
 							</td>

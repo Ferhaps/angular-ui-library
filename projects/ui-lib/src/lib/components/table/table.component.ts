@@ -1,6 +1,7 @@
 import {
 	Component,
 	ElementRef,
+	effect,
 	input,
 	output,
 	viewChild,
@@ -52,6 +53,7 @@ export type Config<T = any> = {
 	sortable?: boolean;
 	draggable?: boolean;
 	classRules?: ClassRule<T>[];
+	trackBy?: (obj: T) => unknown;
 };
 
 export type ClassRule<T = any> = {
@@ -81,10 +83,52 @@ export class TableComponent<T = any> {
 	protected scrollContainer =
 		viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
-	public selectedRowIndex: number = -1;
-	public selectedIndices: Set<number> = new Set<number>();
 	protected hoverRowIndex: number = -1;
 	protected currentSortColumn: number = -1;
+
+	private selectedKeys = new Set<unknown>();
+	private singleSelectedKey: unknown = undefined;
+	private previousData: T[] | null = null;
+
+	constructor() {
+		// Reset selection whenever a new data array is supplied. The reference
+		// check keeps in-place mutations (e.g. drag-drop reorder) and inline
+		// config literals from clearing the current selection on every cycle.
+		effect(() => {
+			const data = this.config().data;
+			if (this.previousData && this.previousData !== data) {
+				this.selectedKeys.clear();
+				this.singleSelectedKey = undefined;
+			}
+			this.previousData = data;
+		});
+	}
+
+	protected keyOf(obj: T): unknown {
+		const trackBy = this.config().trackBy;
+		return trackBy ? trackBy(obj) : obj;
+	}
+
+	protected isRowSelected(obj: T): boolean {
+		const key = this.keyOf(obj);
+		const mode = this.config().selectableRows;
+		if (mode === 'single') return this.singleSelectedKey === key;
+		if (mode === 'multiple') return this.selectedKeys.has(key);
+		return false;
+	}
+
+	private isSelectedAny(obj: T): boolean {
+		const key = this.keyOf(obj);
+		return this.singleSelectedKey === key || this.selectedKeys.has(key);
+	}
+
+	private selectedIndexes(): number[] {
+		const indexes: number[] = [];
+		this.config().data.forEach((obj, index) => {
+			if (this.selectedKeys.has(this.keyOf(obj))) indexes.push(index);
+		});
+		return indexes;
+	}
 
 	protected getClass(obj: T, prop: keyof T): string {
 		if (!this.config().classRules) return '';
@@ -126,58 +170,60 @@ export class TableComponent<T = any> {
 	}
 
 	protected onRowClick(event: Event, obj: T, index: number): void {
-		this.selectedRowIndex = index === this.selectedRowIndex ? -1 : index;
+		const key = this.keyOf(obj);
+		this.singleSelectedKey = this.singleSelectedKey === key ? undefined : key;
 		this.action.emit({
 			action: 'rowClick',
 			obj,
 			index,
-			selected:
-				this.selectedRowIndex === index || this.selectedIndices.has(index),
+			selected: this.isSelectedAny(obj),
 			event,
 		});
 	}
 
-	protected selectOption(оption: string, obj: T, index: number): void {
+	protected selectOption(option: string, obj: T, index: number): void {
 		this.action.emit({
-			action: оption.toLowerCase(),
+			action: option.toLowerCase(),
 			obj,
 			index,
-			selected:
-				this.selectedRowIndex === index || this.selectedIndices.has(index),
+			selected: this.isSelectedAny(obj),
 		});
 	}
 
 	protected areAllRowsSelected(): boolean {
-		return this.selectedIndices.size === this.config().data.length;
+		const data = this.config().data;
+		return data.length > 0 && this.selectedKeys.size === data.length;
 	}
 
 	protected toggleSelectAll(event: MatCheckboxChange): void {
+		this.selectedKeys.clear();
 		if (event.checked) {
-			this.config().data.forEach((_, index) => this.selectedIndices.add(index));
-		} else {
-			this.selectedIndices.clear();
+			for (const obj of this.config().data) {
+				this.selectedKeys.add(this.keyOf(obj));
+			}
 		}
 
 		this.action.emit({
 			action: 'rowSelect',
-			selectedRows: [...this.selectedIndices],
+			selectedRows: this.selectedIndexes(),
 		});
 	}
 
-	protected toggleRowSelection(index: number): void {
-		if (this.config().selectableRows === 'multiple') {
-			if (this.selectedIndices.has(index)) {
-				this.selectedIndices.delete(index);
-			} else {
-				this.selectedIndices.add(index);
-			}
+	protected toggleRowSelection(obj: T, index: number): void {
+		if (this.config().selectableRows !== 'multiple') return;
 
-			this.action.emit({
-				action: 'rowSelect',
-				index,
-				selectedRows: [...this.selectedIndices],
-			});
+		const key = this.keyOf(obj);
+		if (this.selectedKeys.has(key)) {
+			this.selectedKeys.delete(key);
+		} else {
+			this.selectedKeys.add(key);
 		}
+
+		this.action.emit({
+			action: 'rowSelect',
+			index,
+			selectedRows: this.selectedIndexes(),
+		});
 	}
 
 	protected sortByProp(prop: keyof T, sortState: SortState): void {
