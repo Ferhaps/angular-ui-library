@@ -45,11 +45,12 @@ table {
 }
 
 .selected-row td {
-	background-color: #d3edf8;
+	background-color: var(--mat-sys-secondary-container, #d3edf8);
+	color: var(--mat-sys-on-secondary-container, inherit);
 }
 
 .hover-row {
-	background-color: #ebf7fc;
+	background-color: var(--mat-sys-surface-container, #ebf7fc);
 }
 
 .red {
@@ -82,17 +83,20 @@ th {
 }
 
 th {
-	background-color: #f6f6f6;
+	// Theme-aware via Angular Material system variables; falls back to the
+	// original light colors when no Material M3 theme is provided.
+	background-color: var(--mat-sys-surface-container-high, #f6f6f6);
+	color: var(--mat-sys-on-surface, inherit);
 	text-align: left;
 	position: sticky;
 	top: 0;
 	z-index: 2;
-	border-top: 2px solid #e5e4e7;
+	border-top: 2px solid var(--mat-sys-outline-variant, #e5e4e7);
 }
 
 td {
-	border-bottom: 2px solid #e5e4e7;
-	border-top: 2px solid #e5e4e7;
+	border-bottom: 2px solid var(--mat-sys-outline-variant, #e5e4e7);
+	border-top: 2px solid var(--mat-sys-outline-variant, #e5e4e7);
 }
 
 .dots {

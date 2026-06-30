@@ -32,23 +32,46 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 	`,
 	styles: [
 		`
+			/* Theme-aware via Angular Material system variables, with fallbacks to
+			   sensible neutral colors when no Material M3 theme is provided. */
 			.search-bar {
 				width: 270px;
-				border: 1px solid #a4a4a4;
 				display: flex;
 				align-items: center;
+				gap: 2px;
+				border: 1px solid var(--mat-sys-outline-variant, #cfcfcf);
+				border-radius: 10px;
+				background-color: var(--mat-sys-surface, #ffffff);
+				color: var(--mat-sys-on-surface, #1c1b1f);
+				transition:
+					border-color 0.18s ease,
+					box-shadow 0.18s ease,
+					background-color 0.18s ease;
+			}
+
+			.search-bar:hover {
+				border-color: var(--mat-sys-outline, #a4a4a4);
+			}
+
+			.search-bar:focus-within {
+				border-color: var(--mat-sys-primary, #1976d2);
+				box-shadow: 0 0 0 3px
+					color-mix(in srgb, var(--mat-sys-primary, #1976d2) 20%, transparent);
 			}
 
 			.search-input {
 				border: none;
-				padding: 7px 11px;
+				padding: 9px 12px 9px 2px;
 				height: 100%;
 				width: 100%;
 				background-color: transparent;
+				color: inherit;
+				font: inherit;
+				font-size: 14px;
 			}
 
-			mat-icon {
-				margin-inline: 8px;
+			.search-input::placeholder {
+				color: var(--mat-sys-on-surface-variant, #8a8a8a);
 			}
 
 			.search-input:focus {
@@ -56,15 +79,32 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 				outline: none;
 			}
 
+			.search-input::-webkit-search-cancel-button {
+				cursor: pointer;
+			}
+
+			mat-icon {
+				flex-shrink: 0;
+				margin-inline: 10px 2px;
+				color: var(--mat-sys-on-surface-variant, #6b6b6b);
+			}
+
+			/* Disabled — theme-aware so it reads correctly in light and dark. */
 			.search-bar:has(.search-input:disabled) {
-				border-color: #d4d4d4;
-				background-color: #f5f5f5;
+				border-color: var(--mat-sys-outline-variant, #d4d4d4);
+				background-color: var(--mat-sys-surface-container, #f5f5f5);
+				box-shadow: none;
 				cursor: not-allowed;
+				opacity: 0.65;
 			}
 
 			.search-input:disabled {
-				color: #a4a4a4;
+				color: var(--mat-sys-on-surface-variant, #a4a4a4);
 				cursor: not-allowed;
+			}
+
+			.search-bar:has(.search-input:disabled) mat-icon {
+				color: var(--mat-sys-on-surface-variant, #a4a4a4);
 			}
 
 			@media (max-width: 1086px) {
