@@ -62,6 +62,15 @@ From the project's established style (formerly in `.github/copilot-instructions.
 
 **Formatting** (`.editorconfig`): tabs for indentation, single quotes in TypeScript, final newline.
 
+## Keeping showcase and README in sync
+
+**This is mandatory.** Any change to `ui-lib` — new feature, modification, or removal — requires two follow-up steps before the work is considered done:
+
+1. **Showcase** (`projects/showcase/`) — implement or update the demo page for the affected entity. New entities need a new page wired into `src/app/nav.ts`. Existing entities need their page updated to exercise the change.
+2. **README** (`projects/ui-lib/README.md`) — update the relevant section to match. New entities get a new entry; removals get their entry deleted; modifications get their docs updated.
+
+The showcase is the live proof the library works; the README is the consumer-facing contract. Never let them diverge from the library source.
+
 ## Publishing
 
 The library is published manually to npm. See the `publish-library` skill for the version-bump → build → `npm publish` workflow.
