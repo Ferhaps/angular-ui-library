@@ -10,6 +10,7 @@ export * from './lib/components/default-dialog/default-dialog.component';
 export * from './lib/components/error-display.component';
 export * from './lib/components/search-bar.component';
 export * from './lib/utils/types';
+export * from './lib/utils/utils';
 export * from './lib/components/table-sort-header/table-sort-header.component';
 export * from './lib/components/table/table.component';
 export * from './lib/components/global-loader/global-loader.component';

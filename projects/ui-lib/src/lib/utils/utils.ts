@@ -64,40 +64,61 @@ export const HTTP_STATUS_CODES: Record<number | string, string> = {
 	511: 'Network Authentication Required',
 };
 
-export const JSON_HTTP_OPTIONS: Object = {
+export type HttpRequestOptions = {
+	headers?: Record<string, string>;
+	responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
+};
+
+const ACCEPT_JSON = 'application/json';
+
+export const JSON_HTTP_OPTIONS = {
 	headers: {
-		Accept: 'application/json',
-		'Accept-language': 'bg',
+		Accept: ACCEPT_JSON,
 	},
 	responseType: 'json',
-};
+} as const satisfies HttpRequestOptions;
 
-export const STRING_HTTP_OPTIONS: Object = {
+export const STRING_HTTP_OPTIONS = {
 	responseType: 'text',
-};
+} as const satisfies HttpRequestOptions;
 
-export const BLOB_HTTP_OPTIONS: Object = {
+export const BLOB_HTTP_OPTIONS = {
 	headers: {
-		'Content-type': 'application/octet-stream',
-		'Accept-language': 'bg',
+		'Content-Type': 'application/octet-stream',
 	},
 	responseType: 'blob',
-};
+} as const satisfies HttpRequestOptions;
 
-export const SKIP_ERROR_OPTIONS: Object = {
+export const SKIP_ERROR_OPTIONS = {
 	headers: {
-		Accept: 'application/json',
-		'Accept-language': 'bg',
+		Accept: ACCEPT_JSON,
 		'X-Skip-Error': 'true',
 	},
 	responseType: 'json',
-};
+} as const satisfies HttpRequestOptions;
 
-export const JSON_OPTIONS_WITH_GLOBAL_LOADER: Object = {
+export const JSON_OPTIONS_WITH_GLOBAL_LOADER = {
 	headers: {
-		Accept: 'application/json',
-		'Accept-language': 'bg',
+		Accept: ACCEPT_JSON,
 		'X-Global-Loader': 'true',
 	},
 	responseType: 'json',
-};
+} as const satisfies HttpRequestOptions;
+
+/**
+ * Returns a copy of the given request options with an `Accept-Language` header,
+ * letting consuming apps opt into a locale instead of having one baked into the
+ * library.
+ */
+export function withAcceptLanguage<T extends HttpRequestOptions>(
+	options: T,
+	language: string,
+): T & { headers: Record<string, string> } {
+	return {
+		...options,
+		headers: {
+			...(options.headers ?? {}),
+			'Accept-Language': language,
+		},
+	};
+}
