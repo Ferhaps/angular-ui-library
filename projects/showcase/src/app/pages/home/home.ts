@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { NAV_ITEMS } from '../../nav';
+import { NAV_ITEMS } from '../../shared/nav';
 import { CodeBlock } from '../../shared/components/code-block/code-block';
 
 @Component({

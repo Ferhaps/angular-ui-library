@@ -7,17 +7,17 @@ import {
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
 	selector: 'lib-default-dialog',
-	imports: [CommonModule, MatIconModule, MatDialogModule],
+	imports: [MatIconModule, MatDialogModule, NgTemplateOutlet],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './default-dialog.component.html',
 	styleUrls: ['./default-dialog.component.scss'],
 })
 export class DefaultDialogComponent {
-	public temRef = input<TemplateRef<unknown>>();
+	public templateRef = input<TemplateRef<unknown>>();
 
 	public height = input<string>();
 	public dialogTitle = input<string>();

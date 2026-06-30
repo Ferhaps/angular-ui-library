@@ -13,7 +13,7 @@ import {
 	ErrorHandlerComponent,
 	GlobalLoaderComponent,
 } from '@ferhaps/easy-ui-lib';
-import { NAV_ITEMS } from './nav';
+import { NAV_ITEMS } from './shared/nav';
 import { ThemeService } from './shared/services/theme.service';
 
 @Component({
