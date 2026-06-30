@@ -1,70 +1,92 @@
-<div class="layout" [class.menu-open]="menuOpen()">
-	<aside class="sidebar">
-		<a class="brand" routerLink="/" (click)="closeMenu()">
+<mat-sidenav-container class="app-shell">
+	<mat-sidenav
+		#drawer
+		class="sidebar"
+		[mode]="isHandset() ? 'over' : 'side'"
+		[opened]="!isHandset()"
+		[fixedInViewport]="isHandset()"
+	>
+		<div class="brand">
 			<span class="brand-mark">UI</span>
 			<span class="brand-text">
 				<strong>easy-ui-lib</strong>
 				<small class="muted">component showcase</small>
 			</span>
-		</a>
+		</div>
 
-		<nav class="nav">
+		<mat-nav-list>
 			<a
-				class="nav-link"
+				mat-list-item
 				routerLink="/"
-				routerLinkActive="active"
+				routerLinkActive
+				#home="routerLinkActive"
 				[routerLinkActiveOptions]="{ exact: true }"
-				(click)="closeMenu()"
+				[activated]="home.isActive"
+				(click)="onNavigate(drawer)"
 			>
-				<mat-icon>home</mat-icon>
-				<span>Overview</span>
+				<mat-icon matListItemIcon>home</mat-icon>
+				<span matListItemTitle>Overview</span>
 			</a>
 
 			@for (item of navItems; track item.path) {
 				<a
-					class="nav-link"
+					mat-list-item
 					[routerLink]="item.path"
-					routerLinkActive="active"
-					(click)="closeMenu()"
+					routerLinkActive
+					#rla="routerLinkActive"
+					[activated]="rla.isActive"
+					(click)="onNavigate(drawer)"
 				>
-					<mat-icon>{{ item.icon }}</mat-icon>
-					<span>{{ item.title }}</span>
-					<small class="kind">{{ item.kind }}</small>
+					<mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+					<span matListItemTitle>{{ item.title }}</span>
+					<span matListItemMeta class="kind">{{ item.kind }}</span>
 				</a>
 			}
-		</nav>
+		</mat-nav-list>
 
-		<a
-			class="nav-link external"
-			href="https://www.npmjs.com/package/@ferhaps/easy-ui-lib"
-			target="_blank"
-			rel="noopener"
-		>
-			<mat-icon>open_in_new</mat-icon>
-			<span>View on npm</span>
-		</a>
-	</aside>
+		<span class="sidebar-spacer"></span>
 
-	<div class="scrim" (click)="closeMenu()"></div>
-
-	<div class="main">
-		<header class="topbar">
-			<button
-				type="button"
-				class="menu-btn"
-				(click)="toggleMenu()"
-				aria-label="Toggle navigation"
+		<mat-nav-list>
+			<a
+				mat-list-item
+				href="https://www.npmjs.com/package/@ferhaps/easy-ui-lib"
+				target="_blank"
+				rel="noopener"
 			>
-				<mat-icon>{{ menuOpen() ? 'close' : 'menu' }}</mat-icon>
+				<mat-icon matListItemIcon>open_in_new</mat-icon>
+				<span matListItemTitle>View on npm</span>
+			</a>
+		</mat-nav-list>
+	</mat-sidenav>
+
+	<mat-sidenav-content class="content-wrap">
+		<mat-toolbar class="topbar">
+			@if (isHandset()) {
+				<button
+					mat-icon-button
+					aria-label="Toggle navigation"
+					(click)="drawer.toggle()"
+				>
+					<mat-icon>menu</mat-icon>
+				</button>
+			}
+			<span class="topbar-title mono">&#64;ferhaps/easy-ui-lib</span>
+			<span class="topbar-spacer"></span>
+			<button
+				mat-icon-button
+				[matTooltip]="theme.dark() ? 'Switch to light mode' : 'Switch to dark mode'"
+				aria-label="Toggle dark mode"
+				(click)="theme.toggle()"
+			>
+				<mat-icon>{{ theme.dark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
 			</button>
-			<span class="topbar-title">@ferhaps/easy-ui-lib</span>
-		</header>
+		</mat-toolbar>
 
 		<main class="content">
 			<router-outlet />
 		</main>
-	</div>
-</div>
+	</mat-sidenav-content>
+</mat-sidenav-container>
 
 <!-- Mounted once near the app root, exactly as a consuming app would. -->
 <lib-error-handler />

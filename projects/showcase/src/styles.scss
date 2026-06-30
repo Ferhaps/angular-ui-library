@@ -1,20 +1,24 @@
 @use '@angular/material' as mat;
 
-// Angular Material 3 theme. The library components render on top of these
-// system variables, so the showcase looks the same as a real consuming app.
+// Angular Material 3 theme (Azure). No `theme-type` is pinned, so Material emits
+// values via CSS light-dark() that follow the `color-scheme` property — toggling
+// the `dark` class on <html> flips the whole app between light and dark.
 html {
 	color-scheme: light;
 	@include mat.theme(
 		(
 			color: (
-				theme-type: light,
-				primary: mat.$violet-palette,
-				tertiary: mat.$cyan-palette,
+				primary: mat.$azure-palette,
+				tertiary: mat.$blue-palette,
 			),
 			typography: Roboto,
 			density: 0,
 		)
 	);
+}
+
+html.dark {
+	color-scheme: dark;
 }
 
 * {
@@ -29,8 +33,8 @@ body {
 
 body {
 	font-family: Roboto, 'Helvetica Neue', sans-serif;
-	background: var(--mat-sys-surface-container-low, #f5f3f7);
-	color: var(--mat-sys-on-surface, #1c1b1f);
+	background: var(--mat-sys-background);
+	color: var(--mat-sys-on-surface);
 }
 
 a {
@@ -38,9 +42,9 @@ a {
 	text-decoration: none;
 }
 
-// A few shared helpers used by the demo pages.
+// Shared helpers used by the demo pages.
 .muted {
-	color: var(--mat-sys-on-surface-variant, #6b6b6b);
+	color: var(--mat-sys-on-surface-variant);
 }
 
 code,
@@ -50,13 +54,13 @@ code,
 
 // Global helpers used by TableComponent `classRules` — they style a div that
 // lives inside the (style-encapsulated) library component, so they must be
-// declared globally to reach it.
+// declared globally to reach it. light-dark() keeps them legible in both modes.
 .cell-active {
-	color: #1b5e20;
+	color: light-dark(#1b5e20, #81c784);
 	font-weight: 600;
 }
 
 .cell-inactive {
-	color: #b00020;
+	color: light-dark(#b00020, #ef9a9a);
 	font-weight: 600;
 }
