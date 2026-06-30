@@ -1,16 +1,20 @@
-import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-code-block',
-	imports: [MatIconModule],
+	imports: [MatIconModule, MatButtonModule, MatTooltipModule],
 	template: `
 		<div class="code-wrap">
 			<button
-				type="button"
+				mat-icon-button
 				class="copy"
+				matTooltip="Copy to clipboard"
+				aria-label="Copy code"
 				(click)="copy()"
-				[attr.aria-label]="copied() ? 'Copied' : 'Copy code'"
 			>
 				<mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
 			</button>
@@ -35,24 +39,10 @@ import { MatIconModule } from '@angular/material/icon';
 			}
 			.copy {
 				position: absolute;
-				top: 0.5rem;
-				right: 0.5rem;
-				display: inline-grid;
-				place-items: center;
-				border: none;
-				border-radius: 8px;
-				padding: 0.3rem;
-				cursor: pointer;
-				color: #cdc6da;
-				background: rgba(255, 255, 255, 0.08);
-			}
-			.copy:hover {
-				background: rgba(255, 255, 255, 0.16);
-			}
-			.copy mat-icon {
-				font-size: 18px;
-				width: 18px;
-				height: 18px;
+				top: 0.4rem;
+				right: 0.4rem;
+				--mdc-icon-button-icon-color: #e8e3f0;
+				--mat-icon-button-state-layer-color: #fff;
 			}
 		`,
 	],
@@ -61,14 +51,16 @@ import { MatIconModule } from '@angular/material/icon';
 export class CodeBlock {
 	public code = input.required<string>();
 	protected copied = signal(false);
+	private snackBar = inject(MatSnackBar);
 
 	protected async copy(): Promise<void> {
 		try {
 			await navigator.clipboard.writeText(this.code());
 			this.copied.set(true);
+			this.snackBar.open('Copied to clipboard', '', { duration: 1500 });
 			setTimeout(() => this.copied.set(false), 1500);
 		} catch {
-			// Clipboard API unavailable (e.g. insecure context) — ignore.
+			this.snackBar.open('Clipboard unavailable', '', { duration: 1500 });
 		}
 	}
 }

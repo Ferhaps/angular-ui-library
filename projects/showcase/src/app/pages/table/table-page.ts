@@ -6,10 +6,10 @@ import {
 	WritableSignal,
 } from '@angular/core';
 import { Config, TableComponent, TableEvent } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
-import { EventLog } from '../../shared/event-log';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
+import { EventLog } from '../../shared/components/event-log';
 
 type Member = {
 	id: number;

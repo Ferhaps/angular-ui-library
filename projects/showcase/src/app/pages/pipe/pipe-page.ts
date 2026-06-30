@@ -1,12 +1,21 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { SnakeCaseParserPipe } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 @Component({
 	selector: 'app-pipe-page',
-	imports: [SnakeCaseParserPipe, PageHeading, DemoCard, CodeBlock],
+	imports: [
+		SnakeCaseParserPipe,
+		MatFormFieldModule,
+		MatInputModule,
+		PageHeading,
+		DemoCard,
+		CodeBlock,
+	],
 	template: `
 		<app-page-heading
 			title="Snake Case Parser"
@@ -17,14 +26,15 @@ import { CodeBlock } from '../../shared/code-block';
 		/>
 
 		<app-demo-card heading="Try it live">
-			<label class="field">
-				<span class="muted">Input</span>
+			<mat-form-field appearance="outline" class="field">
+				<mat-label>Input</mat-label>
 				<input
+					matInput
 					[value]="value()"
 					(input)="value.set($any($event.target).value)"
 					placeholder="e.g. payment_failed"
 				/>
-			</label>
+			</mat-form-field>
 			<div class="result">
 				<span class="arrow">→</span>
 				<strong>{{ value() | snakeCaseParser }}</strong>
@@ -57,26 +67,17 @@ import { CodeBlock } from '../../shared/code-block';
 	styles: [
 		`
 			.field {
-				display: flex;
-				flex-direction: column;
-				gap: 0.3rem;
+				width: 100%;
 				max-width: 360px;
-			}
-			.field input {
-				padding: 0.6rem 0.75rem;
-				border: 1px solid var(--mat-sys-outline, #79747e);
-				border-radius: 10px;
-				font: inherit;
 			}
 			.result {
 				display: flex;
 				align-items: center;
 				gap: 0.6rem;
-				margin-top: 1rem;
 				font-size: 1.25rem;
 			}
 			.arrow {
-				color: var(--mat-sys-on-surface-variant, #6b6b6b);
+				color: var(--mat-sys-on-surface-variant);
 			}
 			.examples {
 				width: 100%;
@@ -86,13 +87,13 @@ import { CodeBlock } from '../../shared/code-block';
 			.examples td {
 				text-align: left;
 				padding: 0.5rem 0.75rem;
-				border-bottom: 1px solid var(--mat-sys-outline-variant, #e3e1e6);
+				border-bottom: 1px solid var(--mat-sys-outline-variant);
 			}
 			.examples th {
 				font-size: 0.75rem;
 				text-transform: uppercase;
 				letter-spacing: 0.04em;
-				color: var(--mat-sys-on-surface-variant, #6b6b6b);
+				color: var(--mat-sys-on-surface-variant);
 			}
 		`,
 	],

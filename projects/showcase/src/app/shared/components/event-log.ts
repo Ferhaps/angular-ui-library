@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
 	selector: 'app-event-log',
-	imports: [MatIconModule],
+	imports: [MatIconModule, MatChipsModule],
 	template: `
 		<div class="log">
 			<div class="log-head">
 				<mat-icon>terminal</mat-icon>
 				<span>{{ title() }}</span>
+				<mat-chip-set>
+					<mat-chip disableRipple>{{ events().length }}</mat-chip>
+				</mat-chip-set>
 			</div>
 			@if (events().length) {
 				<ol>
@@ -24,9 +28,9 @@ import { MatIconModule } from '@angular/material/icon';
 	styles: [
 		`
 			.log {
-				border: 1px dashed var(--mat-sys-outline-variant, #cfc9d6);
+				border: 1px dashed var(--mat-sys-outline-variant);
 				border-radius: 12px;
-				background: var(--mat-sys-surface-container-low, #f7f4fb);
+				background: var(--mat-sys-surface-container-low);
 				padding: 0.5rem 0.75rem;
 			}
 			.log-head {
@@ -41,6 +45,9 @@ import { MatIconModule } from '@angular/material/icon';
 				font-size: 18px;
 				width: 18px;
 				height: 18px;
+			}
+			.log-head mat-chip-set {
+				margin-left: auto;
 			}
 			ol {
 				margin: 0;

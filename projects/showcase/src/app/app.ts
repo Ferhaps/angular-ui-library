@@ -1,11 +1,20 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
 	ErrorHandlerComponent,
 	GlobalLoaderComponent,
 } from '@ferhaps/easy-ui-lib';
 import { NAV_ITEMS } from './nav';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
 	selector: 'app-root',
@@ -13,7 +22,12 @@ import { NAV_ITEMS } from './nav';
 		RouterOutlet,
 		RouterLink,
 		RouterLinkActive,
+		MatSidenavModule,
+		MatToolbarModule,
+		MatListModule,
 		MatIconModule,
+		MatButtonModule,
+		MatTooltipModule,
 		ErrorHandlerComponent,
 		GlobalLoaderComponent,
 	],
@@ -23,13 +37,17 @@ import { NAV_ITEMS } from './nav';
 })
 export class App {
 	protected readonly navItems = NAV_ITEMS;
-	protected readonly menuOpen = signal(false);
+	protected readonly theme = inject(ThemeService);
 
-	protected toggleMenu(): void {
-		this.menuOpen.update((open) => !open);
-	}
+	private readonly breakpoints = inject(BreakpointObserver);
+	protected readonly isHandset = toSignal(
+		this.breakpoints.observe('(max-width: 880px)').pipe(map((r) => r.matches)),
+		{ initialValue: false },
+	);
 
-	protected closeMenu(): void {
-		this.menuOpen.set(false);
+	protected onNavigate(drawer: MatSidenav): void {
+		if (this.isHandset()) {
+			drawer.close();
+		}
 	}
 }

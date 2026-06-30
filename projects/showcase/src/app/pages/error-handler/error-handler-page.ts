@@ -3,9 +3,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ErrorService } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 type Trigger = { label: string; response: HttpErrorResponse };
 

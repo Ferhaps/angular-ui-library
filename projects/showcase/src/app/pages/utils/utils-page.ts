@@ -4,6 +4,13 @@ import {
 	computed,
 	signal,
 } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {
+	MatChipListboxChange,
+	MatChipsModule,
+} from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 import {
 	BLOB_HTTP_OPTIONS,
 	HTTP_STATUS_CODES,
@@ -13,13 +20,21 @@ import {
 	STRING_HTTP_OPTIONS,
 	withAcceptLanguage,
 } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 @Component({
 	selector: 'app-utils-page',
-	imports: [PageHeading, DemoCard, CodeBlock],
+	imports: [
+		MatFormFieldModule,
+		MatInputModule,
+		MatChipsModule,
+		MatExpansionModule,
+		PageHeading,
+		DemoCard,
+		CodeBlock,
+	],
 	template: `
 		<app-page-heading
 			title="HTTP Utils"
@@ -31,57 +46,53 @@ import { CodeBlock } from '../../shared/code-block';
 		/>
 
 		<app-demo-card heading="HTTP_STATUS_CODES lookup">
-			<label class="field">
-				<span class="muted">Status code</span>
+			<mat-form-field appearance="outline" class="code-field">
+				<mat-label>Status code</mat-label>
 				<input
+					matInput
 					type="number"
 					[value]="code()"
 					(input)="code.set($any($event.target).value)"
 				/>
-			</label>
+			</mat-form-field>
 			<p class="result">
 				<code class="mono">HTTP_STATUS_CODES[{{ code() || '—' }}]</code>
 				<span class="arrow">→</span>
 				<strong>{{ statusName() }}</strong>
 			</p>
-			<div class="codes">
+			<mat-chip-set aria-label="Common status codes">
 				@for (c of commonCodes; track c) {
-					<button type="button" class="code-chip" (click)="code.set(c)">
-						{{ c }}
-					</button>
+					<mat-chip (click)="code.set(c)">{{ c }}</mat-chip>
 				}
-			</div>
+			</mat-chip-set>
 		</app-demo-card>
 
 		<app-demo-card heading="Request option presets">
-			<div class="presets">
+			<mat-accordion>
 				@for (preset of presets; track preset.name) {
-					<div class="preset">
-						<div class="preset-head">
-							<code class="mono name">{{ preset.name }}</code>
-							@if (preset.note) {
-								<span class="muted note">{{ preset.note }}</span>
-							}
-						</div>
+					<mat-expansion-panel>
+						<mat-expansion-panel-header>
+							<mat-panel-title>
+								<code class="mono">{{ preset.name }}</code>
+							</mat-panel-title>
+							<mat-panel-description>{{ preset.note }}</mat-panel-description>
+						</mat-expansion-panel-header>
 						<pre class="json mono">{{ preset.json }}</pre>
-					</div>
+					</mat-expansion-panel>
 				}
-			</div>
+			</mat-accordion>
 		</app-demo-card>
 
 		<app-demo-card heading="withAcceptLanguage(options, language)">
-			<div class="langs">
+			<mat-chip-listbox
+				[value]="language()"
+				(change)="onLanguage($event)"
+				aria-label="Accept-Language"
+			>
 				@for (lang of languages; track lang) {
-					<button
-						type="button"
-						class="code-chip"
-						[class.active]="lang === language()"
-						(click)="language.set(lang)"
-					>
-						{{ lang }}
-					</button>
+					<mat-chip-option [value]="lang">{{ lang }}</mat-chip-option>
 				}
-			</div>
+			</mat-chip-listbox>
 			<pre class="json mono">{{ localizedJson() }}</pre>
 		</app-demo-card>
 
@@ -91,73 +102,30 @@ import { CodeBlock } from '../../shared/code-block';
 	`,
 	styles: [
 		`
-			.field {
-				display: flex;
-				flex-direction: column;
-				gap: 0.3rem;
-				max-width: 200px;
-			}
-			.field input {
-				padding: 0.55rem 0.7rem;
-				border: 1px solid var(--mat-sys-outline, #79747e);
-				border-radius: 10px;
-				font: inherit;
+			.code-field {
+				width: 160px;
 			}
 			.result {
 				display: flex;
 				align-items: center;
 				gap: 0.6rem;
 				flex-wrap: wrap;
-				margin: 1rem 0;
+				margin: 0.25rem 0 1rem;
 				font-size: 1.05rem;
 			}
 			.arrow {
-				color: var(--mat-sys-on-surface-variant, #6b6b6b);
-			}
-			.codes,
-			.langs {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.4rem;
-			}
-			.code-chip {
-				border: 1px solid var(--mat-sys-outline-variant, #cfc9d6);
-				background: var(--mat-sys-surface-container-low, #f7f4fb);
-				border-radius: 999px;
-				padding: 0.25rem 0.7rem;
-				font: inherit;
-				font-size: 0.85rem;
-				cursor: pointer;
-			}
-			.code-chip:hover,
-			.code-chip.active {
-				background: var(--mat-sys-secondary-container, #e8def8);
-				border-color: transparent;
-			}
-			.presets {
-				display: grid;
-				gap: 1rem;
-			}
-			.preset-head {
-				display: flex;
-				align-items: baseline;
-				gap: 0.6rem;
-				flex-wrap: wrap;
-				margin-bottom: 0.35rem;
-			}
-			.name {
-				font-weight: 600;
-			}
-			.note {
-				font-size: 0.82rem;
+				color: var(--mat-sys-on-surface-variant);
 			}
 			.json {
-				margin: 0;
+				margin: 0.75rem 0 0;
 				padding: 0.75rem 0.9rem;
-				background: var(--mat-sys-surface-container-high, #ece6f0);
+				background: var(--mat-sys-surface-container-high);
 				border-radius: 10px;
 				font-size: 0.82rem;
 				overflow-x: auto;
+			}
+			mat-expansion-panel .json {
+				margin-top: 0;
 			}
 		`,
 	],
@@ -214,6 +182,12 @@ export class UtilsPage {
 	protected readonly localizedJson = computed(() =>
 		this.pretty(withAcceptLanguage(JSON_HTTP_OPTIONS, this.language())),
 	);
+
+	protected onLanguage(event: MatChipListboxChange): void {
+		if (typeof event.value === 'string') {
+			this.language.set(event.value);
+		}
+	}
 
 	private pretty(value: unknown): string {
 		return JSON.stringify(value, null, 2);

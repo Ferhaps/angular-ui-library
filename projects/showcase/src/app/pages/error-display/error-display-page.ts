@@ -1,15 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatChipsModule } from '@angular/material/chips';
 import { ErrorDisplayComponent, SystemError } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 type Example = { label: string; input: string; error: SystemError };
 
 @Component({
 	selector: 'app-error-display-page',
-	imports: [ErrorDisplayComponent, PageHeading, DemoCard, CodeBlock],
+	imports: [
+		ErrorDisplayComponent,
+		MatChipsModule,
+		PageHeading,
+		DemoCard,
+		CodeBlock,
+	],
 	template: `
 		<app-page-heading
 			title="Error Display"
@@ -25,7 +32,9 @@ type Example = { label: string; input: string; error: SystemError };
 				@for (ex of examples; track ex.label) {
 					<div class="example">
 						<div class="meta">
-							<span class="tag">{{ ex.label }}</span>
+							<mat-chip-set>
+								<mat-chip disableRipple>{{ ex.label }}</mat-chip>
+							</mat-chip-set>
 							<code class="mono">{{ ex.input }}</code>
 						</div>
 						<lib-error-display [error]="ex.error" />

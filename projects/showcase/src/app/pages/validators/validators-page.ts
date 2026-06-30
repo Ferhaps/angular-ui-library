@@ -1,20 +1,24 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import {
 	FieldsMatchValidatorDirective,
 	PasswordValidatorDirective,
 	PhoneValidationDirective,
 } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 @Component({
 	selector: 'app-validators-page',
 	imports: [
 		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
 		MatIconModule,
 		PasswordValidatorDirective,
 		FieldsMatchValidatorDirective,
@@ -29,73 +33,65 @@ import { CodeBlock } from '../../shared/code-block';
 			kind="Directives · password · fields-match · phone"
 			lead="Three attribute directives that plug straight into reactive forms:
 			two register with NG_VALIDATORS (password strength, field matching) and
-			one is a ControlValueAccessor that live-formats phone numbers."
+			one is a ControlValueAccessor that live-formats phone numbers. Here they
+			sit inside Material form fields with mat-error / mat-hint."
 		/>
 
 		<form [formGroup]="form">
 			<app-demo-card heading="Password strength" hint="libPasswordValidator">
-				<label class="field">
+				<mat-form-field appearance="outline" class="field">
+					<mat-label>Password</mat-label>
 					<input
+						matInput
 						type="password"
 						formControlName="password"
 						libPasswordValidator
-						placeholder="Enter a password"
+						autocomplete="new-password"
 					/>
-				</label>
-				@if (password.value) {
-					@if (password.errors?.['passwordInvalid']) {
-						<p class="msg error">
-							<mat-icon>error</mat-icon> Does not meet the requirements.
-						</p>
-					} @else {
-						<p class="msg ok">
-							<mat-icon>check_circle</mat-icon> Strong password.
-						</p>
-					}
+					<mat-icon matSuffix>lock</mat-icon>
+					<mat-hint>8+ chars, upper &amp; lower, a number and a special char</mat-hint>
+					<mat-error>Does not meet the requirements.</mat-error>
+				</mat-form-field>
+				@if (password.value && password.valid) {
+					<p class="msg ok"><mat-icon>check_circle</mat-icon> Strong password.</p>
 				}
-				<ul class="rules muted">
-					<li>At least 8 characters</li>
-					<li>Upper &amp; lower case letters</li>
-					<li>A number and a special character (!&#64;#$%^&amp;*)</li>
-				</ul>
 			</app-demo-card>
 
 			<app-demo-card heading="Fields match" hint="libFieldsMatchValidator">
-				<label class="field">
+				<mat-form-field appearance="outline" class="field">
+					<mat-label>Confirm password</mat-label>
 					<input
+						matInput
 						type="password"
 						formControlName="confirm"
 						libFieldsMatchValidator
 						fieldToMatch="password"
-						placeholder="Confirm the password above"
+						autocomplete="new-password"
 					/>
-				</label>
-				@if (confirm.value) {
-					@if (confirm.errors?.['mismatch']) {
-						<p class="msg error">
-							<mat-icon>error</mat-icon> Passwords do not match.
-						</p>
-					} @else {
-						<p class="msg ok"><mat-icon>check_circle</mat-icon> Matches.</p>
-					}
+					<mat-icon matSuffix>done_all</mat-icon>
+					<mat-error>Passwords do not match.</mat-error>
+				</mat-form-field>
+				@if (confirm.value && confirm.valid) {
+					<p class="msg ok"><mat-icon>check_circle</mat-icon> Matches.</p>
 				}
 			</app-demo-card>
 
 			<app-demo-card heading="Phone formatting" hint="libPhoneValidation (CVA)">
-				<label class="field">
+				<mat-form-field appearance="outline" class="field">
+					<mat-label>Phone number</mat-label>
 					<input
+						matInput
 						formControlName="phone"
 						libPhoneValidation
+						inputmode="tel"
 						placeholder="Start typing digits…"
 					/>
-				</label>
+					<mat-icon matPrefix>call</mat-icon>
+					<mat-hint>A leading + is enforced; non-digits are stripped.</mat-hint>
+				</mat-form-field>
 				<p class="readout">
 					Control value:
 					<code class="mono">{{ phone.value ? '"' + phone.value + '"' : '—' }}</code>
-				</p>
-				<p class="muted hint">
-					A leading <code>+</code> is enforced and every non-digit is stripped
-					as you type.
 				</p>
 			</app-demo-card>
 		</form>
@@ -107,45 +103,24 @@ import { CodeBlock } from '../../shared/code-block';
 	styles: [
 		`
 			.field {
-				display: block;
-				max-width: 360px;
-			}
-			.field input {
 				width: 100%;
-				padding: 0.6rem 0.75rem;
-				border: 1px solid var(--mat-sys-outline, #79747e);
-				border-radius: 10px;
-				font: inherit;
+				max-width: 360px;
 			}
 			.msg {
 				display: flex;
 				align-items: center;
 				gap: 0.35rem;
-				margin: 0.6rem 0 0;
+				margin: 0.25rem 0 0;
 				font-size: 0.9rem;
+				color: light-dark(#1b5e20, #81c784);
 			}
 			.msg mat-icon {
 				font-size: 18px;
 				width: 18px;
 				height: 18px;
 			}
-			.msg.error {
-				color: #b00020;
-			}
-			.msg.ok {
-				color: #1b5e20;
-			}
-			.rules {
-				margin: 0.75rem 0 0;
-				padding-left: 1.1rem;
-				font-size: 0.85rem;
-			}
 			.readout {
-				margin: 0.75rem 0 0.25rem;
-			}
-			.hint {
-				margin: 0;
-				font-size: 0.85rem;
+				margin: 0.25rem 0 0;
 			}
 		`,
 	],
@@ -176,17 +151,19 @@ export class ValidatorsPage {
 	}
 
 	protected readonly snippet = `<form [formGroup]="form">
-  <input formControlName="password" libPasswordValidator />
+  <mat-form-field>
+    <input matInput formControlName="password" libPasswordValidator />
+    <mat-error>Weak password</mat-error>
+  </mat-form-field>
 
-  <input
-    formControlName="confirm"
-    libFieldsMatchValidator
-    fieldToMatch="password"
-  />
+  <mat-form-field>
+    <input matInput formControlName="confirm"
+           libFieldsMatchValidator fieldToMatch="password" />
+    <mat-error>Passwords do not match</mat-error>
+  </mat-form-field>
 
-  <input formControlName="phone" libPhoneValidation />
-</form>
-
-// errors surface as control.errors:
-//   { passwordInvalid: true }  ·  { mismatch: true }`;
+  <mat-form-field>
+    <input matInput formControlName="phone" libPhoneValidation />
+  </mat-form-field>
+</form>`;
 }

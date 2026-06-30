@@ -13,16 +13,24 @@ import {
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { DefaultDialogComponent } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 // Opened via MatDialog — demonstrates projected `.dialog-content`, the back
 // arrow and its `back` output, and a custom height.
 @Component({
 	selector: 'app-profile-dialog',
-	imports: [DefaultDialogComponent, MatButtonModule, MatIconModule],
+	imports: [
+		DefaultDialogComponent,
+		MatButtonModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatInputModule,
+	],
 	template: `
 		<lib-default-dialog
 			[dialogTitle]="editing() ? 'Edit profile' : 'Profile'"
@@ -36,17 +44,18 @@ import { CodeBlock } from '../../shared/code-block';
 					<h4>Ada Lovelace</h4>
 					<p class="muted">ada.lovelace&#64;example.com</p>
 					<button mat-flat-button (click)="editing.set(true)">
-						Edit profile
+						<mat-icon>edit</mat-icon> Edit profile
 					</button>
 				} @else {
-					<label class="field">
-						<span>Name</span>
-						<input value="Ada Lovelace" />
-					</label>
-					<label class="field">
-						<span>Email</span>
-						<input value="ada.lovelace@example.com" />
-					</label>
+					<mat-form-field appearance="outline" class="field">
+						<mat-label>Name</mat-label>
+						<input matInput value="Ada Lovelace" />
+					</mat-form-field>
+					<mat-form-field appearance="outline" class="field">
+						<mat-label>Email</mat-label>
+						<input matInput value="ada.lovelace@example.com" />
+						<mat-icon matSuffix>mail</mat-icon>
+					</mat-form-field>
 					<p class="muted hint">Use the back arrow ↖ to cancel.</p>
 				}
 			</div>
@@ -55,8 +64,8 @@ import { CodeBlock } from '../../shared/code-block';
 	styles: [
 		`
 			.body {
-				gap: 0.5rem;
-				width: 280px;
+				gap: 0.25rem;
+				width: 300px;
 				max-width: 100%;
 			}
 			.avatar {
@@ -65,32 +74,27 @@ import { CodeBlock } from '../../shared/code-block';
 				width: 64px;
 				height: 64px;
 				border-radius: 50%;
-				background: var(--mat-sys-secondary-container, #e8def8);
+				background: var(--mat-sys-secondary-container);
+				margin-bottom: 0.25rem;
 			}
 			.avatar mat-icon {
 				font-size: 36px;
 				width: 36px;
 				height: 36px;
-				color: var(--mat-sys-primary, #6750a4);
+				color: var(--mat-sys-primary);
 			}
 			h4 {
-				margin: 0.5rem 0 0;
+				margin: 0.25rem 0 0;
+			}
+			button mat-icon {
+				margin-right: 0.35rem;
 			}
 			.field {
-				display: flex;
-				flex-direction: column;
-				gap: 0.2rem;
 				width: 100%;
-				font-size: 0.85rem;
-			}
-			.field input {
-				padding: 0.5rem 0.6rem;
-				border: 1px solid var(--mat-sys-outline, #79747e);
-				border-radius: 8px;
-				font: inherit;
 			}
 			.hint {
 				font-size: 0.8rem;
+				margin: 0;
 			}
 		`,
 	],
@@ -189,7 +193,7 @@ export class TemplateDialog {
 				font-size: 40px;
 				width: 40px;
 				height: 40px;
-				color: var(--mat-sys-primary, #6750a4);
+				color: var(--mat-sys-primary);
 			}
 		`,
 	],

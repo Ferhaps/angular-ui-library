@@ -6,11 +6,12 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 import { SearchBarComponent } from '@ferhaps/easy-ui-lib';
-import { PageHeading } from '../../shared/page-heading';
-import { DemoCard } from '../../shared/demo-card';
-import { CodeBlock } from '../../shared/code-block';
+import { PageHeading } from '../../shared/components/page-heading';
+import { DemoCard } from '../../shared/components/demo-card';
+import { CodeBlock } from '../../shared/components/code-block';
 
 const FRUITS = [
 	'Apple',
@@ -36,7 +37,8 @@ const FRUITS = [
 	selector: 'app-search-bar-page',
 	imports: [
 		ReactiveFormsModule,
-		MatButtonModule,
+		MatSlideToggleModule,
+		MatChipsModule,
 		SearchBarComponent,
 		PageHeading,
 		DemoCard,
@@ -57,9 +59,9 @@ const FRUITS = [
 		>
 			<div class="row">
 				<lib-search-bar for="fruit" [formControl]="searchCtrl" />
-				<button mat-stroked-button type="button" (click)="toggleDisabled()">
-					{{ disabled() ? 'Enable' : 'Disable' }}
-				</button>
+				<mat-slide-toggle [checked]="disabled()" (change)="toggleDisabled()">
+					Disabled
+				</mat-slide-toggle>
 			</div>
 
 			<dl class="readout">
@@ -70,14 +72,19 @@ const FRUITS = [
 			</dl>
 		</app-demo-card>
 
-		<app-demo-card heading="Live filtering" hint="{{ filtered().length }} match(es)">
-			<ul class="chips">
-				@for (fruit of filtered(); track fruit) {
-					<li>{{ fruit }}</li>
-				} @empty {
-					<li class="muted none">No fruit matches “{{ term() }}”.</li>
-				}
-			</ul>
+		<app-demo-card
+			heading="Live filtering"
+			hint="{{ filtered().length }} match(es)"
+		>
+			@if (filtered().length) {
+				<mat-chip-set>
+					@for (fruit of filtered(); track fruit) {
+						<mat-chip disableRipple>{{ fruit }}</mat-chip>
+					}
+				</mat-chip-set>
+			} @else {
+				<p class="muted">No fruit matches “{{ term() }}”.</p>
+			}
 		</app-demo-card>
 
 		<app-demo-card heading="Usage">
@@ -89,7 +96,7 @@ const FRUITS = [
 			.row {
 				display: flex;
 				align-items: center;
-				gap: 1rem;
+				gap: 1.5rem;
 				flex-wrap: wrap;
 				margin-bottom: 1rem;
 			}
@@ -104,25 +111,6 @@ const FRUITS = [
 			}
 			.readout dd {
 				margin: 0;
-			}
-			.chips {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.5rem;
-			}
-			.chips li {
-				padding: 0.3rem 0.7rem;
-				border-radius: 999px;
-				background: var(--mat-sys-secondary-container, #e8def8);
-				color: var(--mat-sys-on-secondary-container, #1d192b);
-				font-size: 0.85rem;
-			}
-			.chips li.none {
-				background: transparent;
-				color: var(--mat-sys-on-surface-variant, #6b6b6b);
 			}
 		`,
 	],
