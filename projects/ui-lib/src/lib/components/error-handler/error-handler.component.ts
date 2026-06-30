@@ -22,7 +22,6 @@ export class ErrorHandlerComponent implements OnDestroy {
 	constructor() {
 		this.errSubscriptions.add(
 			this.errorService.error$.subscribe((err: HttpErrorResponse) => {
-				console.log(err);
 				this.showPopup(err);
 			}),
 		);

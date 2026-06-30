@@ -1,9 +1,9 @@
-<lib-default-dialog [dialogTitle]="'Аn error has occurred'">
+<lib-default-dialog [dialogTitle]="'An error has occurred'">
 	<div class="dialog-content">
 		<div class="status-info">
 			<div>{{ error.status }}</div>
 			@if (error.status) {
-				<div>{{ httpStatusCodes[error.status] || 500 }}</div>
+				<div>{{ httpStatusCodes[error.status] || 'Error' }}</div>
 			}
 		</div>
 		<div class="error-info">

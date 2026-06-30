@@ -1,8 +1,8 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	computed,
 	input,
-	OnInit,
 } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { SystemError } from '../utils/types';
 	selector: 'lib-error-display',
 	imports: [SnakeCaseParserPipe],
 	template: `<strong class="err-container">{{
-		displayError | snakeCaseParser
+		displayError() | snakeCaseParser
 	}}</strong>`,
 	styles: [
 		`
@@ -33,27 +33,26 @@ import { SystemError } from '../utils/types';
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ErrorDisplayComponent implements OnInit {
+export class ErrorDisplayComponent {
 	public error = input.required<SystemError>();
 
-	protected displayError: string = '';
+	protected displayError = computed<string>(() => {
+		const error = this.error();
 
-	public ngOnInit(): void {
-		if (this.error() instanceof HttpErrorResponse) {
-			if (typeof (this.error() as HttpErrorResponse).error === 'string') {
-				this.displayError = (this.error() as HttpErrorResponse).error;
-			} else if (
-				this.error &&
-				(this.error() as HttpErrorResponse)?.error?.message
-			) {
-				this.displayError = (this.error() as HttpErrorResponse).error.message;
-			} else {
-				this.displayError = 'Unknown error';
+		if (error instanceof HttpErrorResponse) {
+			if (typeof error.error === 'string') {
+				return error.error;
 			}
-		} else if (typeof this.error() === 'string') {
-			this.displayError = this.error() as string;
-		} else {
-			this.displayError = 'Unknown error';
+			if (error.error?.message) {
+				return error.error.message;
+			}
+			return 'Unknown error';
 		}
-	}
+
+		if (typeof error === 'string') {
+			return error;
+		}
+
+		return 'Unknown error';
+	});
 }
