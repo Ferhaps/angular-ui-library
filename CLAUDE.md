@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Angular workspace containing a single publishable library project, `ui-lib`, distributed to npm as **`@ferhaps/easy-ui-lib`**. It provides reusable Angular components, directives, pipes, and services built on top of Angular Material / CDK, shared across multiple Angular apps.
 
-The library version tracks the Angular major version (currently 21.x). The root `package.json` (`"name": "ui-library"`, `"version": "0.0.0"`) is just the workspace shell — the real package manifest is `projects/ui-lib/package.json`.
+The library version tracks the Angular major version (currently 22.x). The root `package.json` (`"name": "ui-library"`, `"version": "0.0.0"`) is just the workspace shell — the real package manifest is `projects/ui-lib/package.json`.
 
 ## Commands
 
@@ -27,16 +27,16 @@ Karma/Jasmine is configured, but Angular schematics are set with `skipTests: tru
 
 - **Library project lives under `projects/ui-lib/`.** `angular.json` defines `newProjectRoot: "projects"` and a single `ui-lib` library project built with `@angular/build:ng-packagr`.
 - **`projects/ui-lib/src/public-api.ts` is the entire public surface.** ng-packagr uses it as the entry file. Anything consumers should import (components, directives, pipes, services, types) MUST be re-exported here, or it won't ship. When adding a new exported entity, update this file.
-- **Angular Material / CDK are peer dependencies** (`@angular/cdk`, `@angular/common`, `@angular/core`, `@angular/material`). Components import Material modules directly; consuming apps must provide these.
+- **Angular Material / CDK / Forms are peer dependencies** (`@angular/cdk`, `@angular/common`, `@angular/core`, `@angular/forms`, `@angular/material`). Components import Material modules directly; consuming apps must provide these.
 - **Component selector prefix is `lib`** (configured in `angular.json`).
 
 Key building blocks (under `projects/ui-lib/src/lib/`):
 
 - **Error handling pipeline** — `ErrorService` (`services/error.service.ts`) is a `providedIn: 'root'` RxJS `Subject` that broadcasts `HttpErrorResponse`s; `ErrorHandlerComponent` subscribes and opens `ErrorPopupComponent` in a `MatDialog`. `ErrorDisplayComponent` and the `SnakeCaseParserPipe` render human-readable messages. Drop `<lib-error-handler>` once near the app root.
 - **Global loader** — `LoaderService` + `GlobalLoaderComponent` provide an app-wide loading overlay.
-- **`TableComponent<T>`** (`components/table/`) — a generic, config-driven table. Behavior is declared via a `Config<T>` object (columns via `dataProps`, sorting, drag-drop reordering, single/multiple row selection, row options, `classRules`) and it emits a single typed `TableEvent<T>` `output` for all interactions. Pairs with `TableSortHeaderComponent`.
-- **Form helpers** — validator directives (`directives/`: password, phone, fields-match) hook into `NG_VALIDATORS`; `SearchBarComponent` is a debounced search input implemented as a `ControlValueAccessor` (`NG_VALUE_ACCESSOR`).
-- **`utils/utils.ts`** — shared HTTP constants (`HTTP_STATUS_CODES`, and `*_HTTP_OPTIONS` request option objects; note the `X-Skip-Error` and `X-Global-Loader` header conventions that the error/loader systems key off). `utils/types.ts` holds shared types like `SystemError`.
+- **`TableComponent<T>`** (`components/table/`) — a generic, config-driven table. Behavior is declared via a `Config<T>` object (columns via `dataProps`, sorting, drag-drop reordering, single/multiple row selection, row options, `classRules`, `trackBy`) and it emits a single typed `TableEvent<T>` `output` for all interactions. Rows are tracked by identity (override with `Config.trackBy`) and selection is keyed to that identity, so it survives drag-drop reordering and resets when a new `data` array is supplied; `TableEvent.selectedRows` reports indices into the current `data` order. Pairs with `TableSortHeaderComponent`.
+- **Form helpers** — `PasswordValidatorDirective` and `FieldsMatchValidatorDirective` hook into `NG_VALIDATORS`; `PhoneValidationDirective` formats input via a `ControlValueAccessor` (`NG_VALUE_ACCESSOR`), keeping the bound form control in sync; `SearchBarComponent` is a debounced search input, also a `ControlValueAccessor`.
+- **`utils/utils.ts`** (re-exported from `public-api.ts`) — shared HTTP helpers: `HTTP_STATUS_CODES`, the `*_HTTP_OPTIONS` request option presets (note the `X-Skip-Error` and `X-Global-Loader` header conventions that the error/loader systems key off), the `HttpRequestOptions` type, and `withAcceptLanguage(options, language)` for opting into a locale (no locale is baked into the presets). `utils/types.ts` holds shared types like `SystemError`.
 
 ## Coding conventions
 
