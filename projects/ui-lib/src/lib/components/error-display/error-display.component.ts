@@ -6,31 +6,14 @@ import {
 } from '@angular/core';
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { SnakeCaseParserPipe } from '../pipes/snake-case-parser.pipe';
-import { SystemError } from '../utils/types';
+import { SnakeCaseParserPipe } from '../../pipes/snake-case-parser.pipe';
+import { SystemError } from '../../utils/types';
 
 @Component({
 	selector: 'lib-error-display',
 	imports: [SnakeCaseParserPipe],
-	template: `<strong class="err-container">{{
-		displayError() | snakeCaseParser
-	}}</strong>`,
-	styles: [
-		`
-			.err-container {
-				display: block;
-				max-width: 300px;
-				font-size: 20px;
-				text-align: center;
-				border: 1px solid red;
-				border-radius: 5px;
-				padding: 0.5rem 1.5rem;
-				background-color: #ffe6e6;
-				color: #ff0000;
-				overflow-wrap: break-word;
-			}
-		`,
-	],
+	templateUrl: './error-display.component.html',
+	styleUrl: './error-display.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorDisplayComponent {

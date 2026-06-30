@@ -2,7 +2,7 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DefaultDialogComponent } from '../../default-dialog/default-dialog.component';
-import { ErrorDisplayComponent } from '../../error-display.component';
+import { ErrorDisplayComponent } from '../../error-display/error-display.component';
 import { HTTP_STATUS_CODES } from '../../../utils/utils';
 
 @Component({
