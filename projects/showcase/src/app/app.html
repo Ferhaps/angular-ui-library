@@ -1,0 +1,71 @@
+<div class="layout" [class.menu-open]="menuOpen()">
+	<aside class="sidebar">
+		<a class="brand" routerLink="/" (click)="closeMenu()">
+			<span class="brand-mark">UI</span>
+			<span class="brand-text">
+				<strong>easy-ui-lib</strong>
+				<small class="muted">component showcase</small>
+			</span>
+		</a>
+
+		<nav class="nav">
+			<a
+				class="nav-link"
+				routerLink="/"
+				routerLinkActive="active"
+				[routerLinkActiveOptions]="{ exact: true }"
+				(click)="closeMenu()"
+			>
+				<mat-icon>home</mat-icon>
+				<span>Overview</span>
+			</a>
+
+			@for (item of navItems; track item.path) {
+				<a
+					class="nav-link"
+					[routerLink]="item.path"
+					routerLinkActive="active"
+					(click)="closeMenu()"
+				>
+					<mat-icon>{{ item.icon }}</mat-icon>
+					<span>{{ item.title }}</span>
+					<small class="kind">{{ item.kind }}</small>
+				</a>
+			}
+		</nav>
+
+		<a
+			class="nav-link external"
+			href="https://www.npmjs.com/package/@ferhaps/easy-ui-lib"
+			target="_blank"
+			rel="noopener"
+		>
+			<mat-icon>open_in_new</mat-icon>
+			<span>View on npm</span>
+		</a>
+	</aside>
+
+	<div class="scrim" (click)="closeMenu()"></div>
+
+	<div class="main">
+		<header class="topbar">
+			<button
+				type="button"
+				class="menu-btn"
+				(click)="toggleMenu()"
+				aria-label="Toggle navigation"
+			>
+				<mat-icon>{{ menuOpen() ? 'close' : 'menu' }}</mat-icon>
+			</button>
+			<span class="topbar-title">@ferhaps/easy-ui-lib</span>
+		</header>
+
+		<main class="content">
+			<router-outlet />
+		</main>
+	</div>
+</div>
+
+<!-- Mounted once near the app root, exactly as a consuming app would. -->
+<lib-error-handler />
+<lib-global-loader />

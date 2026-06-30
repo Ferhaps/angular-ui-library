@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve showcase",
+    "build": "ng build ui-lib",
+    "watch": "ng build ui-lib --watch --configuration development",
+    "test": "ng test ui-lib",
+    "start:lib": "ng serve ui-lib",
+    "build:showcase": "ng build showcase",
+    "watch:showcase": "ng build showcase --watch --configuration development"
   },
   "private": true,
   "dependencies": {

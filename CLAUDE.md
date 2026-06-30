@@ -4,20 +4,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Angular workspace containing a single publishable library project, `ui-lib`, distributed to npm as **`@ferhaps/easy-ui-lib`**. It provides reusable Angular components, directives, pipes, and services built on top of Angular Material / CDK, shared across multiple Angular apps.
+Angular workspace containing one publishable library project, `ui-lib`, distributed to npm as **`@ferhaps/easy-ui-lib`**. It provides reusable Angular components, directives, pipes, and services built on top of Angular Material / CDK, shared across multiple Angular apps. A second project, `showcase`, is a **non-published demo application** that exercises every public feature of the library (one routed page per feature); it imports the library by its package name, mapped to the lib source via `tsconfig` `paths`, so editing the lib hot-reloads.
 
-The library version tracks the Angular major version (currently 22.x). The root `package.json` (`"name": "ui-library"`, `"version": "0.0.0"`) is just the workspace shell — the real package manifest is `projects/ui-lib/package.json`.
+The library version tracks the Angular major version (currently 22.x). The root `package.json` (`"name": "ui-library"`, `"version": "0.0.0"`) is just the workspace shell — the real package manifest is `projects/ui-lib/package.json`. Only `ui-lib` is published; `showcase` never ships.
 
 ## Commands
 
+The workspace now has two projects, so CLI commands take a project name. The npm scripts encode it for you:
+
 ```bash
-ng build                 # Build the library with ng-packagr -> dist/ui-lib (production by default)
-ng build --watch --configuration development   # Rebuild on change (alias: npm run watch)
-ng test                  # Run unit tests via Karma + Jasmine in Chrome
-ng serve                 # Dev server (alias: npm start)
+npm run build            # ng build ui-lib  -> dist/ui-lib (ng-packagr, production)
+npm run watch            # ng build ui-lib --watch --configuration development
+npm test                 # ng test ui-lib   (Karma + Jasmine in Chrome)
+npm start                # ng serve showcase (the demo app dev server)
+npm run build:showcase   # ng build showcase -> dist/showcase
 ```
 
-There is one Angular project (`ui-lib`), so commands don't need a project name. Build output goes to `dist/ui-lib` (set in `projects/ui-lib/ng-package.json`).
+Raw `ng build` / `ng serve` (no project) will error now that there are two projects — pass `ui-lib` or `showcase`. Library build output goes to `dist/ui-lib` (set in `projects/ui-lib/ng-package.json`).
 
 ### Tests
 
@@ -28,7 +31,8 @@ Karma/Jasmine is configured, but Angular schematics are set with `skipTests: tru
 - **Library project lives under `projects/ui-lib/`.** `angular.json` defines `newProjectRoot: "projects"` and a single `ui-lib` library project built with `@angular/build:ng-packagr`.
 - **`projects/ui-lib/src/public-api.ts` is the entire public surface.** ng-packagr uses it as the entry file. Anything consumers should import (components, directives, pipes, services, types) MUST be re-exported here, or it won't ship. When adding a new exported entity, update this file.
 - **Angular Material / CDK / Forms are peer dependencies** (`@angular/cdk`, `@angular/common`, `@angular/core`, `@angular/forms`, `@angular/material`). Components import Material modules directly; consuming apps must provide these.
-- **Component selector prefix is `lib`** (configured in `angular.json`).
+- **Component selector prefix is `lib`** (configured in `angular.json`); the showcase app uses prefix `app`.
+- **Showcase demo app lives under `projects/showcase/`** (`@angular/build:application`, standalone + zone.js, Angular Material 3 theme). Routes lazy-load one page per library feature from `src/app/pages/*`; the feature list is centralized in `src/app/nav.ts`. It imports `@ferhaps/easy-ui-lib`, resolved to `projects/ui-lib/src/public-api.ts` by the `paths` mapping in the root `tsconfig.json` — so demos always reflect the current source. Mounts `<lib-error-handler>` and `<lib-global-loader>` once in the app shell.
 
 Key building blocks (under `projects/ui-lib/src/lib/`):
 

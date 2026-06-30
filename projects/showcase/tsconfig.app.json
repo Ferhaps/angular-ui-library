@@ -1,0 +1,12 @@
+/* Showcase app build config. The `@ferhaps/easy-ui-lib` path mapping lives in
+   the root tsconfig.json, so the app resolves the library to its source and
+   editing the lib hot-reloads without a rebuild. */
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../../out-tsc/app",
+		"types": []
+	},
+	"files": ["src/main.ts"],
+	"include": ["src/**/*.d.ts"]
+}

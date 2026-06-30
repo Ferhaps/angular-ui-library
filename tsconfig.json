@@ -22,6 +22,9 @@
     "paths": {
       "ui-lib": [
         "./dist/ui-lib"
+      ],
+      "@ferhaps/easy-ui-lib": [
+        "./projects/ui-lib/src/public-api.ts"
       ]
     }
   },

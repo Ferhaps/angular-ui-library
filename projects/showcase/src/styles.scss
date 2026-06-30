@@ -1,0 +1,62 @@
+@use '@angular/material' as mat;
+
+// Angular Material 3 theme. The library components render on top of these
+// system variables, so the showcase looks the same as a real consuming app.
+html {
+	color-scheme: light;
+	@include mat.theme(
+		(
+			color: (
+				theme-type: light,
+				primary: mat.$violet-palette,
+				tertiary: mat.$cyan-palette,
+			),
+			typography: Roboto,
+			density: 0,
+		)
+	);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	height: 100%;
+}
+
+body {
+	font-family: Roboto, 'Helvetica Neue', sans-serif;
+	background: var(--mat-sys-surface-container-low, #f5f3f7);
+	color: var(--mat-sys-on-surface, #1c1b1f);
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+// A few shared helpers used by the demo pages.
+.muted {
+	color: var(--mat-sys-on-surface-variant, #6b6b6b);
+}
+
+code,
+.mono {
+	font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+// Global helpers used by TableComponent `classRules` — they style a div that
+// lives inside the (style-encapsulated) library component, so they must be
+// declared globally to reach it.
+.cell-active {
+	color: #1b5e20;
+	font-weight: 600;
+}
+
+.cell-inactive {
+	color: #b00020;
+	font-weight: 600;
+}
