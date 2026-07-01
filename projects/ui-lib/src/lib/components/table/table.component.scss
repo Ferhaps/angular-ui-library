@@ -21,7 +21,13 @@ table {
 }
 
 .action {
-	color: #009ddc;
+	// Reset native button chrome — this is a text/icon action, not a filled button.
+	appearance: none;
+	background: none;
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: var(--mat-sys-primary, #009ddc);
 	font-weight: 500;
 	text-align: right;
 	margin-left: auto;
@@ -49,12 +55,13 @@ table {
 	color: var(--mat-sys-on-secondary-container, inherit);
 }
 
-.hover-row {
+// Hover is pure CSS now; selected rows keep their colour when hovered.
+tbody tr:not(.selected-row):hover td {
 	background-color: var(--mat-sys-surface-container, #ebf7fc);
 }
 
 .red {
-	color: #ff0000;
+	color: var(--mat-sys-error, #d32f2f);
 }
 
 @media (max-width: 1086px) {
@@ -124,8 +131,23 @@ td {
 }
 
 .dragdrop-placeholder {
-	background: #ccc;
-	border: dotted 3px #999;
+	background: var(--mat-sys-surface-container-highest, #ccc);
+	border: dotted 3px var(--mat-sys-outline, #999);
 	min-height: 30px;
 	transition: transform 100ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.table-status {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	padding: 2rem 1rem;
+	color: var(--mat-sys-on-surface-variant, #6b6b6b);
+	font-size: 14px;
+
+	&.empty {
+		font-style: italic;
+	}
 }

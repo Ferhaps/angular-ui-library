@@ -3,10 +3,10 @@
 	max-width: 300px;
 	font-size: 20px;
 	text-align: center;
-	border: 1px solid red;
+	border: 1px solid var(--mat-sys-error, #e53935);
 	border-radius: 5px;
 	padding: 0.5rem 1.5rem;
-	background-color: #ffe6e6;
-	color: #ff0000;
+	background-color: var(--mat-sys-error-container, #ffe6e6);
+	color: var(--mat-sys-on-error-container, #c62828);
 	overflow-wrap: break-word;
 }

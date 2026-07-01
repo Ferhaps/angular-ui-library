@@ -7,6 +7,6 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color: color-mix(in srgb, var(--mat-sys-scrim, #000000) 20%, transparent);
 	z-index: 9999;
 }

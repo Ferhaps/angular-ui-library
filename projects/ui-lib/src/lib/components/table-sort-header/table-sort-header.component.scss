@@ -1,14 +1,20 @@
 .sorting-container {
+	appearance: none;
+	background: none;
+	border: none;
+	padding: 0;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 
 	* {
 		cursor: pointer;
 	}
 
 	.selected {
-		color: #31adff;
-		background-color: #ebf7fc;
+		color: var(--mat-sys-primary, #31adff);
+		background-color: var(--mat-sys-surface-container, #ebf7fc);
+		border-radius: 4px;
 	}
 
 	.rotated {
