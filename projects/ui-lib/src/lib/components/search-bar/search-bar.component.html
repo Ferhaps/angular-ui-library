@@ -7,5 +7,6 @@
 		[placeholder]="'Search ' + for()"
 		autocomplete="off"
 		formControlName="search"
+		(blur)="onTouched()"
 	/>
 </form>

@@ -1,16 +1,21 @@
 <div class="modal" [style]="{ height: height() }">
 	<div class="dialog-title">
 		@if (withBack()) {
-			<div class="back-arrow" (click)="back.emit()">
+			<button
+				type="button"
+				class="back-arrow"
+				aria-label="Back"
+				(click)="back.emit()"
+			>
 				<mat-icon>keyboard_arrow_left</mat-icon>
-			</div>
+			</button>
 		}
 
 		<h4 class="title">{{ dialogTitle() }}</h4>
 
-		<div class="closer" mat-dialog-close>
+		<button type="button" class="closer" mat-dialog-close aria-label="Close">
 			<mat-icon>close</mat-icon>
-		</div>
+		</button>
 	</div>
 
 	<div class="dialog-content">
