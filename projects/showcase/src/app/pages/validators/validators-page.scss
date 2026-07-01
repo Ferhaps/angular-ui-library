@@ -21,3 +21,29 @@
 .readout {
 	margin: 0.25rem 0 0;
 }
+
+.checks {
+	list-style: none;
+	margin: 0.5rem 0 0;
+	padding: 0;
+	display: grid;
+	gap: 0.2rem;
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-size: 0.9rem;
+		color: light-dark(#8a8a8a, #9e9e9e);
+
+		&.ok {
+			color: light-dark(#1b5e20, #81c784);
+		}
+
+		mat-icon {
+			font-size: 18px;
+			width: 18px;
+			height: 18px;
+		}
+	}
+}

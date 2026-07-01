@@ -1,10 +1,11 @@
-import { Directive, input } from '@angular/core';
+import { Directive, OnDestroy, input } from '@angular/core';
 import {
 	AbstractControl,
 	NG_VALIDATORS,
 	ValidationErrors,
 	Validator,
 } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Directive({
 	selector: '[libFieldsMatchValidator]',
@@ -16,25 +17,31 @@ import {
 		},
 	],
 })
-export class FieldsMatchValidatorDirective implements Validator {
+export class FieldsMatchValidatorDirective implements Validator, OnDestroy {
 	public fieldToMatch = input.required<string>();
 
+	private control?: AbstractControl;
+	private matchSub?: Subscription;
+
 	public validate(control: AbstractControl): ValidationErrors | null {
-		const value = control.value;
-
-		if (!value) {
-			return null;
-		}
-
+		this.control = control;
 		const matchingControl = control.root.get(this.fieldToMatch());
-		if (!matchingControl) {
+
+		if (matchingControl && !this.matchSub) {
+			this.matchSub = matchingControl.valueChanges.subscribe(() => {
+				this.control?.updateValueAndValidity({ emitEvent: false });
+			});
+		}
+
+		const value = control.value;
+		if (!value || !matchingControl) {
 			return null;
 		}
 
-		if (value !== matchingControl.value) {
-			return { mismatch: true };
-		}
+		return value !== matchingControl.value ? { mismatch: true } : null;
+	}
 
-		return null;
+	public ngOnDestroy(): void {
+		this.matchSub?.unsubscribe();
 	}
 }

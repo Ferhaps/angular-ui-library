@@ -3,8 +3,9 @@
 	kind="Directives · password · fields-match · phone"
 	lead="Three attribute directives that plug straight into reactive forms:
 	two register with NG_VALIDATORS (password strength, field matching) and
-	one is a ControlValueAccessor that live-formats phone numbers. Here they
-	sit inside Material form fields with mat-error / mat-hint."
+	one is a ControlValueAccessor that live-formats phone numbers. Password
+	rules are configurable and report which requirement failed; fields-match
+	re-validates automatically when the mirrored field changes."
 />
 
 <form [formGroup]="form">
@@ -13,17 +14,57 @@
 			<mat-label>Password</mat-label>
 			<input
 				matInput
-				type="password"
+				[type]="passwordVisible() ? 'text' : 'password'"
 				formControlName="password"
 				libPasswordValidator
 				autocomplete="new-password"
 			/>
-			<mat-icon matSuffix>lock</mat-icon>
+			<button
+				type="button"
+				mat-icon-button
+				matSuffix
+				[attr.aria-label]="passwordVisible() ? 'Hide password' : 'Show password'"
+				[attr.aria-pressed]="passwordVisible()"
+				(click)="togglePasswordVisibility()"
+			>
+				<mat-icon>{{ passwordVisible() ? "visibility_off" : "visibility" }}</mat-icon>
+			</button>
 			<mat-hint>8+ chars, upper &amp; lower, a number and a special char</mat-hint>
 			<mat-error>Does not meet the requirements.</mat-error>
 		</mat-form-field>
-		@if (password.value && password.valid) {
-			<p class="msg ok"><mat-icon>check_circle</mat-icon> Strong password.</p>
+		@if (password.value) {
+			<ul class="checks">
+				<li [class.ok]="!passwordErrors()?.minLength">
+					<mat-icon>{{
+						passwordErrors()?.minLength ? "radio_button_unchecked" : "check_circle"
+					}}</mat-icon>
+					At least 8 characters
+				</li>
+				<li [class.ok]="!passwordErrors()?.uppercase">
+					<mat-icon>{{
+						passwordErrors()?.uppercase ? "radio_button_unchecked" : "check_circle"
+					}}</mat-icon>
+					An uppercase letter
+				</li>
+				<li [class.ok]="!passwordErrors()?.lowercase">
+					<mat-icon>{{
+						passwordErrors()?.lowercase ? "radio_button_unchecked" : "check_circle"
+					}}</mat-icon>
+					A lowercase letter
+				</li>
+				<li [class.ok]="!passwordErrors()?.digit">
+					<mat-icon>{{
+						passwordErrors()?.digit ? "radio_button_unchecked" : "check_circle"
+					}}</mat-icon>
+					A number
+				</li>
+				<li [class.ok]="!passwordErrors()?.special">
+					<mat-icon>{{
+						passwordErrors()?.special ? "radio_button_unchecked" : "check_circle"
+					}}</mat-icon>
+					A special character
+				</li>
+			</ul>
 		}
 	</app-demo-card>
 

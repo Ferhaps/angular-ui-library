@@ -110,5 +110,8 @@ HTTP_STATUS_CODES[404];                         // 'Not Found'
 this.http.get('/api/me', JSON_HTTP_OPTIONS);    // Accept: application/json
 this.http.get('/api/me', SKIP_ERROR_OPTIONS);   // adds X-Skip-Error: true
 
-withAcceptLanguage(JSON_HTTP_OPTIONS, 'fr-FR'); // + Accept-Language: fr-FR`;
+withAcceptLanguage(JSON_HTTP_OPTIONS, 'fr-FR'); // + Accept-Language: fr-FR
+
+// The X-Skip-Error / X-Global-Loader headers are read (and stripped) by
+// easyUiLibInterceptor — see the Error Handler page for wiring.`;
 }
