@@ -17,3 +17,5 @@ export * from './lib/components/global-loader/global-loader.component';
 export * from './lib/services/loader.service';
 export * from './lib/services/error.service';
 export * from './lib/components/error-handler/error-handler.component';
+export * from './lib/interceptors/easy-ui-lib.interceptor';
+export * from './lib/providers/provide-easy-ui-lib';
