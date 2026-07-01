@@ -4,8 +4,8 @@ import {
 	provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter, withHashLocation, withInMemoryScrolling } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideEasyUiLib } from '@ferhaps/easy-ui-lib';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
 				anchorScrolling: 'enabled',
 			}),
 		),
-		provideHttpClient(),
+		provideEasyUiLib(),
 		provideAnimationsAsync(),
 	],
 };
