@@ -1,15 +1,18 @@
 import {
 	Component,
 	ElementRef,
+	computed,
 	effect,
 	input,
 	output,
+	signal,
 	viewChild,
 	ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
 	SortState,
 	TableSortHeaderComponent,
@@ -54,6 +57,10 @@ export type Config<T = any> = {
 	draggable?: boolean;
 	classRules?: ClassRule<T>[];
 	trackBy?: (obj: T) => unknown;
+	/** Shows a loading indicator instead of the (empty) body. */
+	loading?: boolean;
+	/** Message shown when `data` is empty and not loading. Defaults to "No data". */
+	emptyMessage?: string;
 };
 
 export type ClassRule<T = any> = {
@@ -69,6 +76,7 @@ export type ClassRule<T = any> = {
 		MatMenuModule,
 		MatIconModule,
 		MatButtonModule,
+		MatProgressSpinnerModule,
 		TableSortHeaderComponent,
 		DragDropModule,
 		MatCheckboxModule,
@@ -83,12 +91,19 @@ export class TableComponent<T = any> {
 	protected scrollContainer =
 		viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
 
-	protected hoverRowIndex: number = -1;
 	protected currentSortColumn: number = -1;
+	protected currentSortState: SortState = 'none';
 
-	private selectedKeys = new Set<unknown>();
-	private singleSelectedKey: unknown = undefined;
+	private readonly selectedKeys = signal<Set<unknown>>(new Set<unknown>());
+	private readonly singleSelectedKey = signal<unknown>(undefined);
 	private previousData: T[] | null = null;
+
+	// Derived once per config/selection change rather than on every CD pass.
+	protected readonly hasOptions = computed(() => !!this.config().options);
+	protected readonly areAllRowsSelected = computed(() => {
+		const data = this.config().data;
+		return data.length > 0 && this.selectedKeys().size === data.length;
+	});
 
 	constructor() {
 		// Reset selection whenever a new data array is supplied. The reference
@@ -97,8 +112,8 @@ export class TableComponent<T = any> {
 		effect(() => {
 			const data = this.config().data;
 			if (this.previousData && this.previousData !== data) {
-				this.selectedKeys.clear();
-				this.singleSelectedKey = undefined;
+				this.selectedKeys.set(new Set<unknown>());
+				this.singleSelectedKey.set(undefined);
 			}
 			this.previousData = data;
 		});
@@ -112,29 +127,38 @@ export class TableComponent<T = any> {
 	protected isRowSelected(obj: T): boolean {
 		const key = this.keyOf(obj);
 		const mode = this.config().selectableRows;
-		if (mode === 'single') return this.singleSelectedKey === key;
-		if (mode === 'multiple') return this.selectedKeys.has(key);
+		if (mode === 'single') return this.singleSelectedKey() === key;
+		if (mode === 'multiple') return this.selectedKeys().has(key);
 		return false;
 	}
 
 	private isSelectedAny(obj: T): boolean {
 		const key = this.keyOf(obj);
-		return this.singleSelectedKey === key || this.selectedKeys.has(key);
+		return this.singleSelectedKey() === key || this.selectedKeys().has(key);
 	}
 
 	private selectedIndexes(): number[] {
+		const keys = this.selectedKeys();
 		const indexes: number[] = [];
 		this.config().data.forEach((obj, index) => {
-			if (this.selectedKeys.has(this.keyOf(obj))) indexes.push(index);
+			if (keys.has(this.keyOf(obj))) indexes.push(index);
 		});
 		return indexes;
 	}
 
+	protected ariaSortFor(index: number): 'ascending' | 'descending' | 'none' {
+		if (this.currentSortColumn !== index || this.currentSortState === 'none') {
+			return 'none';
+		}
+		return this.currentSortState === 'asc' ? 'ascending' : 'descending';
+	}
+
 	protected getClass(obj: T, prop: keyof T): string {
-		if (!this.config().classRules) return '';
+		const rules = this.config().classRules;
+		if (!rules) return '';
 
 		const classes: string[] = [];
-		for (let rule of this.config().classRules as ClassRule<T>[]) {
+		for (const rule of rules) {
 			if (rule.condition(obj, prop)) {
 				classes.push(rule.className);
 			}
@@ -171,7 +195,9 @@ export class TableComponent<T = any> {
 
 	protected onRowClick(event: Event, obj: T, index: number): void {
 		const key = this.keyOf(obj);
-		this.singleSelectedKey = this.singleSelectedKey === key ? undefined : key;
+		this.singleSelectedKey.update((current) =>
+			current === key ? undefined : key,
+		);
 		this.action.emit({
 			action: 'rowClick',
 			obj,
@@ -179,6 +205,14 @@ export class TableComponent<T = any> {
 			selected: this.isSelectedAny(obj),
 			event,
 		});
+	}
+
+	protected onRowKeydown(event: KeyboardEvent, obj: T, index: number): void {
+		if (!this.config().selectableRows) return;
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			this.onRowClick(event, obj, index);
+		}
 	}
 
 	protected selectOption(option: string, obj: T, index: number): void {
@@ -190,18 +224,14 @@ export class TableComponent<T = any> {
 		});
 	}
 
-	protected areAllRowsSelected(): boolean {
-		const data = this.config().data;
-		return data.length > 0 && this.selectedKeys.size === data.length;
-	}
-
 	protected toggleSelectAll(event: MatCheckboxChange): void {
-		this.selectedKeys.clear();
+		const next = new Set<unknown>();
 		if (event.checked) {
 			for (const obj of this.config().data) {
-				this.selectedKeys.add(this.keyOf(obj));
+				next.add(this.keyOf(obj));
 			}
 		}
+		this.selectedKeys.set(next);
 
 		this.action.emit({
 			action: 'rowSelect',
@@ -213,11 +243,13 @@ export class TableComponent<T = any> {
 		if (this.config().selectableRows !== 'multiple') return;
 
 		const key = this.keyOf(obj);
-		if (this.selectedKeys.has(key)) {
-			this.selectedKeys.delete(key);
+		const next = new Set(this.selectedKeys());
+		if (next.has(key)) {
+			next.delete(key);
 		} else {
-			this.selectedKeys.add(key);
+			next.add(key);
 		}
+		this.selectedKeys.set(next);
 
 		this.action.emit({
 			action: 'rowSelect',
@@ -226,7 +258,9 @@ export class TableComponent<T = any> {
 		});
 	}
 
-	protected sortByProp(prop: keyof T, sortState: SortState): void {
+	protected onSort(index: number, prop: keyof T, sortState: SortState): void {
+		this.currentSortColumn = index;
+		this.currentSortState = sortState;
 		this.action.emit({ action: 'sort', prop, sortState });
 	}
 
@@ -234,9 +268,5 @@ export class TableComponent<T = any> {
 		const options = this.config().options;
 		if (!options) return [];
 		return typeof options === 'function' ? options(obj) : options;
-	}
-
-	protected hasOptions(): boolean {
-		return !!this.config().options;
 	}
 }
