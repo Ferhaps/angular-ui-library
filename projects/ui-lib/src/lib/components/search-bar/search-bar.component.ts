@@ -5,6 +5,7 @@ import {
 	ChangeDetectionStrategy,
 	forwardRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
 	ControlValueAccessor,
 	FormControl,
@@ -13,7 +14,7 @@ import {
 	ReactiveFormsModule,
 } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounce, distinctUntilChanged, timer } from 'rxjs';
 
 @Component({
 	selector: 'lib-search-bar',
@@ -31,22 +32,27 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 })
 export class SearchBarComponent implements ControlValueAccessor {
 	public for = input.required<string>();
+	public debounceMs = input(300);
 
-	protected search = output<string | Event>();
+	protected search = output<string>();
 
 	protected searchForm: FormGroup = new FormGroup({
 		search: new FormControl(''),
 	});
 
 	private onChange: (value: string) => void = () => {};
-	private onTouched: () => void = () => {};
+	protected onTouched: () => void = () => {};
 
 	constructor() {
 		this.searchForm
-			.get('search')
-			?.valueChanges.pipe(debounceTime(1000), distinctUntilChanged())
+			.get('search')!
+			.valueChanges.pipe(
+				debounce(() => timer(this.debounceMs())),
+				distinctUntilChanged(),
+				takeUntilDestroyed(),
+			)
 			.subscribe((term: string) => {
-				const trimmed = term.trim();
+				const trimmed = (term ?? '').trim();
 				this.onChange(trimmed); // notifies parent form control
 				this.search.emit(trimmed); // existing output still works
 			});
