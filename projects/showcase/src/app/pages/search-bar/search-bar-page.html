@@ -2,13 +2,14 @@
 	title="Search Bar"
 	kind="Component · SearchBarComponent"
 	lead="A debounced search input implemented as a ControlValueAccessor.
-	Wire it to a reactive form control like any native input — it emits the
-	trimmed term 1s after typing stops, de-duplicated."
+	Wire it to a form control (reactive or template-driven) like any native
+	input — it emits the trimmed term after typing stops (300ms by default,
+	set via [debounceMs]), de-duplicated."
 />
 
 <app-demo-card
 	heading="Reactive form control"
-	hint="emits 1s after you stop typing"
+	hint="emits 300ms after you stop typing"
 >
 	<div class="row">
 		<lib-search-bar for="fruit" [formControl]="searchCtrl" />
@@ -25,6 +26,20 @@
 	</dl>
 </app-demo-card>
 
+<app-demo-card
+	heading="Template-driven form"
+	hint="two-way bound with [(ngModel)]"
+>
+	<div class="row">
+		<lib-search-bar for="fruit" [(ngModel)]="tdTerm" />
+	</div>
+
+	<dl class="readout">
+		<dt>Model value</dt>
+		<dd class="mono">{{ tdTerm ? '"' + tdTerm + '"' : '—' }}</dd>
+	</dl>
+</app-demo-card>
+
 <app-demo-card heading="Live filtering" hint="{{ filtered().length }} match(es)">
 	@if (filtered().length) {
 		<mat-chip-set>
@@ -38,5 +53,8 @@
 </app-demo-card>
 
 <app-demo-card heading="Usage">
-	<app-code-block [code]="snippet" />
+	<p class="usage-label">Reactive forms</p>
+	<app-code-block [code]="reactiveSnippet" />
+	<p class="usage-label">Template-driven forms</p>
+	<app-code-block [code]="templateDrivenSnippet" />
 </app-demo-card>

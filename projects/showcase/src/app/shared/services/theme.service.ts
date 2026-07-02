@@ -7,8 +7,6 @@ export class ThemeService {
 	readonly dark = signal<boolean>(this.initialValue());
 
 	constructor() {
-		// Reflect the signal onto <html>: the `dark` class flips `color-scheme`,
-		// which drives Material's light-dark() theme values. Persist the choice.
 		effect(() => {
 			const dark = this.dark();
 			document.documentElement.classList.toggle('dark', dark);

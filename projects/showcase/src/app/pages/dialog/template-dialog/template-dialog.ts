@@ -7,8 +7,6 @@ import {
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DefaultDialogComponent } from '@ferhaps/easy-ui-lib';
 
-// Demonstrates passing a TemplateRef to the dialog's `temRef` input instead of
-// projecting content.
 @Component({
 	selector: 'app-template-dialog',
 	imports: [DefaultDialogComponent],

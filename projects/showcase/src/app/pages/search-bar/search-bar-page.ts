@@ -5,7 +5,7 @@ import {
 	signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearchBarComponent } from '@ferhaps/easy-ui-lib';
@@ -37,6 +37,7 @@ const FRUITS = [
 	selector: 'app-search-bar-page',
 	imports: [
 		ReactiveFormsModule,
+		FormsModule,
 		MatSlideToggleModule,
 		MatChipsModule,
 		SearchBarComponent,
@@ -52,6 +53,8 @@ export class SearchBarPage {
 	protected readonly searchCtrl = new FormControl('', { nonNullable: true });
 	protected readonly term = signal('');
 	protected readonly disabled = signal(false);
+
+	protected tdTerm = '';
 
 	protected readonly filtered = computed(() => {
 		const q = this.term().toLowerCase();
@@ -72,13 +75,19 @@ export class SearchBarPage {
 		this.disabled() ? this.searchCtrl.disable() : this.searchCtrl.enable();
 	}
 
-	protected readonly snippet = `searchCtrl = new FormControl('', { nonNullable: true });
+	protected readonly reactiveSnippet = `searchCtrl = new FormControl('', { nonNullable: true });
 
 constructor() {
-  // Emits the trimmed term 1s after typing stops (debounce + distinct).
+  // Emits the trimmed term after typing stops (debounce + distinct).
   this.searchCtrl.valueChanges.subscribe((term) => this.filter(term));
 }
 
-// template
-<lib-search-bar for="fruit" [formControl]="searchCtrl" />`;
+// template — debounce defaults to 300ms, override with [debounceMs]
+<lib-search-bar for="fruit" [formControl]="searchCtrl" [debounceMs]="500" />`;
+
+	protected readonly templateDrivenSnippet = `// component
+tdTerm = '';
+
+// template — binds with [(ngModel)] like any native input
+<lib-search-bar for="fruit" [(ngModel)]="tdTerm" [debounceMs]="500" />`;
 }

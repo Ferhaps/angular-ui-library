@@ -5,8 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DefaultDialogComponent } from '@ferhaps/easy-ui-lib';
 
-// Opened via MatDialog — demonstrates projected `.dialog-content`, the back
-// arrow and its `back` output, and a custom height.
 @Component({
 	selector: 'app-profile-dialog',
 	imports: [

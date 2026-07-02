@@ -20,3 +20,14 @@
 .readout dd {
 	margin: 0;
 }
+
+.usage-label {
+	margin: 0 0 0.35rem;
+	font-weight: 600;
+	font-size: 0.85rem;
+	color: light-dark(#5f6368, #9aa0a6);
+}
+
+.usage-label:not(:first-child) {
+	margin-top: 1rem;
+}
