@@ -5,6 +5,7 @@ import {
 	signal,
 	WritableSignal,
 } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { Config, TableComponent, TableEvent } from '@ferhaps/easy-ui-lib';
 import { PageHeading } from '../../shared/components/page-heading/page-heading';
 import { DemoCard } from '../../shared/components/demo-card/demo-card';
@@ -56,7 +57,14 @@ function makeMembers(): Member[] {
 
 @Component({
 	selector: 'app-table-page',
-	imports: [TableComponent, PageHeading, DemoCard, CodeBlock, EventLog],
+	imports: [
+		MatButtonModule,
+		TableComponent,
+		PageHeading,
+		DemoCard,
+		CodeBlock,
+		EventLog,
+	],
 	templateUrl: './table-page.html',
 	styleUrl: './table-page.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -158,6 +166,31 @@ export class TablePage {
 		this.log(this.draggableLog, this.describe(event));
 	}
 
+	// ---- Table 3: loading & empty states ----------------------------------
+	protected readonly statesData = signal<Member[]>(makeMembers().slice(0, 4));
+	protected readonly loading = signal(false);
+
+	protected readonly statesConfig = computed<Config<Member>>(() => ({
+		title: 'States',
+		data: this.statesData(),
+		dataProps: ['name', 'role', 'status'],
+		tableHeadings: ['Name', 'Role', 'Status'],
+		trackBy: (m) => m.id,
+		loading: this.loading(),
+		emptyMessage: 'No members to show',
+	}));
+
+	protected simulateLoading(): void {
+		this.loading.set(true);
+		setTimeout(() => this.loading.set(false), 1500);
+	}
+
+	protected toggleData(): void {
+		this.statesData.update((list) =>
+			list.length ? [] : makeMembers().slice(0, 4),
+		);
+	}
+
 	// ---- helpers ----------------------------------------------------------
 	private describe(e: TableEvent<Member>): string {
 		switch (e.action) {
@@ -182,7 +215,7 @@ export class TablePage {
 		target.update((lines) => [...lines.slice(-30), line]);
 	}
 
-	protected readonly snippet = `config: Config<Member> = {
+	protected readonly sortableSnippet = `config: Config<Member> = {
   title: 'Team members',
   data: members,
   dataProps: ['name', 'role', 'status', 'email'],
@@ -204,4 +237,32 @@ export class TablePage {
 
 // template
 <lib-table [config]="config" (action)="onAction($event)" />`;
+
+	protected readonly draggableSnippet = `config: Config<Member> = {
+  title: 'Drag to reorder',
+  data: members,
+  dataProps: ['name', 'role', 'status'],
+  tableHeadings: ['Name', 'Role', 'Status'],
+  draggable: true,            // row drag-drop (disables sorting)
+  withAdd: true,              // 'add' affordance → emits { action: 'add' }
+  selectableRows: 'multiple',
+  trackBy: (m) => m.id,
+  options: ['Edit', 'Remove'],
+};
+
+// template
+<lib-table [config]="config" (action)="onAction($event)" />`;
+
+	protected readonly statesSnippet = `config: Config<Member> = {
+  title: 'States',
+  data: members,              // set to [] to show emptyMessage
+  dataProps: ['name', 'role', 'status'],
+  tableHeadings: ['Name', 'Role', 'Status'],
+  trackBy: (m) => m.id,
+  loading: isLoading,         // spinner instead of the body
+  emptyMessage: 'No members to show',
+};
+
+// template
+<lib-table [config]="config" />`;
 }

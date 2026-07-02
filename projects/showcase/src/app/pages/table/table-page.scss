@@ -16,3 +16,15 @@ lib-table {
 	display: block;
 	height: 100%;
 }
+
+.code-block {
+	display: block;
+	margin-top: 1rem;
+}
+
+.state-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-bottom: 1rem;
+}

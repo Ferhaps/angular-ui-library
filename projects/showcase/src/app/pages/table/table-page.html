@@ -15,6 +15,7 @@
 		<lib-table [config]="sortableConfig()" (action)="onSortable($event)" />
 	</div>
 	<app-event-log title="TableEvent output" [events]="sortableLog()" />
+	<app-code-block [code]="sortableSnippet" class="code-block" />
 </app-demo-card>
 
 <app-demo-card
@@ -25,8 +26,23 @@
 		<lib-table [config]="draggableConfig()" (action)="onDraggable($event)" />
 	</div>
 	<app-event-log title="TableEvent output" [events]="draggableLog()" />
+	<app-code-block [code]="draggableSnippet" class="code-block" />
 </app-demo-card>
 
-<app-demo-card heading="The config that powers the first table">
-	<app-code-block [code]="snippet" />
+<app-demo-card
+	heading="Loading &amp; empty states"
+	hint="config-driven: loading + emptyMessage"
+>
+	<div class="state-buttons">
+		<button mat-stroked-button (click)="simulateLoading()">
+			Simulate loading (1.5s)
+		</button>
+		<button mat-stroked-button (click)="toggleData()">
+			{{ statesData().length ? "Clear data" : "Load data" }}
+		</button>
+	</div>
+	<div class="table-host short">
+		<lib-table [config]="statesConfig()" />
+	</div>
+	<app-code-block [code]="statesSnippet" class="code-block" />
 </app-demo-card>
