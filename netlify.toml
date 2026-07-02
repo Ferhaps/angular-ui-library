@@ -1,0 +1,14 @@
+# Netlify configuration for the showcase demo app.
+# When present, these values override the equivalent fields in the Netlify UI.
+
+[build]
+  command = "npm run build:showcase"
+  publish = "dist/showcase/browser"
+  ignore  = "bash netlify/ignore-build.sh"
+
+# SPA fallback: let Angular's client-side router handle deep links
+# instead of Netlify returning a 404 for unknown paths.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
