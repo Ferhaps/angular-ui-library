@@ -61,15 +61,16 @@ export class ErrorHandlerPage {
 	protected readonly snippet = `// app root template — mount once
 <lib-error-handler />
 
-// an HTTP interceptor forwards failures to the service
-export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const errors = inject(ErrorService);
-  return next(req).pipe(
-    tap({
-      error: (err) => {
-        if (err instanceof HttpErrorResponse) errors.sendError(err);
-      },
-    }),
-  );
-};`;
+// The library ships the interceptor that forwards failures to ErrorService.
+// Easiest: let the library own HttpClient setup (this showcase does):
+import { provideEasyUiLib } from '@ferhaps/easy-ui-lib';
+
+provideEasyUiLib();            // or provideEasyUiLib([yourInterceptor])
+
+// Already call provideHttpClient yourself? Add the interceptor instead:
+// provideHttpClient(withInterceptors([easyUiLibInterceptor]))
+
+// Per-request opt-outs via headers (see the HTTP Utils page):
+this.http.get('/api/thing', SKIP_ERROR_OPTIONS);          // no auto popup
+this.http.get('/api/thing', JSON_OPTIONS_WITH_GLOBAL_LOADER); // shows loader`;
 }
