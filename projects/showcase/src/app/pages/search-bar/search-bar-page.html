@@ -26,20 +26,6 @@
 	</dl>
 </app-demo-card>
 
-<app-demo-card
-	heading="Template-driven form"
-	hint="two-way bound with [(ngModel)]"
->
-	<div class="row">
-		<lib-search-bar for="fruit" [(ngModel)]="tdTerm" />
-	</div>
-
-	<dl class="readout">
-		<dt>Model value</dt>
-		<dd class="mono">{{ tdTerm ? '"' + tdTerm + '"' : '—' }}</dd>
-	</dl>
-</app-demo-card>
-
 <app-demo-card heading="Live filtering" hint="{{ filtered().length }} match(es)">
 	@if (filtered().length) {
 		<mat-chip-set>

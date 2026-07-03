@@ -5,7 +5,7 @@ import {
 	signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearchBarComponent } from '@ferhaps/easy-ui-lib';
@@ -37,7 +37,6 @@ const FRUITS = [
 	selector: 'app-search-bar-page',
 	imports: [
 		ReactiveFormsModule,
-		FormsModule,
 		MatSlideToggleModule,
 		MatChipsModule,
 		SearchBarComponent,
@@ -53,8 +52,6 @@ export class SearchBarPage {
 	protected readonly searchCtrl = new FormControl('', { nonNullable: true });
 	protected readonly term = signal('');
 	protected readonly disabled = signal(false);
-
-	protected tdTerm = '';
 
 	protected readonly filtered = computed(() => {
 		const q = this.term().toLowerCase();
