@@ -95,7 +95,7 @@ Row selection is tracked by row identity (see `trackBy`), so selections follow t
 
 ### SearchBarComponent
 
-A styled search input with debounce functionality. Implements `ControlValueAccessor`, so it can be used as a standard form control with reactive forms or template-driven forms.
+A styled search input with debounce functionality that works with **all three** Angular forms styles. It implements `ControlValueAccessor` (reactive + template-driven forms) **and** `FormValueControl` (Signal Forms, Angular 22+), so you can bind it whichever way your app uses.
 
 **Standalone usage (output only)**
 
@@ -115,7 +115,20 @@ A styled search input with debounce functionality. Implements `ControlValueAcces
 <lib-search-bar [for]="'users'" [(ngModel)]="searchTerm" />
 ```
 
-The `search` output still emits on every debounced change and can be used alongside form binding. The emitted value is the trimmed search string.
+**Signal Forms** (via the `[formField]` directive — no `ControlValueAccessor` needed)
+
+```typescript
+import { form } from '@angular/forms/signals';
+
+model = signal({ query: '' });
+f = form(this.model);
+```
+
+```html
+<lib-search-bar [for]="'users'" [formField]="f.query" />
+```
+
+The `search` output still emits on every debounced change and can be used alongside any form binding. The emitted value is the trimmed search string.
 
 The debounce defaults to 300ms and is configurable via `[debounceMs]` (applied live, so it can be bound to a signal):
 
