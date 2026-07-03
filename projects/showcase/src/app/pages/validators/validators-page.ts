@@ -75,14 +75,13 @@ export class ValidatorsPage {
     <mat-error>Weak password</mat-error>
   </mat-form-field>
 
-  <!-- granular failures for per-rule UI:
-       control.errors?.passwordInvalid
-       → { minLength?: 8, uppercase?, lowercase?, digit?, special? } -->
+  <!-- granular failures for per-rule UI: control.errors?.passwordInvalid →
+	{ minLength?: 8, uppercase?, lowercase?, digit?, special? } -->
 
   <mat-form-field>
     <!-- re-validates automatically when 'password' changes -->
     <input matInput formControlName="confirm"
-           libFieldsMatchValidator fieldToMatch="password" />
+      libFieldsMatchValidator fieldToMatch="password" />
     <mat-error>Passwords do not match</mat-error>
   </mat-form-field>
 

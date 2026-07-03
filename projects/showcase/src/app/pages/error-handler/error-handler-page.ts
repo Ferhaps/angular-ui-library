@@ -65,7 +65,7 @@ export class ErrorHandlerPage {
 // Easiest: let the library own HttpClient setup (this showcase does):
 import { provideEasyUiLib } from '@ferhaps/easy-ui-lib';
 
-provideEasyUiLib();            // or provideEasyUiLib([yourInterceptor])
+provideEasyUiLib();            // or provideEasyUiLib([yourInterceptor1, yourInterceptor2]) if you have your own interceptors
 
 // Already call provideHttpClient yourself? Add the interceptor instead:
 // provideHttpClient(withInterceptors([easyUiLibInterceptor]))
