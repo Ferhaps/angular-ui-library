@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { form, FormField } from '@angular/forms/signals';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { SearchBarComponent } from '@ferhaps/easy-ui-lib';
@@ -37,6 +38,7 @@ const FRUITS = [
 	selector: 'app-search-bar-page',
 	imports: [
 		ReactiveFormsModule,
+		FormField,
 		MatSlideToggleModule,
 		MatChipsModule,
 		SearchBarComponent,
@@ -53,13 +55,18 @@ export class SearchBarPage {
 	protected readonly term = signal('');
 	protected readonly disabled = signal(false);
 
-	protected readonly filtered = computed(() => {
-		const q = this.term().toLowerCase();
-		if (!q) {
-			return FRUITS;
-		}
-		return FRUITS.filter((f) => f.toLowerCase().includes(q));
-	});
+	protected readonly sfModel = signal({ query: '' });
+	protected readonly sfForm = form(this.sfModel);
+
+	protected readonly filtered = computed(() => this.filterFruits(this.term()));
+	protected readonly sfFiltered = computed(() =>
+		this.filterFruits(this.sfModel().query),
+	);
+
+	private filterFruits(query: string): string[] {
+		const q = query.trim().toLowerCase();
+		return q ? FRUITS.filter((f) => f.toLowerCase().includes(q)) : FRUITS;
+	}
 
 	constructor() {
 		this.searchCtrl.valueChanges
@@ -87,4 +94,12 @@ tdTerm = '';
 
 // template — binds with [(ngModel)] like any native input
 <lib-search-bar for="fruit" [(ngModel)]="tdTerm" [debounceMs]="500" />`;
+
+	protected readonly signalFormsSnippet = `import { form } from '@angular/forms/signals';
+
+model = signal({ query: '' });
+f = form(this.model);
+
+// template — signal forms bind via [formField]
+<lib-search-bar for="fruit" [formField]="f.query" />`;
 }

@@ -1,10 +1,10 @@
 <app-page-heading
 	title="Search Bar"
 	kind="Component · SearchBarComponent"
-	lead="A debounced search input implemented as a ControlValueAccessor.
-	Wire it to a form control (reactive or template-driven) like any native
-	input — it emits the trimmed term after typing stops (300ms by default,
-	set via [debounceMs]), de-duplicated."
+	lead="A debounced search input that works with all three forms styles —
+	reactive and template-driven (ControlValueAccessor) and Signal Forms
+	(FormValueControl). It emits the trimmed term after typing stops (300ms
+	by default, set via [debounceMs]), de-duplicated."
 />
 
 <app-demo-card
@@ -24,9 +24,7 @@
 		<dt>Status</dt>
 		<dd class="mono">{{ disabled() ? 'DISABLED' : 'VALID' }}</dd>
 	</dl>
-</app-demo-card>
 
-<app-demo-card heading="Live filtering" hint="{{ filtered().length }} match(es)">
 	@if (filtered().length) {
 		<mat-chip-set>
 			@for (fruit of filtered(); track fruit) {
@@ -38,9 +36,34 @@
 	}
 </app-demo-card>
 
+<app-demo-card heading="Signal forms" hint="bound with [formField]">
+	<div class="row">
+		<lib-search-bar for="fruit" [formField]="sfForm.query" />
+	</div>
+
+	<dl class="readout">
+		<dt>Control value</dt>
+		<dd class="mono">
+			{{ sfModel().query ? '"' + sfModel().query + '"' : '—' }}
+		</dd>
+	</dl>
+
+	@if (sfFiltered().length) {
+		<mat-chip-set>
+			@for (fruit of sfFiltered(); track fruit) {
+				<mat-chip disableRipple>{{ fruit }}</mat-chip>
+			}
+		</mat-chip-set>
+	} @else {
+		<p class="muted">No fruit matches “{{ sfModel().query }}”.</p>
+	}
+</app-demo-card>
+
 <app-demo-card heading="Usage">
 	<p class="usage-label">Reactive forms</p>
 	<app-code-block [code]="reactiveSnippet" />
 	<p class="usage-label">Template-driven forms</p>
 	<app-code-block [code]="templateDrivenSnippet" />
+	<p class="usage-label">Signal forms</p>
+	<app-code-block [code]="signalFormsSnippet" />
 </app-demo-card>
