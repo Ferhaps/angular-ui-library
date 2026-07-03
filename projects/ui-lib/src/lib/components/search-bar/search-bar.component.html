@@ -1,12 +1,15 @@
-<form class="search-bar" [formGroup]="searchForm">
+<div class="search-bar">
 	<mat-icon>search</mat-icon>
 	<input
+		#searchInput
 		class="search-input"
 		type="search"
 		name="field"
 		[placeholder]="'Search ' + for()"
 		autocomplete="off"
-		formControlName="search"
-		(blur)="onTouched()"
+		[disabled]="isDisabled()"
+		[readonly]="readonly()"
+		(input)="onInput($event)"
+		(blur)="onBlur()"
 	/>
-</form>
+</div>
