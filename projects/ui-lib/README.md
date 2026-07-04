@@ -244,6 +244,44 @@ Implemented as a `ControlValueAccessor`, so the formatted value is written back 
 <input type="tel" libPhoneValidation [(ngModel)]="phone" />
 ```
 
+### These directives and Signal Forms
+
+The three directives above hook into **reactive / template-driven** forms (`NG_VALIDATORS` for the validators, `ControlValueAccessor` for phone). **Signal Forms works completely differently** — validation lives in the form's schema, not in directives on the input — so these directives are not used there. Express the same behaviour with schema validators instead:
+
+```typescript
+import { form, required, minLength, pattern, validate } from '@angular/forms/signals';
+
+model = signal({ password: '', confirm: '', phone: '' });
+
+f = form(this.model, (path) => {
+  // PasswordValidatorDirective → built-in validators, one per rule:
+  minLength(path.password, 8, { message: 'At least 8 characters' });
+  pattern(path.password, /[A-Z]/, { message: 'An uppercase letter' });
+  pattern(path.password, /[a-z]/, { message: 'A lowercase letter' });
+  pattern(path.password, /\d/, { message: 'A number' });
+  pattern(path.password, /[!@#$%^&*]/, { message: 'A special character' });
+
+  // FieldsMatchValidatorDirective → cross-field validation via valueOf():
+  validate(path.confirm, ({ value, valueOf }) =>
+    value() === valueOf(path.password)
+      ? null
+      : { kind: 'mismatch', message: 'Passwords do not match' });
+
+  // PhoneValidationDirective → pattern() validates the "+digits" format.
+  // (Live formatting needs a custom FormValueControl — Signal Forms has no
+  //  CVA-style formatter directive; see SearchBarComponent for that pattern.)
+  pattern(path.phone, /^\+[0-9]+$/, { message: 'A leading + and digits' });
+});
+```
+
+```html
+<input type="password" [formField]="f.password" />
+<input type="password" [formField]="f.confirm" />
+<input [formField]="f.phone" />
+```
+
+Only `SearchBarComponent` (a value-editing control) implements the Signal Forms `FormValueControl` contract for direct `[formField]` binding — see its section above.
+
 ## Pipes
 
 ### SnakeCaseParserPipe
