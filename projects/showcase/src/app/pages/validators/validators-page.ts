@@ -89,4 +89,38 @@ export class ValidatorsPage {
     <input matInput formControlName="phone" libPhoneValidation />
   </mat-form-field>
 </form>`;
+
+	// These directives are for reactive / template-driven forms (NG_VALIDATORS /
+	// ControlValueAccessor). Signal Forms validates in the schema instead, so the
+	// same behaviour is expressed with built-in + custom validators — no directives.
+	protected readonly signalFormsSnippet = `import {
+  form, required, minLength, pattern, validate,
+} from '@angular/forms/signals';
+
+model = signal({ password: '', confirm: '', phone: '' });
+
+f = form(this.model, (path) => {
+  // Password strength → the directive's rules as built-in validators:
+  required(path.password);
+  minLength(path.password, 8, { message: 'At least 8 characters' });
+  pattern(path.password, /[A-Z]/, { message: 'An uppercase letter' });
+  pattern(path.password, /[a-z]/, { message: 'A lowercase letter' });
+  pattern(path.password, /\\d/, { message: 'A number' });
+  pattern(path.password, /[!@#$%^&*]/, { message: 'A special character' });
+
+  // Fields match → cross-field validation via valueOf():
+  validate(path.confirm, ({ value, valueOf }) =>
+    value() === valueOf(path.password)
+      ? null
+      : { kind: 'mismatch', message: 'Passwords do not match' });
+
+  // Phone → validate the "+digits" format. (Live formatting needs a custom
+  // FormValueControl — Signal Forms has no CVA-style formatter directive.)
+  pattern(path.phone, /^\\+[0-9]+$/, { message: 'A leading + and digits' });
+});
+
+// template — Signal Forms binds native inputs via [formField]:
+<input type="password" [formField]="f.password" />
+<input type="password" [formField]="f.confirm" />
+<input [formField]="f.phone" />`;
 }
