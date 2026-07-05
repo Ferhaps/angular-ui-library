@@ -27,9 +27,11 @@ export class PipePage {
 		'user_not_found',
 		'EMAIL_ALREADY_TAKEN',
 		'pending_approval',
-		'two_factor_enabled',
+		'user_API_key',
+		'HTTP_status_code',
 	];
 
-	protected readonly snippet = `{{ 'payment_failed' | snakeCaseParser }}  <!-- Payment failed -->
-{{ status | snakeCaseParser }}            <!-- e.g. 'Pending approval' -->`;
+	protected readonly snippet = `{{ 'payment_failed' | snakeCaseParser }}      <!-- Payment failed -->
+{{ 'EMAIL_ALREADY_TAKEN' | snakeCaseParser }} <!-- Email already taken -->
+{{ 'user_API_key' | snakeCaseParser }}        <!-- User API key (acronym kept) -->`;
 }
