@@ -27,15 +27,16 @@ import {
 	MatCheckboxModule,
 } from '@angular/material/checkbox';
 
-export type TableEvent<T = any> = {
+export type TableEvent<T = unknown> = {
 	action:
 		| 'rowClick'
 		| 'rowSelect'
 		| 'drag'
+		| 'scroll'
 		| 'scrolled'
 		| 'sort'
 		| 'add'
-		| string;
+		| (string & {}); // Custom option actions
 	obj?: T;
 	prop?: keyof T;
 	index?: number;
@@ -45,7 +46,7 @@ export type TableEvent<T = any> = {
 	event?: Event;
 };
 
-export type Config<T = any> = {
+export type Config<T = unknown> = {
 	data: T[];
 	title: string;
 	dataProps: (keyof T)[];
@@ -57,13 +58,11 @@ export type Config<T = any> = {
 	draggable?: boolean;
 	classRules?: ClassRule<T>[];
 	trackBy?: (obj: T) => unknown;
-	/** Shows a loading indicator instead of the (empty) body. */
 	loading?: boolean;
-	/** Message shown when `data` is empty and not loading. Defaults to "No data". */
 	emptyMessage?: string;
 };
 
-export type ClassRule<T = any> = {
+export type ClassRule<T = unknown> = {
 	className: string;
 	condition: (obj: T, prop: keyof T) => boolean;
 };
@@ -83,7 +82,7 @@ export type ClassRule<T = any> = {
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent<T = any> {
+export class TableComponent<T = unknown> {
 	public config = input.required<Config<T>>();
 
 	protected action = output<TableEvent<T>>();
@@ -98,7 +97,6 @@ export class TableComponent<T = any> {
 	private readonly singleSelectedKey = signal<unknown>(undefined);
 	private previousData: T[] | null = null;
 
-	// Derived once per config/selection change rather than on every CD pass.
 	protected readonly hasOptions = computed(() => !!this.config().options);
 	protected readonly areAllRowsSelected = computed(() => {
 		const data = this.config().data;
@@ -106,9 +104,6 @@ export class TableComponent<T = any> {
 	});
 
 	constructor() {
-		// Reset selection whenever a new data array is supplied. The reference
-		// check keeps in-place mutations (e.g. drag-drop reorder) and inline
-		// config literals from clearing the current selection on every cycle.
 		effect(() => {
 			const data = this.config().data;
 			if (this.previousData && this.previousData !== data) {
