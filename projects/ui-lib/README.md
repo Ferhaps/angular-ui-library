@@ -56,7 +56,7 @@ A feature-rich table component supporting:
 ```
 
 ```typescript
-export type Config<T = any> = {
+export type Config<T = unknown> = {
   data: T[];
   title: string;
   dataProps: (keyof T)[];
@@ -67,9 +67,6 @@ export type Config<T = any> = {
   sortable?: boolean;
   draggable?: boolean;
   classRules?: ClassRule<T>[];
-  // Identifies each row. Defaults to object identity; supply this (e.g.
-  // (obj) => obj.id) when rows are recreated on refetch so selection and
-  // DOM state stay attached to the correct row.
   trackBy?: (obj: T) => unknown;
   loading?: boolean;
   emptyMessage?: string;
@@ -77,8 +74,11 @@ export type Config<T = any> = {
 
 export type SortState = 'none' | 'asc' | 'desc';
 
-export type TableEvent<T = any> = {
-  action: 'rowClick' | 'rowSelect' | 'drag' | 'scroll' | 'scrolled' | 'sort' | 'add' | string;
+export type TableEvent<T = unknown> = {
+  // Known actions, plus any custom string. Row-option labels are emitted
+  // lowercased as the action (e.g. an 'Edit' option → action 'edit'), so you
+  // can handle your own actions alongside the built-in ones.
+  action: 'rowClick' | 'rowSelect' | 'drag' | 'scroll' | 'scrolled' | 'sort' | 'add' | (string & {});
   obj?: T;
   prop?: keyof T;
   index?: number;
@@ -118,9 +118,9 @@ A styled search input with debounce functionality that works with **all three** 
 **Signal Forms** (via the `[formField]` directive — no `ControlValueAccessor` needed)
 
 ```typescript
-import { form } from '@angular/forms/signals';
+import { form } from "@angular/forms/signals";
 
-model = signal({ query: '' });
+model = signal({ query: "" });
 f = form(this.model);
 ```
 
@@ -249,28 +249,25 @@ Implemented as a `ControlValueAccessor`, so the formatted value is written back 
 The three directives above hook into **reactive / template-driven** forms (`NG_VALIDATORS` for the validators, `ControlValueAccessor` for phone). **Signal Forms works completely differently** — validation lives in the form's schema, not in directives on the input — so these directives are not used there. Express the same behaviour with schema validators instead:
 
 ```typescript
-import { form, required, minLength, pattern, validate } from '@angular/forms/signals';
+import { form, required, minLength, pattern, validate } from "@angular/forms/signals";
 
-model = signal({ password: '', confirm: '', phone: '' });
+model = signal({ password: "", confirm: "", phone: "" });
 
 f = form(this.model, (path) => {
-  // PasswordValidatorDirective → built-in validators, one per rule:
-  minLength(path.password, 8, { message: 'At least 8 characters' });
-  pattern(path.password, /[A-Z]/, { message: 'An uppercase letter' });
-  pattern(path.password, /[a-z]/, { message: 'A lowercase letter' });
-  pattern(path.password, /\d/, { message: 'A number' });
-  pattern(path.password, /[!@#$%^&*]/, { message: 'A special character' });
+	// PasswordValidatorDirective → built-in validators, one per rule:
+	minLength(path.password, 8, { message: "At least 8 characters" });
+	pattern(path.password, /[A-Z]/, { message: "An uppercase letter" });
+	pattern(path.password, /[a-z]/, { message: "A lowercase letter" });
+	pattern(path.password, /\d/, { message: "A number" });
+	pattern(path.password, /[!@#$%^&*]/, { message: "A special character" });
 
-  // FieldsMatchValidatorDirective → cross-field validation via valueOf():
-  validate(path.confirm, ({ value, valueOf }) =>
-    value() === valueOf(path.password)
-      ? null
-      : { kind: 'mismatch', message: 'Passwords do not match' });
+	// FieldsMatchValidatorDirective → cross-field validation via valueOf():
+	validate(path.confirm, ({ value, valueOf }) => (value() === valueOf(path.password) ? null : { kind: "mismatch", message: "Passwords do not match" }));
 
-  // PhoneValidationDirective → pattern() validates the "+digits" format.
-  // (Live formatting needs a custom FormValueControl — Signal Forms has no
-  //  CVA-style formatter directive; see SearchBarComponent for that pattern.)
-  pattern(path.phone, /^\+[0-9]+$/, { message: 'A leading + and digits' });
+	// PhoneValidationDirective → pattern() validates the "+digits" format.
+	// (Live formatting needs a custom FormValueControl — Signal Forms has no
+	//  CVA-style formatter directive; see SearchBarComponent for that pattern.)
+	pattern(path.phone, /^\+[0-9]+$/, { message: "A leading + and digits" });
 });
 ```
 
@@ -286,11 +283,17 @@ Only `SearchBarComponent` (a value-editing control) implements the Signal Forms 
 
 ### SnakeCaseParserPipe
 
-Converts snake_case to Title Case text.
+Turns `snake_case` / `SCREAMING_SNAKE_CASE` tokens into a readable, capitalised label — handy for rendering backend enums and error codes. A fully upper-case token is humanised to a sentence; mixed-case tokens keep all-upper words as acronyms (`API`, `URL`, `ID`) so they aren't mangled.
 
 ```html
 <div>{{ 'user_name' | snakeCaseParser }}</div>
 <!-- Output: User name -->
+
+<div>{{ 'EMAIL_ALREADY_TAKEN' | snakeCaseParser }}</div>
+<!-- Output: Email already taken -->
+
+<div>{{ 'user_API_key' | snakeCaseParser }}</div>
+<!-- Output: User API key -->
 ```
 
 ## Services
@@ -378,7 +381,7 @@ Or let the library configure `HttpClient` for you (skip this if you need other `
 import { provideEasyUiLib } from "@ferhaps/easy-ui-lib";
 
 bootstrapApplication(App, {
-  providers: [provideEasyUiLib([authInterceptor])], // or just provideEasyUiLib()
+	providers: [provideEasyUiLib([authInterceptor])], // or just provideEasyUiLib()
 });
 ```
 
