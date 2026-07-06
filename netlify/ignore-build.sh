@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Netlify "ignore" command.
 #
-# Deploy the showcase ONLY when the "version" field in the ROOT package.json
-# changes. Bumps to projects/ui-lib/package.json (the npm release version) do
-# NOT trigger a Netlify deploy — this key is the workspace/root version.
+# Deploy the showcase ONLY when the "version" field in the LIBRARY package.json
+# (projects/ui-lib/package.json — the npm release version) changes. Bumps to
+# the root/workspace package.json do NOT trigger a Netlify deploy.
 #
 # Netlify convention for the ignore command:
 #   exit 0  -> SKIP the build (cancel)
@@ -15,7 +15,7 @@
 
 set -e
 
-FILE="package.json"
+FILE="projects/ui-lib/package.json"
 
 # First build ever (or Netlify has no cached commit yet) -> build.
 if [ -z "$CACHED_COMMIT_REF" ]; then
@@ -38,9 +38,9 @@ if [ -z "$curr" ]; then
 fi
 
 if [ "$prev" = "$curr" ]; then
-  echo "Root package.json version unchanged ($curr) — skipping build."
+  echo "Library package.json version unchanged ($curr) — skipping build."
   exit 0
 fi
 
-echo "Root package.json version changed ($prev -> $curr) — building."
+echo "Library package.json version changed ($prev -> $curr) — building."
 exit 1
