@@ -12,7 +12,7 @@
 	hint="emits 300ms after you stop typing"
 >
 	<div class="row">
-		<lib-search-bar for="fruit" [formControl]="searchCtrl" />
+		<eui-search-bar for="fruit" [formControl]="searchCtrl" />
 		<mat-slide-toggle [checked]="disabled()" (change)="toggleDisabled()">
 			Disabled
 		</mat-slide-toggle>
@@ -38,7 +38,7 @@
 
 <app-demo-card heading="Signal forms" hint="bound with [formField]">
 	<div class="row">
-		<lib-search-bar for="fruit" [formField]="sfForm.query" />
+		<eui-search-bar for="fruit" [formField]="sfForm.query" />
 	</div>
 
 	<dl class="readout">

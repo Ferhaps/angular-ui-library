@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 export type SortState = 'none' | 'asc' | 'desc';
 
 @Component({
-	selector: 'lib-table-sort-header',
+	selector: 'eui-table-sort-header',
 	imports: [MatIconModule],
 	templateUrl: './table-sort-header.component.html',
 	styleUrls: ['./table-sort-header.component.scss'],

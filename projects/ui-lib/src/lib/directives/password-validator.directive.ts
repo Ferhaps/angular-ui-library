@@ -15,7 +15,7 @@ export type PasswordErrors = {
 };
 
 @Directive({
-	selector: '[libPasswordValidator]',
+	selector: '[euiPasswordValidator]',
 	providers: [
 		{
 			provide: NG_VALIDATORS,

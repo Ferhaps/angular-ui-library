@@ -10,7 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-	selector: 'lib-default-dialog',
+	selector: 'eui-default-dialog',
 	imports: [MatIconModule, MatDialogModule, NgTemplateOutlet],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	templateUrl: './default-dialog.component.html',

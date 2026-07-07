@@ -6,7 +6,7 @@ import { ErrorDisplayComponent } from '../../error-display/error-display.compone
 import { HTTP_STATUS_CODES } from '../../../utils/utils';
 
 @Component({
-	selector: 'lib-error-popup',
+	selector: 'eui-error-popup',
 	imports: [DefaultDialogComponent, ErrorDisplayComponent],
 	templateUrl: './error-popup.component.html',
 	styleUrls: ['./error-popup.component.scss'],

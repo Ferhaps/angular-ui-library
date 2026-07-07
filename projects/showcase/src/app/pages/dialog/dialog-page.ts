@@ -49,13 +49,13 @@ export class DialogPage {
   selector: 'app-profile-dialog',
   imports: [DefaultDialogComponent],
   template: \`
-    <lib-default-dialog
+    <eui-default-dialog
       [dialogTitle]="editing() ? 'Edit profile' : 'Profile'"
       [withBack]="editing()"
       (back)="editing.set(false)"
     >
       <div class="dialog-content"> ...your content... </div>
-    </lib-default-dialog>
+    </eui-default-dialog>
   \`,
 })
 export class ProfileDialog { editing = signal(false); }

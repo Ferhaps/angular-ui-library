@@ -71,7 +71,7 @@ export class ValidatorsPage {
 	protected readonly snippet = `<form [formGroup]="form">
   <mat-form-field>
     <!-- rules are configurable: [minLength]="10", [requireSpecial]="false", … -->
-    <input matInput formControlName="password" libPasswordValidator />
+    <input matInput formControlName="password" euiPasswordValidator />
     <mat-error>Weak password</mat-error>
   </mat-form-field>
 
@@ -81,12 +81,12 @@ export class ValidatorsPage {
   <mat-form-field>
     <!-- re-validates automatically when 'password' changes -->
     <input matInput formControlName="confirm"
-      libFieldsMatchValidator fieldToMatch="password" />
+      euiFieldsMatchValidator fieldToMatch="password" />
     <mat-error>Passwords do not match</mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput formControlName="phone" libPhoneValidation />
+    <input matInput formControlName="phone" euiPhoneValidation />
   </mat-form-field>
 </form>`;
 

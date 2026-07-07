@@ -9,14 +9,14 @@
 />
 
 <form [formGroup]="form">
-	<app-demo-card heading="Password strength" hint="libPasswordValidator">
+	<app-demo-card heading="Password strength" hint="euiPasswordValidator">
 		<mat-form-field appearance="outline" class="field">
 			<mat-label>Password</mat-label>
 			<input
 				matInput
 				[type]="passwordVisible() ? 'text' : 'password'"
 				formControlName="password"
-				libPasswordValidator
+				euiPasswordValidator
 				autocomplete="new-password"
 			/>
 			<button
@@ -68,14 +68,14 @@
 		}
 	</app-demo-card>
 
-	<app-demo-card heading="Fields match" hint="libFieldsMatchValidator">
+	<app-demo-card heading="Fields match" hint="euiFieldsMatchValidator">
 		<mat-form-field appearance="outline" class="field">
 			<mat-label>Confirm password</mat-label>
 			<input
 				matInput
 				type="password"
 				formControlName="confirm"
-				libFieldsMatchValidator
+				euiFieldsMatchValidator
 				fieldToMatch="password"
 				autocomplete="new-password"
 			/>
@@ -87,13 +87,13 @@
 		}
 	</app-demo-card>
 
-	<app-demo-card heading="Phone formatting" hint="libPhoneValidation (CVA)">
+	<app-demo-card heading="Phone formatting" hint="euiPhoneValidation (CVA)">
 		<mat-form-field appearance="outline" class="field">
 			<mat-label>Phone number</mat-label>
 			<input
 				matInput
 				formControlName="phone"
-				libPhoneValidation
+				euiPhoneValidation
 				inputmode="tel"
 				placeholder="Start typing digits…"
 			/>

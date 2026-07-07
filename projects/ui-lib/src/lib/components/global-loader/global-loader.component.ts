@@ -4,7 +4,7 @@ import { LoaderService } from '../../services/loader.service';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-	selector: 'lib-global-loader',
+	selector: 'eui-global-loader',
 	imports: [AsyncPipe, MatProgressSpinnerModule],
 	templateUrl: './global-loader.component.html',
 	styleUrl: './global-loader.component.scss',

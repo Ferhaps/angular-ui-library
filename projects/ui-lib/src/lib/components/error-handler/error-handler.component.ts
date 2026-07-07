@@ -8,7 +8,7 @@ import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { ErrorService } from '../../services/error.service';
 
 @Component({
-	selector: 'lib-error-handler',
+	selector: 'eui-error-handler',
 	templateUrl: 'error-handler.component.html',
 	styleUrls: ['error-handler.component.scss'],
 	imports: [MatDialogModule],

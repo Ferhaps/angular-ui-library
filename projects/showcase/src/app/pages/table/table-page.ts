@@ -236,7 +236,7 @@ export class TablePage {
 };
 
 // template
-<lib-table [config]="config" (action)="onAction($event)" />`;
+<eui-table [config]="config" (action)="onAction($event)" />`;
 
 	protected readonly draggableSnippet = `config: Config<Member> = {
   title: 'Drag to reorder',
@@ -251,7 +251,7 @@ export class TablePage {
 };
 
 // template
-<lib-table [config]="config" (action)="onAction($event)" />`;
+<eui-table [config]="config" (action)="onAction($event)" />`;
 
 	protected readonly statesSnippet = `config: Config<Member> = {
   title: 'States',
@@ -264,5 +264,5 @@ export class TablePage {
 };
 
 // template
-<lib-table [config]="config" />`;
+<eui-table [config]="config" />`;
 }

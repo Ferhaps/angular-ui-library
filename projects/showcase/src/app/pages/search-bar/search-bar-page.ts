@@ -87,13 +87,13 @@ constructor() {
 }
 
 // template — debounce defaults to 300ms, override with [debounceMs]
-<lib-search-bar for="fruit" [formControl]="searchCtrl" [debounceMs]="500" />`;
+<eui-search-bar for="fruit" [formControl]="searchCtrl" [debounceMs]="500" />`;
 
 	protected readonly templateDrivenSnippet = `// component
 tdTerm = '';
 
 // template — binds with [(ngModel)] like any native input
-<lib-search-bar for="fruit" [(ngModel)]="tdTerm" [debounceMs]="500" />`;
+<eui-search-bar for="fruit" [(ngModel)]="tdTerm" [debounceMs]="500" />`;
 
 	protected readonly signalFormsSnippet = `import { form } from '@angular/forms/signals';
 
@@ -101,5 +101,5 @@ model = signal({ query: '' });
 f = form(this.model);
 
 // template — signal forms bind via [formField]
-<lib-search-bar for="fruit" [formField]="f.query" />`;
+<eui-search-bar for="fruit" [formField]="f.query" />`;
 }

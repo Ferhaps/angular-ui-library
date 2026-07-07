@@ -30,7 +30,7 @@ import { Subject, debounce, distinctUntilChanged, map, timer } from 'rxjs';
  * callbacks and the `search` output.
  */
 @Component({
-	selector: 'lib-search-bar',
+	selector: 'eui-search-bar',
 	templateUrl: './search-bar.component.html',
 	styleUrl: './search-bar.component.scss',
 	imports: [MatIconModule],

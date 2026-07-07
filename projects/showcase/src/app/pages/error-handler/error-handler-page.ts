@@ -59,7 +59,7 @@ export class ErrorHandlerPage {
 	}
 
 	protected readonly snippet = `// app root template — mount once
-<lib-error-handler />
+<eui-error-handler />
 
 // The library ships the interceptor that forwards failures to ErrorService.
 // Easiest: let the library own HttpClient setup (this showcase does):

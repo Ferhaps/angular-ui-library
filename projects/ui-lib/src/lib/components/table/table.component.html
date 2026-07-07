@@ -54,7 +54,7 @@
 							<div class="flexer gap05">
 								{{ heading }}
 								@if (config().sortable && !config().draggable) {
-									<lib-table-sort-header
+									<eui-table-sort-header
 										[selected]="currentSortColumn === i"
 										(sort)="onSort(i, config().dataProps[i], $event)"
 									/>

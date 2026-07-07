@@ -10,7 +10,7 @@ import { SnakeCaseParserPipe } from '../../pipes/snake-case-parser.pipe';
 import { SystemError } from '../../utils/types';
 
 @Component({
-	selector: 'lib-error-display',
+	selector: 'eui-error-display',
 	imports: [SnakeCaseParserPipe],
 	templateUrl: './error-display.component.html',
 	styleUrl: './error-display.component.scss',

@@ -68,7 +68,7 @@ export type ClassRule<T = unknown> = {
 };
 
 @Component({
-	selector: 'lib-table',
+	selector: 'eui-table',
 	templateUrl: 'table.component.html',
 	styleUrls: ['table.component.scss'],
 	imports: [

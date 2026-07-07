@@ -52,7 +52,7 @@ export class ErrorDisplayPage {
 	];
 
 	protected readonly snippet = `// SystemError = HttpErrorResponse | string | undefined
-<lib-error-display [error]="'user_not_found'" />
-<lib-error-display [error]="httpError" />        <!-- parses .error / .error.message -->
-<lib-error-display [error]="undefined" />        <!-- 'Unknown error' -->`;
+<eui-error-display [error]="'user_not_found'" />
+<eui-error-display [error]="httpError" />        <!-- parses .error / .error.message -->
+<eui-error-display [error]="undefined" />        <!-- 'Unknown error' -->`;
 }

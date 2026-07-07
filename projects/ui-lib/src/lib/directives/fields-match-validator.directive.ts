@@ -8,7 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 
 @Directive({
-	selector: '[libFieldsMatchValidator]',
+	selector: '[euiFieldsMatchValidator]',
 	providers: [
 		{
 			provide: NG_VALIDATORS,

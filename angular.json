@@ -34,7 +34,7 @@
       },
       "root": "projects/ui-lib",
       "sourceRoot": "projects/ui-lib/src",
-      "prefix": "lib",
+      "prefix": "eui",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",

@@ -8,7 +8,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
-	selector: '[libPhoneValidation]',
+	selector: '[euiPhoneValidation]',
 	host: {
 		'(input)': 'onInput($event)',
 		'(keydown)': 'onKeyDown($event)',

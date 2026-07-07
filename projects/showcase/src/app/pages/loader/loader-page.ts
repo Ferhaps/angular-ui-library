@@ -37,7 +37,7 @@ export class LoaderPage {
 	}
 
 	protected readonly snippet = `// app root template — mount once
-<lib-global-loader />
+<eui-global-loader />
 
 // flip it from anywhere
 const loader = inject(LoaderService);
