@@ -34,7 +34,7 @@ A feature-rich table component supporting:
 - Keyboard-accessible rows, sort headers and row menus (aria-sort / aria-selected)
 
 ```html
-<lib-table
+<eui-table
 	[config]="{
     data: items,
     title: 'Users Table',
@@ -52,7 +52,7 @@ A feature-rich table component supporting:
 	<tr class="custom-headers">
 		Custom header elements will be shown only if tableHeadings is empty
 	</tr>
-</lib-table>
+</eui-table>
 ```
 
 ```typescript
@@ -100,19 +100,19 @@ A styled search input with debounce functionality that works with **all three** 
 **Standalone usage (output only)**
 
 ```html
-<lib-search-bar [for]="'users'" (search)="onSearch($event)"> </lib-search-bar>
+<eui-search-bar [for]="'users'" (search)="onSearch($event)"> </eui-search-bar>
 ```
 
 **Reactive forms**
 
 ```html
-<lib-search-bar [for]="'users'" formControlName="search" />
+<eui-search-bar [for]="'users'" formControlName="search" />
 ```
 
 **Template-driven forms**
 
 ```html
-<lib-search-bar [for]="'users'" [(ngModel)]="searchTerm" />
+<eui-search-bar [for]="'users'" [(ngModel)]="searchTerm" />
 ```
 
 **Signal Forms** (via the `[formField]` directive — no `ControlValueAccessor` needed)
@@ -125,7 +125,7 @@ f = form(this.model);
 ```
 
 ```html
-<lib-search-bar [for]="'users'" [formField]="f.query" />
+<eui-search-bar [for]="'users'" [formField]="f.query" />
 ```
 
 The `search` output still emits on every debounced change and can be used alongside any form binding. The emitted value is the trimmed search string.
@@ -133,7 +133,7 @@ The `search` output still emits on every debounced change and can be used alongs
 The debounce defaults to 300ms and is configurable via `[debounceMs]` (applied live, so it can be bound to a signal):
 
 ```html
-<lib-search-bar [for]="'users'" [formControl]="searchCtrl" [debounceMs]="500" />
+<eui-search-bar [for]="'users'" [formControl]="searchCtrl" [debounceMs]="500" />
 ```
 
 ### DefaultDialogComponent
@@ -141,11 +141,11 @@ The debounce defaults to 300ms and is configurable via `[debounceMs]` (applied l
 A customizable dialog component with optional back button.
 
 ```html
-<lib-default-dialog [dialogTitle]="'User Details'" [height]="'400px'" [withBack]="true" (back)="onBack()">
+<eui-default-dialog [dialogTitle]="'User Details'" [height]="'400px'" [withBack]="true" (back)="onBack()">
 	<div class="dialog-content">
 		<!-- Your content here -->
 	</div>
-</lib-default-dialog>
+</eui-default-dialog>
 ```
 
 ### GlobalLoaderComponent
@@ -153,7 +153,7 @@ A customizable dialog component with optional back button.
 A centered spinner overlay for loading states.
 
 ```html
-<lib-global-loader />
+<eui-global-loader />
 ```
 
 ```typescript
@@ -168,7 +168,7 @@ this.loaderService.setLoading(false);
 Displays error messages in a dialog format.
 
 ```html
-<lib-error-handler />
+<eui-error-handler />
 ```
 
 ```typescript
@@ -189,7 +189,7 @@ Validates that two form fields match (useful for password confirmation). It **re
 
 ```html
 <input type="password" formControlName="password" />
-<input type="password" formControlName="confirm" libFieldsMatchValidator fieldToMatch="password" />
+<input type="password" formControlName="confirm" euiFieldsMatchValidator fieldToMatch="password" />
 <!-- error key when they differ: { mismatch: true } -->
 ```
 
@@ -207,7 +207,7 @@ Validates password strength. Every rule is configurable via inputs (defaults sho
 | `specialChars`     | `'!@#$%^&*'` | Accepted special characters |
 
 ```html
-<input type="password" libPasswordValidator [minLength]="10" [requireSpecial]="false" />
+<input type="password" euiPasswordValidator [minLength]="10" [requireSpecial]="false" />
 ```
 
 Rather than a single boolean, it reports **which** rules failed under the `passwordInvalid` key, so a UI can show a per-rule checklist:
@@ -235,13 +235,13 @@ Implemented as a `ControlValueAccessor`, so the formatted value is written back 
 
 ```html
 <!-- Standalone -->
-<input type="tel" libPhoneValidation />
+<input type="tel" euiPhoneValidation />
 
 <!-- Reactive forms -->
-<input type="tel" libPhoneValidation formControlName="phone" />
+<input type="tel" euiPhoneValidation formControlName="phone" />
 
 <!-- Template-driven forms -->
-<input type="tel" libPhoneValidation [(ngModel)]="phone" />
+<input type="tel" euiPhoneValidation [(ngModel)]="phone" />
 ```
 
 ### These directives and Signal Forms
