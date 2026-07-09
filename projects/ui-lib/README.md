@@ -36,16 +36,16 @@ A feature-rich table component supporting:
 ```html
 <eui-table
 	[config]="{
-    data: items,
-    title: 'Users Table',
-    dataProps: ['id', 'name', 'email'],
-    tableHeadings: ['ID', 'Name', 'Email'],
-    options: ['Edit', 'Delete'],
-    withAdd: true,
-    selectableRows: 'single' | 'multiple',
-    sortable: true,
-    draggable: true
-  }"
+		data: items,
+		title: 'Users Table',
+		dataProps: ['id', 'name', 'email'],
+		tableHeadings: ['ID', 'Name', 'Email'],
+		options: ['Edit', 'Delete'],
+		withAdd: true,
+		selectableRows: 'single' | 'multiple',
+		sortable: true,
+		draggable: true
+	}"
 	(action)="handleTableAction($event)"
 >
 	<div class="upper-part">Optional content to be displyed at the top of the table</div>
@@ -186,8 +186,7 @@ catch (e: HttpErrorResponse) {
 A live password strength meter with a per-rule checklist. It evaluates the **same rules as `PasswordValidatorDirective`** (via the shared, also-exported `validatePasswordRules(value, rules)` function), so when both are configured identically the meter reaches _Strong_ exactly when the validator passes.
 
 ```html
-<input type="password" [(ngModel)]="password" euiPasswordValidator />
-<eui-password-strength [value]="password" />
+<input type="password" [(ngModel)]="password" euiPasswordValidator /> <eui-password-strength [value]="password" />
 ```
 
 Rule inputs mirror the directive's, with the same defaults (`minLength`, `requireUppercase`, `requireLowercase`, `requireDigit`, `requireSpecial`, `specialChars`):
