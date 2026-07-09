@@ -1,0 +1,27 @@
+<eui-default-dialog [dialogTitle]="options.title || 'Are you sure?'">
+	<div class="dialog-content">
+		@if (options.message) {
+			<p class="message">{{ options.message }}</p>
+		}
+
+		<div class="actions">
+			<button
+				mat-stroked-button
+				type="button"
+				class="cancel-button"
+				[mat-dialog-close]="false"
+			>
+				{{ options.cancelText || 'Cancel' }}
+			</button>
+			<button
+				mat-flat-button
+				type="button"
+				class="confirm-button"
+				[class.danger]="options.danger"
+				[mat-dialog-close]="true"
+			>
+				{{ options.confirmText || 'Confirm' }}
+			</button>
+		</div>
+	</div>
+</eui-default-dialog>

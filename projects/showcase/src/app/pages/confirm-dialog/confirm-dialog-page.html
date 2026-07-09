@@ -1,0 +1,32 @@
+<app-page-heading
+	title="Confirm Dialog"
+	kind="Service · ConfirmDialogService"
+	lead="A promise-based confirm() that opens a dialog built on the library's
+	DefaultDialog shell and resolves to a boolean. Focus lands on the safe
+	action first, and only an explicit confirm resolves true."
+/>
+
+<app-demo-card heading="Try it">
+	<div class="buttons">
+		<button mat-flat-button (click)="basic()">
+			<mat-icon>help</mat-icon> Basic confirm
+		</button>
+		<button mat-stroked-button class="danger" (click)="danger()">
+			<mat-icon>delete_forever</mat-icon> Destructive confirm
+		</button>
+	</div>
+	<p class="state">
+		Last result:
+		<strong [class.on]="lastResult() === true">
+			@if (lastResult() === null) {
+				—
+			} @else {
+				{{ lastResult() ? 'confirmed' : 'cancelled' }}
+			}
+		</strong>
+	</p>
+</app-demo-card>
+
+<app-demo-card heading="Usage">
+	<app-code-block [code]="snippet" />
+</app-demo-card>

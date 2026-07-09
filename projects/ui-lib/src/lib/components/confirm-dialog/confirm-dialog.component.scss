@@ -1,0 +1,25 @@
+.dialog-content {
+	width: 100%;
+	box-sizing: border-box;
+	padding-inline: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.message {
+	margin: 0;
+	color: var(--mat-sys-on-surface-variant, #49454f);
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+}
+
+.confirm-button.danger {
+	// M3 mat-flat-button reads these tokens (not the --mdc-filled-button-* ones).
+	--mat-button-filled-container-color: var(--mat-sys-error, #ba1a1a);
+	--mat-button-filled-label-text-color: var(--mat-sys-on-error, #ffffff);
+}

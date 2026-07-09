@@ -1,0 +1,26 @@
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin-bottom: 1rem;
+}
+
+.buttons mat-icon {
+	margin-right: 0.35rem;
+}
+
+.buttons .danger {
+	color: var(--mat-sys-error, #ba1a1a);
+}
+
+.state {
+	margin: 0;
+}
+
+.state strong {
+	color: var(--mat-sys-on-surface-variant, #6b6b6b);
+}
+
+.state strong.on {
+	color: var(--mat-sys-primary, #6750a4);
+}
