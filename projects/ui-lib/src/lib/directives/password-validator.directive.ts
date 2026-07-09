@@ -14,6 +14,49 @@ export type PasswordErrors = {
 	special?: boolean;
 };
 
+export type PasswordRules = {
+	minLength: number;
+	requireUppercase: boolean;
+	requireLowercase: boolean;
+	requireDigit: boolean;
+	requireSpecial: boolean;
+	specialChars: string;
+};
+
+export function validatePasswordRules(
+	value: string,
+	rules: PasswordRules,
+): PasswordErrors {
+	const errors: PasswordErrors = {};
+
+	if (value.length < rules.minLength) {
+		errors.minLength = rules.minLength;
+	}
+	if (rules.requireUppercase && !/[A-Z]/.test(value)) {
+		errors.uppercase = true;
+	}
+	if (rules.requireLowercase && !/[a-z]/.test(value)) {
+		errors.lowercase = true;
+	}
+	if (rules.requireDigit && !/\d/.test(value)) {
+		errors.digit = true;
+	}
+	if (rules.requireSpecial && !hasSpecialChar(value, rules.specialChars)) {
+		errors.special = true;
+	}
+
+	return errors;
+}
+
+function hasSpecialChar(value: string, specialChars: string): boolean {
+	for (const char of value) {
+		if (specialChars.includes(char)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 @Directive({
 	selector: '[euiPasswordValidator]',
 	providers: [
@@ -53,23 +96,14 @@ export class PasswordValidatorDirective implements Validator {
 			return null;
 		}
 
-		const errors: PasswordErrors = {};
-
-		if (value.length < this.minLength()) {
-			errors.minLength = this.minLength();
-		}
-		if (this.requireUppercase() && !/[A-Z]/.test(value)) {
-			errors.uppercase = true;
-		}
-		if (this.requireLowercase() && !/[a-z]/.test(value)) {
-			errors.lowercase = true;
-		}
-		if (this.requireDigit() && !/\d/.test(value)) {
-			errors.digit = true;
-		}
-		if (this.requireSpecial() && !this.hasSpecialChar(value)) {
-			errors.special = true;
-		}
+		const errors = validatePasswordRules(value, {
+			minLength: this.minLength(),
+			requireUppercase: this.requireUppercase(),
+			requireLowercase: this.requireLowercase(),
+			requireDigit: this.requireDigit(),
+			requireSpecial: this.requireSpecial(),
+			specialChars: this.specialChars(),
+		});
 
 		return Object.keys(errors).length > 0
 			? { passwordInvalid: errors }
@@ -78,15 +112,5 @@ export class PasswordValidatorDirective implements Validator {
 
 	public registerOnValidatorChange(fn: () => void): void {
 		this.onValidatorChange = fn;
-	}
-
-	private hasSpecialChar(value: string): boolean {
-		const specials = this.specialChars();
-		for (const char of value) {
-			if (specials.includes(char)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }
