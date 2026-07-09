@@ -19,7 +19,7 @@ Everything lives under `projects/ui-lib/src/lib/`, grouped by kind:
 
 ## Steps
 
-1. **Create the file(s)** in the right folder. You can scaffold with the CLI (schematics are preconfigured for `scss`, `skipTests: true`, and the `lib` selector prefix):
+1. **Create the file(s)** in the right folder. You can scaffold with the CLI (schematics are preconfigured for `scss`, `skipTests: true`, and the `eui` selector prefix):
    ```bash
    ng generate component components/my-thing
    ng generate directive directives/my-thing
@@ -36,9 +36,9 @@ Everything lives under `projects/ui-lib/src/lib/`, grouped by kind:
 
 These come from the existing code and the project's coding standards (see CLAUDE.md):
 
-- **Selector prefix `lib`** for components/directives (e.g. `lib-my-thing`, `[libMyThing]`).
+- **Selector prefix `eui`** for components/directives (e.g. `eui-my-thing`, `[euiMyThing]`).
 - **Standalone is the default** — do NOT set `standalone: true`. Declare dependencies in the `imports` array.
-- **Components:** `changeDetection: ChangeDetectionStrategy.OnPush`; use `input()`/`input.required()`/`output()` and `computed()` (not decorators); prefer inline `template`/`styles` for small components, external files (paths relative to the `.ts`) for larger ones.
+- **Components:** `changeDetection: ChangeDetectionStrategy.OnPush`; use `input()`/`input.required()`/`output()` and `computed()` (not decorators); every component gets its own folder with separate `.ts`, `.html` and `.scss` files (`templateUrl`/`styleUrls` relative to the `.ts`) — no inline `template`/`styles`.
 - **Services:** `@Injectable({ providedIn: 'root' })`; obtain dependencies with `inject()`.
 - **Directives** that validate: register against `NG_VALIDATORS` with `multi: true` (see existing validator directives).
 - **Generics:** make components/types generic (`<T = any>`) when they operate on caller-supplied data, like `TableComponent<T>`.

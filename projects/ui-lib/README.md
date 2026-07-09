@@ -181,6 +181,23 @@ catch (e: HttpErrorResponse) {
 }
 ```
 
+### PasswordStrengthComponent
+
+A live password strength meter with a per-rule checklist. It evaluates the **same rules as `PasswordValidatorDirective`** (via the shared, also-exported `validatePasswordRules(value, rules)` function), so when both are configured identically the meter reaches _Strong_ exactly when the validator passes.
+
+```html
+<input type="password" [(ngModel)]="password" euiPasswordValidator />
+<eui-password-strength [value]="password" />
+```
+
+Rule inputs mirror the directive's, with the same defaults (`minLength`, `requireUppercase`, `requireLowercase`, `requireDigit`, `requireSpecial`, `specialChars`):
+
+```html
+<eui-password-strength [value]="password" [minLength]="12" [requireSpecial]="false" />
+```
+
+The meter is an accessible `role="progressbar"` (Weak / Fair / Good / Strong) and each checklist row reports its met / not-met state to screen readers.
+
 ## Directives
 
 ### FieldsMatchValidatorDirective
@@ -209,6 +226,8 @@ Validates password strength. Every rule is configurable via inputs (defaults sho
 ```html
 <input type="password" euiPasswordValidator [minLength]="10" [requireSpecial]="false" />
 ```
+
+Pairs with `PasswordStrengthComponent` (see above), which shares the same rule engine — configure both identically and the meter hits _Strong_ exactly when this validator passes.
 
 Rather than a single boolean, it reports **which** rules failed under the `passwordInvalid` key, so a UI can show a per-rule checklist:
 
@@ -322,6 +341,23 @@ catch (e: HttpErrorResponse) {
   this.errorService.sendError(e);
 }
 ```
+
+### ConfirmDialogService
+
+A promise-based confirmation dialog built on `DefaultDialogComponent`.
+
+```typescript
+private confirmDialog = inject(ConfirmDialogService);
+
+const confirmed = await this.confirmDialog.confirm({
+	title: 'Delete 3 users?',
+	message: 'This action cannot be undone.',
+	confirmText: 'Delete',
+	danger: true, // destructive styling on the confirm button
+});
+```
+
+`confirm()` resolves `true` only when the confirm button is pressed — cancel, Escape, the close icon and backdrop clicks all resolve `false`. Focus lands on the cancel button first (safest action). All options are optional: `title`, `message`, `confirmText`, `cancelText`, `danger`, `width`.
 
 ## Utilities
 

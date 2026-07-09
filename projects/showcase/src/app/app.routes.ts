@@ -26,6 +26,14 @@ export const routes: Routes = [
 		title: 'Default Dialog · easy-ui-lib',
 	},
 	{
+		path: 'confirm-dialog',
+		loadComponent: () =>
+			import('./pages/confirm-dialog/confirm-dialog-page').then(
+				(m) => m.ConfirmDialogPage,
+			),
+		title: 'Confirm Dialog · easy-ui-lib',
+	},
+	{
 		path: 'error-display',
 		loadComponent: () =>
 			import('./pages/error-display/error-display-page').then(
@@ -60,6 +68,14 @@ export const routes: Routes = [
 				(m) => m.ValidatorsPage,
 			),
 		title: 'Form Directives · easy-ui-lib',
+	},
+	{
+		path: 'password-strength',
+		loadComponent: () =>
+			import('./pages/password-strength/password-strength-page').then(
+				(m) => m.PasswordStrengthPage,
+			),
+		title: 'Password Strength · easy-ui-lib',
 	},
 	{
 		path: 'utils',
