@@ -6,8 +6,6 @@ export type NavItem = {
 	kind: 'Component' | 'Directive' | 'Pipe' | 'Service' | 'Utility';
 };
 
-// Single source of truth for the feature list. Drives the sidebar, the home
-// page cards and (indirectly) the router config.
 export const NAV_ITEMS: NavItem[] = [
 	{
 		path: 'table',
@@ -32,6 +30,14 @@ export const NAV_ITEMS: NavItem[] = [
 		kind: 'Component',
 		blurb:
 			'Reusable MatDialog shell with title, optional back arrow, custom height and projected/template content.',
+	},
+	{
+		path: 'confirm-dialog',
+		title: 'Confirm Dialog',
+		icon: 'help',
+		kind: 'Service',
+		blurb:
+			'Promise-based confirm() that opens a Material dialog and resolves true/false — with danger styling for destructive actions.',
 	},
 	{
 		path: 'error-display',
@@ -72,6 +78,14 @@ export const NAV_ITEMS: NavItem[] = [
 		kind: 'Directive',
 		blurb:
 			'Password strength, fields-match and phone-formatting directives plugged into reactive forms.',
+	},
+	{
+		path: 'password-strength',
+		title: 'Password Strength',
+		icon: 'password',
+		kind: 'Component',
+		blurb:
+			'Live strength meter and per-rule checklist sharing the exact rules of the password validator directive.',
 	},
 	{
 		path: 'utils',

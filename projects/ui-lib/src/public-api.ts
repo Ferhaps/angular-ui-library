@@ -19,3 +19,6 @@ export * from './lib/services/error.service';
 export * from './lib/components/error-handler/error-handler.component';
 export * from './lib/interceptors/easy-ui-lib.interceptor';
 export * from './lib/providers/provide-easy-ui-lib';
+export * from './lib/components/confirm-dialog/confirm-dialog.component';
+export * from './lib/services/confirm-dialog.service';
+export * from './lib/components/password-strength/password-strength.component';
