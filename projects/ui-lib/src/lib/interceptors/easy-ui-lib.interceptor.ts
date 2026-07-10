@@ -4,7 +4,9 @@ import { catchError, finalize, throwError } from 'rxjs';
 import { LoaderService } from '../services/loader.service';
 import { ErrorService } from '../services/error.service';
 
+/** Request header that, when present, shows the global loader for the request. */
 export const GLOBAL_LOADER_HEADER = 'X-Global-Loader';
+/** Request header that, when present, suppresses the automatic error popup. */
 export const SKIP_ERROR_HEADER = 'X-Skip-Error';
 
 /**

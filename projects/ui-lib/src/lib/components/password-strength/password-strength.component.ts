@@ -11,6 +11,7 @@ import {
 	validatePasswordRules,
 } from '../../directives/password-validator.directive';
 
+/** Qualitative password strength bucket derived from the % of rules passed. */
 export type PasswordStrengthLevel = 'weak' | 'fair' | 'good' | 'strong';
 
 type ChecklistItem = {
@@ -25,6 +26,19 @@ const LEVEL_LABELS: Record<PasswordStrengthLevel, string> = {
 	strong: 'Strong',
 };
 
+/**
+ * Live password strength meter with a per-rule checklist.
+ *
+ * Renders a progress bar (weak → strong) plus a tick list of the requirements
+ * still to satisfy. It uses the same `validatePasswordRules` engine as
+ * `PasswordValidatorDirective`, so give it the identical rule inputs to keep the
+ * meter and the form validation in agreement.
+ *
+ * @example
+ * ```html
+ * <eui-password-strength [value]="password" [minLength]="10" />
+ * ```
+ */
 @Component({
 	selector: 'eui-password-strength',
 	imports: [MatIconModule, MatProgressBarModule],
@@ -38,11 +52,17 @@ export class PasswordStrengthComponent {
 
 	// Rule inputs mirror PasswordValidatorDirective (same defaults), so the
 	// meter and the validator stay in lockstep when configured identically.
+	/** Minimum length. Default `8`. */
 	public minLength = input(8);
+	/** Require an uppercase letter. Default `true`. */
 	public requireUppercase = input(true);
+	/** Require a lowercase letter. Default `true`. */
 	public requireLowercase = input(true);
+	/** Require a digit. Default `true`. */
 	public requireDigit = input(true);
+	/** Require a special character (see {@link specialChars}). Default `true`. */
 	public requireSpecial = input(true);
+	/** Characters that satisfy the "special" rule. Default `!@#$%^&*`. */
 	public specialChars = input('!@#$%^&*');
 
 	private rules = computed<PasswordRules>(() => ({

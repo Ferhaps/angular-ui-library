@@ -7,6 +7,20 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+/**
+ * Formats a text input as an international phone number and keeps the bound form
+ * control in sync (it is a `ControlValueAccessor`).
+ *
+ * As the user types it enforces a leading `+`, strips any character that isn't a
+ * digit or `+`, and blocks deleting the lone `+`. Works with `formControl`,
+ * `formControlName` and `[(ngModel)]`; the control's value is always the
+ * formatted string.
+ *
+ * @example
+ * ```html
+ * <input euiPhoneValidation formControlName="phone" />
+ * ```
+ */
 @Directive({
 	selector: '[euiPhoneValidation]',
 	host: {

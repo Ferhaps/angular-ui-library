@@ -7,6 +7,19 @@ import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { ErrorService } from '../../services/error.service';
 
+/**
+ * Listens to {@link ErrorService} and shows any broadcast error in a popup
+ * dialog (closing any previous popup first).
+ *
+ * Mount it once, near your app root — it renders nothing itself. Combined with
+ * `easyUiLibInterceptor`, failed HTTP requests surface automatically unless the
+ * request opts out via the `X-Skip-Error` header.
+ *
+ * @example
+ * ```html
+ * <eui-error-handler />
+ * ```
+ */
 @Component({
 	selector: 'eui-error-handler',
 	templateUrl: 'error-handler.component.html',

@@ -7,6 +7,20 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
+/**
+ * Cross-field validator that fails when this control's value differs from
+ * another control's — e.g. a "confirm password" field.
+ *
+ * Point {@link fieldToMatch} at the sibling control's name (resolved from the
+ * form root). On mismatch it sets a `mismatch: true` error on this control. It
+ * subscribes to the mirrored control and re-validates automatically when that
+ * control changes, so the error clears/appears without the user re-typing here.
+ *
+ * @example
+ * ```html
+ * <input formControlName="confirm" euiFieldsMatchValidator fieldToMatch="password" />
+ * ```
+ */
 @Directive({
 	selector: '[euiFieldsMatchValidator]',
 	providers: [
@@ -18,6 +32,7 @@ import { Subscription } from 'rxjs';
 	],
 })
 export class FieldsMatchValidatorDirective implements Validator, OnDestroy {
+	/** Name of the control (within the same form) whose value must match. */
 	public fieldToMatch = input.required<string>();
 
 	private control?: AbstractControl;

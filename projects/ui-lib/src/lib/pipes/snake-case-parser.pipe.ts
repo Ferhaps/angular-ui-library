@@ -1,5 +1,19 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Turns a `snake_case` identifier into a human-readable, space-separated label.
+ *
+ * The first word is capitalised and the rest lower-cased
+ * (`'user_first_name' -> 'User first name'`). Fully upper-case words are treated
+ * as acronyms and left untouched (`'user_ID' -> 'User ID'`), and an all-caps
+ * value is passed through verbatim (`'HTTP_ERROR' -> 'HTTP ERROR'`).
+ * Non-string values are coerced with `String()`.
+ *
+ * @example
+ * ```html
+ * {{ 'invalid_credentials' | snakeCaseParser }} <!-- Invalid credentials -->
+ * ```
+ */
 @Pipe({
 	name: 'snakeCaseParser',
 })

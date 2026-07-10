@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { DefaultDialogComponent } from '../default-dialog/default-dialog.component';
 
+/** Options for `ConfirmDialogService.confirm()`; every field is optional. */
 export type ConfirmDialogOptions = {
 	/** Dialog heading. Defaults to 'Are you sure?'. */
 	title?: string;
@@ -18,6 +19,11 @@ export type ConfirmDialogOptions = {
 	width?: string;
 };
 
+/**
+ * The dialog body opened by `ConfirmDialogService`. You rarely reference this
+ * directly — call `ConfirmDialogService.confirm()` instead, which opens it and
+ * resolves the user's choice as a `Promise<boolean>`.
+ */
 @Component({
 	selector: 'eui-confirm-dialog',
 	imports: [DefaultDialogComponent, MatDialogModule, MatButtonModule],

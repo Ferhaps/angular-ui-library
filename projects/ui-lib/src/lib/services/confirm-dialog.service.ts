@@ -7,6 +7,20 @@ import {
 	ConfirmDialogOptions,
 } from '../components/confirm-dialog/confirm-dialog.component';
 
+/**
+ * Opens the library's confirmation dialog and awaits the user's decision.
+ *
+ * Inject it and `await confirm(...)` before running a destructive or
+ * irreversible action. The safe (cancel) button is focused first, and `danger`
+ * styling is available for destructive confirms.
+ *
+ * @example
+ * ```ts
+ * if (await this.confirmDialog.confirm({ title: 'Delete item?', danger: true })) {
+ *   this.delete();
+ * }
+ * ```
+ */
 @Injectable({
 	providedIn: 'root',
 })
@@ -17,6 +31,8 @@ export class ConfirmDialogService {
 	 * Opens a confirmation dialog and resolves to `true` only when the user
 	 * presses the confirm button. Cancel, Escape, the close icon and backdrop
 	 * clicks all resolve to `false`.
+	 *
+	 * @param options - Labels, `danger` styling and width. See {@link ConfirmDialogOptions}.
 	 */
 	public async confirm(options: ConfirmDialogOptions = {}): Promise<boolean> {
 		const dialogRef = this.dialog.open(ConfirmDialogComponent, {

@@ -44,18 +44,22 @@ import { Subject, debounce, distinctUntilChanged, map, timer } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBarComponent implements ControlValueAccessor, FormValueControl<string> {
+	/** `id`/label association value wired to the underlying input's `for`. */
 	public for = input.required<string>();
+	/** Debounce window in milliseconds before a value is committed. Default `300`. */
 	public debounceMs = input(300);
 
 	// --- Signal Forms (FormValueControl) contract -------------------------
 	/** The committed (debounced, trimmed) value. Bind with `[formField]`. */
 	public readonly value = model<string>('');
-	/** Bound automatically by the `[formField]` directive. */
+	/** Disables the input. Bound automatically by the `[formField]` directive. */
 	public readonly disabled = input<boolean>(false);
+	/** Renders the input read-only. Bound automatically by `[formField]`. */
 	public readonly readonly = input<boolean>(false);
 	/** Emitted on blur so Signal Forms can mark the field as touched. */
 	public readonly touch = output<void>();
 
+	/** Emits the committed (debounced, trimmed) search term on each change. */
 	public readonly search = output<string>();
 
 	private readonly inputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');

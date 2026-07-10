@@ -27,7 +27,23 @@ import {
 	MatCheckboxModule,
 } from '@angular/material/checkbox';
 
+/**
+ * The single event emitted by `TableComponent` for every interaction. Inspect
+ * {@link action} to know what happened; the other fields are populated as
+ * relevant to that action.
+ */
 export type TableEvent<T = unknown> = {
+	/**
+	 * What happened. Built-in actions:
+	 * - `rowClick` — a row was clicked/activated
+	 * - `rowSelect` — checkbox selection changed (see {@link selectedRows})
+	 * - `drag` — a row was dragged to a new position
+	 * - `scroll` / `scrolled` — the body scrolled / reached the bottom
+	 * - `sort` — a column's sort changed (see {@link prop}, {@link sortState})
+	 * - `add` — the header add button was pressed
+	 *
+	 * A custom row option emits its own label lower-cased (e.g. `'edit'`).
+	 */
 	action:
 		| 'rowClick'
 		| 'rowSelect'
@@ -37,36 +53,88 @@ export type TableEvent<T = unknown> = {
 		| 'sort'
 		| 'add'
 		| (string & {}); // Custom option actions
+	/** The row the action targeted, when applicable. */
 	obj?: T;
+	/** The column key involved (e.g. for `sort`). */
 	prop?: keyof T;
+	/** Index of {@link obj} in the current `data` order. */
 	index?: number;
+	/** Whether the target row is currently selected. */
 	selected?: boolean;
+	/** Indices (into current `data`) of all selected rows, for `rowSelect`. */
 	selectedRows?: number[];
+	/** New sort direction, for `sort`. */
 	sortState?: SortState;
+	/** The originating DOM event, when one exists. */
 	event?: Event;
 };
 
+/**
+ * Declarative configuration for `TableComponent`. Everything the table renders
+ * and every behaviour it enables is driven by this object — pass it via the
+ * `config` input.
+ */
 export type Config<T = unknown> = {
+	/** The rows to render. */
 	data: T[];
+	/** Table title shown in the header. */
 	title: string;
+	/** Object keys to render as columns, in order. */
 	dataProps: (keyof T)[];
+	/** Column header labels; defaults to the {@link dataProps} keys. */
 	tableHeadings?: string[];
+	/**
+	 * Per-row action menu. A static list, or a function returning the options
+	 * for a given row. Each selection emits a `TableEvent` with its lower-cased
+	 * label as the action.
+	 */
 	options?: string[] | ((obj: T) => string[]);
+	/** Show a header "add" button that emits the `add` action. */
 	withAdd?: boolean;
+	/** Enable row selection — a single row, or many via checkboxes. */
 	selectableRows?: 'single' | 'multiple';
+	/** Enable clickable sort headers. */
 	sortable?: boolean;
+	/** Enable drag-and-drop row reordering (mutates {@link data} in place). */
 	draggable?: boolean;
+	/** Conditionally apply CSS classes to cells; see {@link ClassRule}. */
 	classRules?: ClassRule<T>[];
+	/**
+	 * Identity function for a row (defaults to the row object reference). Drives
+	 * selection tracking so it survives reordering — return a stable key.
+	 */
 	trackBy?: (obj: T) => unknown;
+	/** Show a loading spinner instead of rows. */
 	loading?: boolean;
+	/** Message shown when {@link data} is empty. */
 	emptyMessage?: string;
 };
 
+/** A conditional CSS class applied to a cell when {@link condition} holds. */
 export type ClassRule<T = unknown> = {
+	/** Class name to add to the cell. */
 	className: string;
+	/** Receives the row and the cell's column key; return `true` to apply. */
 	condition: (obj: T, prop: keyof T) => boolean;
 };
 
+/**
+ * Generic, config-driven data table.
+ *
+ * All rendering and behaviour — columns, sorting, drag-drop reordering, single
+ * or multiple row selection, per-row option menus, conditional cell classes,
+ * loading and empty states — is declared through a single {@link Config} object
+ * bound to the `config` input. Every interaction is reported through one typed
+ * `action` output ({@link TableEvent}). Rows, headers and menus are
+ * keyboard-accessible, and selection is keyed by row identity (see
+ * {@link Config.trackBy}) so it survives reordering.
+ *
+ * @typeParam T - The row model type.
+ * @example
+ * ```html
+ * <eui-table [config]="config" (action)="onAction($event)" />
+ * ```
+ */
 @Component({
 	selector: 'eui-table',
 	templateUrl: 'table.component.html',
@@ -83,8 +151,10 @@ export type ClassRule<T = unknown> = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent<T = unknown> {
+	/** The table's declarative configuration. See {@link Config}. */
 	public config = input.required<Config<T>>();
 
+	/** Emits once per user interaction. See {@link TableEvent}. */
 	protected action = output<TableEvent<T>>();
 
 	protected scrollContainer =

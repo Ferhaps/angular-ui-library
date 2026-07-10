@@ -1,3 +1,8 @@
+/**
+ * Maps HTTP status codes to their standard reason phrases
+ * (e.g. `404 -> 'Not Found'`). Handy for turning a status code into
+ * user-facing text.
+ */
 export const HTTP_STATUS_CODES: Record<number | string, string> = {
 	100: 'Continue',
 	101: 'Switching Protocols',
@@ -64,6 +69,7 @@ export const HTTP_STATUS_CODES: Record<number | string, string> = {
 	511: 'Network Authentication Required',
 };
 
+/** Shape of the `options` object passed to `HttpClient` request methods. */
 export type HttpRequestOptions = {
 	headers?: Record<string, string>;
 	responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
@@ -71,6 +77,7 @@ export type HttpRequestOptions = {
 
 const ACCEPT_JSON = 'application/json';
 
+/** Request options for a JSON response (`Accept: application/json`). */
 export const JSON_HTTP_OPTIONS = {
 	headers: {
 		Accept: ACCEPT_JSON,
@@ -78,10 +85,12 @@ export const JSON_HTTP_OPTIONS = {
 	responseType: 'json',
 } as const satisfies HttpRequestOptions;
 
+/** Request options for a plain-text response (`responseType: 'text'`). */
 export const STRING_HTTP_OPTIONS = {
 	responseType: 'text',
 } as const satisfies HttpRequestOptions;
 
+/** Request options for a binary response (`responseType: 'blob'`). */
 export const BLOB_HTTP_OPTIONS = {
 	headers: {
 		'Content-Type': 'application/octet-stream',
@@ -89,6 +98,11 @@ export const BLOB_HTTP_OPTIONS = {
 	responseType: 'blob',
 } as const satisfies HttpRequestOptions;
 
+/**
+ * JSON request options that opt out of the automatic error popup via the
+ * `X-Skip-Error` header — the interceptor still rethrows, so handle the error
+ * locally.
+ */
 export const SKIP_ERROR_OPTIONS = {
 	headers: {
 		Accept: ACCEPT_JSON,
@@ -97,6 +111,10 @@ export const SKIP_ERROR_OPTIONS = {
 	responseType: 'json',
 } as const satisfies HttpRequestOptions;
 
+/**
+ * JSON request options that show the global loading overlay for the request's
+ * lifetime via the `X-Global-Loader` header.
+ */
 export const JSON_OPTIONS_WITH_GLOBAL_LOADER = {
 	headers: {
 		Accept: ACCEPT_JSON,
