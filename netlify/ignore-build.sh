@@ -17,6 +17,16 @@ set -e
 
 FILE="projects/ui-lib/package.json"
 
+# Manual override: if the tip commit message contains a skip token, cancel the
+# build even when the library version was bumped. Handy for version bumps that
+# don't need a redeploy (e.g. a publish-only release, docs-only churn).
+#   [skip deploy] / [skip netlify] / [netlify skip]  -> SKIP
+commit_msg="$(git log -1 --pretty=%B "$COMMIT_REF" 2>/dev/null || true)"
+if printf '%s' "$commit_msg" | grep -qiE '\[(skip deploy|skip netlify|netlify skip)\]'; then
+  echo "Skip token found in commit message — skipping build."
+  exit 0
+fi
+
 # First build ever (or Netlify has no cached commit yet) -> build.
 if [ -z "$CACHED_COMMIT_REF" ]; then
   echo "No cached commit reference — building."
