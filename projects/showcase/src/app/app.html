@@ -2,9 +2,9 @@
 	<mat-sidenav
 		#drawer
 		class="sidebar"
-		[mode]="isHandset() ? 'over' : 'side'"
-		[opened]="!isHandset()"
-		[fixedInViewport]="isHandset()"
+		[mode]="isCompact() ? 'over' : 'side'"
+		[opened]="!isCompact()"
+		[fixedInViewport]="isCompact()"
 	>
 		<div class="brand">
 			<span class="brand-mark">UI</span>
@@ -64,7 +64,7 @@
 
 	<mat-sidenav-content class="content-wrap">
 		<mat-toolbar class="topbar">
-			@if (isHandset()) {
+			@if (isCompact()) {
 				<button
 					mat-icon-button
 					aria-label="Toggle navigation"

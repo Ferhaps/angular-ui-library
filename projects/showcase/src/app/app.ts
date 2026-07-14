@@ -40,13 +40,15 @@ export class App {
 	protected readonly theme = inject(ThemeService);
 
 	private readonly breakpoints = inject(BreakpointObserver);
-	protected readonly isHandset = toSignal(
-		this.breakpoints.observe('(max-width: 880px)').pipe(map((r) => r.matches)),
+	// The drawer is 312px wide, so pinning it open below ~1024px leaves the
+	// content pane narrower than the same page gets with the drawer overlaid.
+	protected readonly isCompact = toSignal(
+		this.breakpoints.observe('(max-width: 1024px)').pipe(map((r) => r.matches)),
 		{ initialValue: false },
 	);
 
 	protected onNavigate(drawer: MatSidenav): void {
-		if (this.isHandset()) {
+		if (this.isCompact()) {
 			drawer.close();
 		}
 	}
