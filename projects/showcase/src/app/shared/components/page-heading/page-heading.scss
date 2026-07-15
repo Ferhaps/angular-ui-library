@@ -9,6 +9,27 @@
 	flex-wrap: wrap;
 }
 
+// A Material chip is a single unbreakable flex item and its label defaults to
+// `white-space: nowrap`, so a long `kind` ("Service · LoaderService +
+// GlobalLoaderComponent") pushes past the viewport on a phone. Let the chip
+// shrink and its label wrap instead. The inner spans belong to MatChip's own
+// template, so they need ::ng-deep to reach.
+.row mat-chip-set {
+	min-width: 0;
+	max-width: 100%;
+}
+
+.row ::ng-deep .mat-mdc-standard-chip {
+	max-width: 100%;
+	height: auto;
+	min-height: 32px;
+}
+
+.row ::ng-deep .mat-mdc-chip-action-label {
+	white-space: normal;
+	overflow-wrap: anywhere;
+}
+
 h1 {
 	margin: 0;
 	font-size: clamp(1.6rem, 3vw, 2.1rem);
