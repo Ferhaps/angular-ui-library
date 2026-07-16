@@ -1,6 +1,8 @@
 .grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	// min() keeps the track from outgrowing the column on small phones, where
+	// the content area is narrower than the 320px ideal.
+	grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
 	gap: 1.25rem;
 	align-items: start;
 }
