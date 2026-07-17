@@ -6,7 +6,7 @@
 
 .note {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	gap: 0.4rem;
 	margin: 1rem 0 0;
 	font-size: 0.88rem;
@@ -16,4 +16,6 @@
 	font-size: 18px;
 	width: 18px;
 	height: 18px;
+	// Without this the icon is squeezed to a sliver once the text wraps.
+	flex-shrink: 0;
 }
