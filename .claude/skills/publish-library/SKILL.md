@@ -28,5 +28,5 @@ The library `@ferhaps/easy-ui-lib` is published manually. Follow this workflow.
 
 - Publish from `dist/ui-lib`, never from the source or workspace root.
 - `npm login` / `npm publish` are interactive and reach an external registry — these are user actions. Do not run `npm publish` yourself unless the user explicitly asks you to; prefer bumping the version and building, then handing off the publish step (or confirm first).
-- The version in `projects/ui-lib/package.json` is the one that ships. The root `package.json` version (`0.0.0`) is irrelevant.
+- The version in `projects/ui-lib/package.json` is the one that ships to npm. The root `package.json` version is never published, but it is **not** unused: `netlify/ignore-build.sh` deploys the showcase only when that root version changes (any change at all, e.g. `0.1.3` -> `0.1.4`). Bump it too when the release should redeploy the showcase.
 - Make sure `ng build` succeeds with no errors before publishing.
