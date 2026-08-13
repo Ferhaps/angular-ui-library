@@ -14,7 +14,7 @@ export * from './lib/utils/utils';
 export * from './lib/components/table-sort-header/table-sort-header.component';
 export * from './lib/components/table/table.component';
 export * from './lib/components/global-loader/global-loader.component';
-export * from './lib/services/loader.service';
+export * from './lib/services/loading.service';
 export * from './lib/services/error.service';
 export * from './lib/components/error-handler/error-handler.component';
 export * from './lib/interceptors/easy-ui-lib.interceptor';

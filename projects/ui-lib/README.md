@@ -157,11 +157,14 @@ A centered spinner overlay for loading states.
 ```
 
 ```typescript
-private loaderService = inject(LoaderService);
-this.loaderService.setLoading(true);
-// do stuff
-this.loaderService.setLoading(false);
+private readonly loading = inject(LoadingService);
+
+readonly users = toSignal(
+  this.http.get<User[]>('/api/users').pipe(this.loading.withLoading()),
+);
 ```
+
+See [LoadingService](#loadingservice) for the full API.
 
 ### ErrorHandlerComponent
 
@@ -316,15 +319,81 @@ Turns `snake_case` / `SCREAMING_SNAKE_CASE` tokens into a readable, capitalised 
 
 ## Services
 
-### LoaderService
+### LoadingService
 
-Manages global loading state.
+Drives the global loading overlay rendered by `<eui-global-loader />`.
+
+#### `withLoading()` — the reactive way
+
+`withLoading()` is a pipeable operator that ties the overlay to an observable's
+lifetime. It shows on subscribe and hides on complete, error **and** unsubscribe
+— so a superseded `switchMap` inner or a destroyed component releases it too.
+There's nothing to remember to turn off.
 
 ```typescript
-private loaderService = inject(LoaderService);
-this.loaderService.setLoading(true);
-// do stuff
-this.loaderService.setLoading(false);
+private readonly loading = inject(LoadingService);
+private readonly http = inject(HttpClient);
+
+readonly users = toSignal(
+  this.http.get<User[]>('/api/users').pipe(
+    this.loading.withLoading(),
+    map(toViewModel),
+  ),
+);
+```
+
+It composes anywhere in a pipe, and works with any way of consuming the stream —
+the `async` pipe, `toSignal`, `rxResource`, or a plain subscription:
+
+```typescript
+readonly results = toSignal(
+  this.query$.pipe(
+    switchMap(q => this.http.get<Hit[]>(`/api/search?q=${q}`).pipe(
+      this.loading.withLoading(),
+    )),
+  ),
+);
+```
+
+Overlapping work is counted, so the overlay stays up until the *last* caller
+finishes — two parallel requests can't have the faster one hide the spinner while
+the other is still running.
+
+#### `httpResource` — use the header instead
+
+`httpResource` never hands you an observable, so there is nowhere to pipe
+`withLoading()`. Tag the request with `X-Global-Loader` and
+[`easyUiLibInterceptor`](#http-interceptor) drives the overlay for you:
+
+```typescript
+readonly user = httpResource<User>(() => ({
+  url: `/api/users/${this.id()}`,
+  headers: { 'X-Global-Loader': 'true' },
+}));
+```
+
+The same header works on any `HttpClient` call — `JSON_OPTIONS_WITH_GLOBAL_LOADER`
+is a ready-made preset. Both paths feed the same count, so mixing them is safe.
+Reach for `withLoading()` by default and the header when you have no observable.
+
+#### Reading state
+
+```typescript
+loading.loading(); // Signal<boolean>
+```
+
+#### Manual control
+
+For async work that isn't an observable. Pair every `showLoading()` with a
+`hideLoading()`; unpaired `hideLoading()` calls are ignored.
+
+```typescript
+loading.showLoading();
+try {
+  await doSomething();
+} finally {
+  loading.hideLoading();
+}
 ```
 
 ### ErrorService
@@ -396,7 +465,7 @@ this.http.get<User[]>("/api/users", withAcceptLanguage(JSON_HTTP_OPTIONS, "bg"))
 
 `easyUiLibInterceptor` wires the header conventions above to the library's services:
 
-- a request carrying `X-Global-Loader` toggles the `LoaderService` for its lifetime;
+- a request carrying `X-Global-Loader` holds the `LoadingService` overlay open for its lifetime — claims are counted, so overlapping tagged requests keep the overlay up until the last one settles;
 - a failed request is broadcast through `ErrorService` (opening the popup) **unless** it carries `X-Skip-Error`.
 
 Both internal headers are stripped before the request is sent.

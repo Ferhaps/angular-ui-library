@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, finalize, throwError } from 'rxjs';
-import { LoaderService } from '../services/loader.service';
+import { LoadingService } from '../services/loading.service';
 import { ErrorService } from '../services/error.service';
 
 /** Request header that, when present, shows the global loader for the request. */
@@ -11,14 +11,16 @@ export const SKIP_ERROR_HEADER = 'X-Skip-Error';
 
 /**
  * Wires the library's header conventions to its services:
- *  - `X-Global-Loader` toggles the {@link LoaderService} for the request's lifetime.
+ *  - `X-Global-Loader` holds the {@link LoadingService} overlay open for the
+ *    request's lifetime. Claims are counted, so overlapping tagged requests keep
+ *    the overlay up until the last one settles.
  *  - `X-Skip-Error` suppresses the automatic {@link ErrorService} broadcast.
  *
  * These internal headers are stripped before the request leaves the app.
  */
 export const easyUiLibInterceptor: HttpInterceptorFn = (req, next) => {
 	const errorService = inject(ErrorService);
-	const loader = inject(LoaderService);
+	const loading = inject(LoadingService);
 
 	const useLoader = req.headers.has(GLOBAL_LOADER_HEADER);
 	const skipError = req.headers.has(SKIP_ERROR_HEADER);
@@ -30,7 +32,7 @@ export const easyUiLibInterceptor: HttpInterceptorFn = (req, next) => {
 	});
 
 	if (useLoader) {
-		loader.setLoading(true);
+		loading.showLoading();
 	}
 
 	return next(cleaned).pipe(
@@ -42,7 +44,7 @@ export const easyUiLibInterceptor: HttpInterceptorFn = (req, next) => {
 		}),
 		finalize(() => {
 			if (useLoader) {
-				loader.setLoading(false);
+				loading.hideLoading();
 			}
 		}),
 	);
