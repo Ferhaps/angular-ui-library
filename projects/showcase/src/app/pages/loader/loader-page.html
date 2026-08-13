@@ -1,10 +1,11 @@
 <app-page-heading
 	title="Global Loader"
-	kind="Service · LoaderService + GlobalLoaderComponent"
+	kind="Service · LoadingService + GlobalLoaderComponent"
 	lead="A single source of truth for an app-wide loading overlay. Mount
-	<eui-global-loader /> once near the root (done in this showcase's shell)
-	and flip LoaderService.setLoading() from anywhere — typically from an HTTP
-	interceptor keyed off the X-Global-Loader header."
+	<eui-global-loader /> once near the root (done in this showcase's shell), then
+	pipe async work through LoadingService.withLoading() — the overlay is claimed
+	on subscribe and released on complete, error or unsubscribe. Overlapping work
+	keeps it up until the last claim settles."
 />
 
 <app-demo-card heading="Trigger the overlay">
@@ -15,17 +16,29 @@
 		<button mat-stroked-button (click)="simulate(4000)">
 			Simulate 4s request
 		</button>
+		<button mat-stroked-button (click)="simulateOverlapping()">
+			Fire 1s + 3s together
+		</button>
 	</div>
 	<p class="state">
 		Current state:
-		<strong [class.on]="loaderService.loading$ | async">
-			{{ (loaderService.loading$ | async) ? 'LOADING' : 'idle' }}
+		<strong [class.on]="loadingService.loading()">
+			{{ loadingService.loading() ? 'LOADING' : 'idle' }}
 		</strong>
 	</p>
+	@if (log().length) {
+		<ul class="log">
+			@for (entry of log(); track $index) {
+				<li>{{ entry }}</li>
+			}
+		</ul>
+	}
 	<p class="muted note">
 		<mat-icon>info</mat-icon>
 		The spinner overlay covers the whole viewport while active — it is
-		rendered by the single loader mounted in the app shell.
+		rendered by the single loader mounted in the app shell. Try "Fire 1s + 3s
+		together": the 1s request settles first, but the overlay stays up until
+		the 3s one finishes.
 	</p>
 </app-demo-card>
 

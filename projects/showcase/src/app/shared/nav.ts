@@ -61,7 +61,7 @@ export const NAV_ITEMS: NavItem[] = [
 		icon: 'hourglass_top',
 		kind: 'Service',
 		blurb:
-			'LoaderService + GlobalLoader render an app-wide spinner overlay from a single signal of truth.',
+			'LoadingService.withLoading() ties an app-wide spinner overlay to any observable, no manual toggling.',
 	},
 	{
 		path: 'pipe',
