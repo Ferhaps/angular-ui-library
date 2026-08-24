@@ -1,14 +1,8 @@
 {
   "mcpServers": {
-    "angular-mcp": {
+    "angular-cli": {
       "command": "npx",
-      "args": ["angular-mcp", "start"]
-    },
-		"playwright": {
-			"type": "stdio",
-			"command": "npx",
-			"args": ["@playwright/mcp@latest"],
-			"env": {}
-		}
+      "args": ["-y", "@angular/cli", "mcp"]
+    }
   }
 }
