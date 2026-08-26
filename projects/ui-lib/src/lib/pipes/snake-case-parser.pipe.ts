@@ -1,13 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 /**
- * Turns a `snake_case` identifier into a human-readable, space-separated label.
+ * Turns a `snake_case` or `SCREAMING_SNAKE_CASE` identifier into a
+ * human-readable, space-separated label.
  *
  * The first word is capitalised and the rest lower-cased
- * (`'user_first_name' -> 'User first name'`). Fully upper-case words are treated
- * as acronyms and left untouched (`'user_ID' -> 'User ID'`), and an all-caps
- * value is passed through verbatim (`'HTTP_ERROR' -> 'HTTP ERROR'`).
- * Non-string values are coerced with `String()`.
+ * (`'user_first_name' -> 'User first name'`). An all-caps value is humanised the
+ * same way (`'HTTP_ERROR' -> 'Http error'`). In a mixed-case value, fully
+ * upper-case words are treated as acronyms and left untouched
+ * (`'user_API_key' -> 'User API key'`).
+ *
+ * `null` and `undefined` become `''`; other non-string values are coerced with
+ * `String()`.
  *
  * @example
  * ```html
@@ -19,6 +23,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SnakeCaseParserPipe implements PipeTransform {
 	public transform(value: unknown): string {
+		if (value === null || value === undefined) {
+			return '';
+		}
 		if (typeof value !== 'string') {
 			return String(value);
 		}

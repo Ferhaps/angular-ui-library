@@ -87,6 +87,10 @@ export type Config<T = unknown> = {
 	 * Per-row action menu. A static list, or a function returning the options
 	 * for a given row. Each selection emits a `TableEvent` with its lower-cased
 	 * label as the action.
+	 *
+	 * An empty static list adds no options column. With a function the column is
+	 * always rendered, and a row it returns `[]` for gets an empty cell with no
+	 * menu button.
 	 */
 	options?: string[] | ((obj: T) => string[]);
 	/** Show a header "add" button that emits the `add` action. */
@@ -167,7 +171,15 @@ export class TableComponent<T = unknown> {
 	private readonly singleSelectedKey = signal<unknown>(undefined);
 	private previousData: T[] | null = null;
 
-	protected readonly hasOptions = computed(() => !!this.config().options);
+	/**
+	 * Whether to render the options column. A function always gets the column
+	 * (so rows stay aligned even when some return no options); a static list only
+	 * when it has items.
+	 */
+	protected readonly hasOptions = computed(() => {
+		const options = this.config().options;
+		return typeof options === 'function' || (options?.length ?? 0) > 0;
+	});
 	protected readonly areAllRowsSelected = computed(() => {
 		const data = this.config().data;
 		return data.length > 0 && this.selectedKeys().size === data.length;
@@ -216,6 +228,15 @@ export class TableComponent<T = unknown> {
 			return 'none';
 		}
 		return this.currentSortState === 'asc' ? 'ascending' : 'descending';
+	}
+
+	/**
+	 * The value to show in a cell. Only `null`, `undefined` and `''` fall back to
+	 * `'-'`; other falsy values such as `0` and `false` render as-is.
+	 */
+	protected cellValue(obj: T, prop: keyof T): unknown {
+		const value = obj[prop];
+		return value === null || value === undefined || value === '' ? '-' : value;
 	}
 
 	protected getClass(obj: T, prop: keyof T): string {
