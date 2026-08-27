@@ -93,6 +93,17 @@ handleTableAction(event: TableEvent) {}
 
 Row selection is tracked by row identity (see `trackBy`), so selections follow their rows across drag-drop reordering and reset automatically when a new `data` array is supplied. `selectedRows` is always reported as indices into the current `data` order.
 
+A cell shows `-` only when its value is `null`, `undefined` or `''`. Other falsy values such as `0` and `false` render as-is.
+
+`options` can be a static list or a function of the row:
+
+- An empty static list (`options: []`) adds no options column at all.
+- A function always gets the column, so rows stay aligned. A row the function returns `[]` for gets an empty cell with no ⋮ button. The function is called once per row per render.
+
+```typescript
+options: (user) => (user.locked ? [] : ['Edit', 'Delete']),
+```
+
 ### SearchBarComponent
 
 A styled search input with debounce functionality that works with **all three** Angular forms styles. It implements `ControlValueAccessor` (reactive + template-driven forms) **and** `FormValueControl` (Signal Forms, Angular 22+), so you can bind it whichever way your app uses.
@@ -183,6 +194,33 @@ catch (e: HttpErrorResponse) {
   this.errorService.sendError(e);
 }
 ```
+
+### ErrorDisplayComponent
+
+Shows an error inline as a short, readable message.
+
+```html
+<eui-error-display [error]="error" />
+```
+
+| Input              | Type          | Meaning           |
+| ------------------ | ------------- | ----------------- |
+| `error` (required) | `SystemError` | The error to show |
+
+```typescript
+export type SystemError = HttpErrorResponse | string | undefined;
+```
+
+What it renders for each kind of `error`:
+
+| `error`                                                                    | Rendered text         |
+| -------------------------------------------------------------------------- | --------------------- |
+| `HttpErrorResponse` with a string body (`error: 'INVALID_CREDENTIALS'`)    | `Invalid credentials` |
+| `HttpErrorResponse` with a `message` (`error: { message: 'email_taken' }`) | `Email taken`         |
+| A plain string (`'user_not_found'`)                                        | `User not found`      |
+| Anything else (`undefined`, or an `HttpErrorResponse` with neither)        | `Unknown error`       |
+
+The text always goes through [SnakeCaseParserPipe](#snakecaseparserpipe), so backend error codes read as sentences. Free-text messages are sentence-cased too (`'Invalid API token'` → `Invalid api token`).
 
 ### PasswordStrengthComponent
 
@@ -315,7 +353,12 @@ Turns `snake_case` / `SCREAMING_SNAKE_CASE` tokens into a readable, capitalised 
 
 <div>{{ 'user_API_key' | snakeCaseParser }}</div>
 <!-- Output: User API key -->
+
+<div>{{ maybeNull | snakeCaseParser }}</div>
+<!-- Output: nothing (null and undefined become '') -->
 ```
+
+`null` and `undefined` become an empty string. Other non-string values are converted with `String()` (`0` → `'0'`).
 
 ## Services
 

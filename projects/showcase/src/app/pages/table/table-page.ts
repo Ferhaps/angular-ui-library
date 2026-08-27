@@ -45,6 +45,50 @@ const NAMES = [
 
 const ROLES = ['Admin', 'Engineer', 'Designer', 'Manager', 'Analyst'];
 
+type Shift = {
+	id: number;
+	name: string;
+	status: 'open' | 'locked';
+	hours: number;
+	overtime: boolean;
+	note: string | null | undefined;
+};
+
+const SHIFTS: Shift[] = [
+	{
+		id: 1,
+		name: 'Ada Lovelace',
+		status: 'open',
+		hours: 8,
+		overtime: true,
+		note: 'Covers Monday',
+	},
+	{
+		id: 2,
+		name: 'Alan Turing',
+		status: 'open',
+		hours: 0,
+		overtime: false,
+		note: null,
+	},
+	{
+		id: 3,
+		name: 'Grace Hopper',
+		status: 'locked',
+		hours: 12,
+		overtime: true,
+		note: '',
+	},
+	{
+		id: 4,
+		name: 'Hedy Lamarr',
+		status: 'locked',
+		hours: 0,
+		overtime: false,
+		note: undefined,
+	},
+];
+
 function makeMembers(): Member[] {
 	return NAMES.map((name, i) => ({
 		id: i + 1,
@@ -191,6 +235,35 @@ export class TablePage {
 		);
 	}
 
+	// ---- Table 4: cell values + per-row options ---------------------------
+	protected readonly emptyOptions = signal(false);
+	protected readonly shiftsLog = signal<string[]>([]);
+
+	protected readonly shiftsConfig = computed<Config<Shift>>(() => ({
+		title: 'Shifts',
+		data: SHIFTS,
+		dataProps: ['name', 'status', 'hours', 'overtime', 'note'],
+		tableHeadings: ['Name', 'Status', 'Hours', 'Overtime', 'Note'],
+		trackBy: (s) => s.id,
+		options: this.emptyOptions()
+			? []
+			: (s) => (s.status === 'locked' ? [] : ['Edit', 'Delete']),
+	}));
+
+	protected toggleEmptyOptions(): void {
+		this.emptyOptions.update((empty) => !empty);
+	}
+
+	protected onShifts(event: TableEvent<Shift>): void {
+		if (event.action === 'scroll') {
+			return;
+		}
+		this.log(
+			this.shiftsLog,
+			`${event.action} → ${event.obj?.name ?? ''}`.trim(),
+		);
+	}
+
 	// ---- helpers ----------------------------------------------------------
 	private describe(e: TableEvent<Member>): string {
 		switch (e.action) {
@@ -265,4 +338,19 @@ export class TablePage {
 
 // template
 <eui-table [config]="config" />`;
+
+	protected readonly shiftsSnippet = `config: Config<Shift> = {
+  title: 'Shifts',
+  data: shifts,               // hours: 0 and overtime: false render as-is;
+                              // only null, undefined and '' show '-'
+  dataProps: ['name', 'status', 'hours', 'overtime', 'note'],
+  tableHeadings: ['Name', 'Status', 'Hours', 'Overtime', 'Note'],
+  trackBy: (s) => s.id,
+  // A function keeps the column; rows that get [] have no ⋮ button.
+  // A static [] removes the column entirely.
+  options: (s) => (s.status === 'locked' ? [] : ['Edit', 'Delete']),
+};
+
+// template
+<eui-table [config]="config" (action)="onAction($event)" />`;
 }

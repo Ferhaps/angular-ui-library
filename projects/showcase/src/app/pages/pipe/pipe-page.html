@@ -3,7 +3,8 @@
 	kind="Pipe · snakeCaseParser"
 	lead="Turns snake_case (or SCREAMING_SNAKE_CASE) tokens into a readable
 	label: underscores become spaces, the first letter is capitalised and the
-	rest lower-cased. Handy for rendering API enum values and error codes."
+	rest lower-cased. null and undefined render nothing. Handy for rendering
+	API enum values and error codes."
 />
 
 <app-demo-card heading="Try it live">
@@ -31,10 +32,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for (sample of samples; track sample) {
+			@for (sample of samples; track sample.label) {
+				@let output = sample.value | snakeCaseParser;
 				<tr>
-					<td class="mono">{{ sample }}</td>
-					<td>{{ sample | snakeCaseParser }}</td>
+					<td class="mono">{{ sample.label }}</td>
+					<td>
+						@if (output) {
+							{{ output }}
+						} @else {
+							<span class="empty">'' (empty string)</span>
+						}
+					</td>
 				</tr>
 			}
 		</tbody>

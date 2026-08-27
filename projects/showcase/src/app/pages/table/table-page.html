@@ -46,3 +46,21 @@
 	</div>
 	<app-code-block [code]="statesSnippet" class="code-block" />
 </app-demo-card>
+
+<app-demo-card
+	heading="Cell values · per-row options"
+	hint="0 and false render as-is"
+>
+	<div class="state-buttons">
+		<button mat-stroked-button (click)="toggleEmptyOptions()">
+			{{
+				emptyOptions() ? "Use per-row options function" : "Use options: []"
+			}}
+		</button>
+	</div>
+	<div class="table-host short">
+		<eui-table [config]="shiftsConfig()" (action)="onShifts($event)" />
+	</div>
+	<app-event-log title="TableEvent output" [events]="shiftsLog()" />
+	<app-code-block [code]="shiftsSnippet" class="code-block" />
+</app-demo-card>
