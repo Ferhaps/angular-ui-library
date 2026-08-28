@@ -104,6 +104,19 @@ describe('TableComponent', () => {
 					]);
 					expect(bodyRows()[1].cells[2].textContent?.trim()).toBe('');
 				});
+
+				it('keeps rows without a button as tall as rows with one', () => {
+					render({
+						draggable,
+						data: rows,
+						options: (row) => (row.label === 'locked' ? [] : ['Edit']),
+					});
+
+					const heights = bodyRows().map((r) => r.getBoundingClientRect().height);
+					expect(new Set(heights).size)
+						.withContext(`row heights: ${heights.join(', ')}`)
+						.toBe(1);
+				});
 			});
 		});
 	}

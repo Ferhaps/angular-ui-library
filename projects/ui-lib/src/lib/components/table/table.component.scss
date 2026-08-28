@@ -107,6 +107,13 @@ td {
 	width: fit-content;
 }
 
+// Holds an options cell with no menu button at the button's size, so every
+// row in the table keeps the same height.
+.options-spacer {
+	width: var(--mat-icon-button-state-layer-size, 40px);
+	height: var(--mat-icon-button-state-layer-size, 40px);
+}
+
 .draggable {
 	cursor: grabbing;
 }
