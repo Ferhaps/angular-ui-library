@@ -24,7 +24,11 @@ Raw `ng build` / `ng serve` (no project) will error now that there are two proje
 
 ### Tests
 
-Karma/Jasmine is configured, but Angular schematics are set with `skipTests: true` (see `angular.json`), so no `.spec.ts` files currently exist. New tests are opt-in. To run a single test/suite, mark it with Jasmine's `fit`/`fdescribe` — Karma has no built-in name filter via the CLI.
+Karma/Jasmine is configured, but Angular schematics are set with `skipTests: true` (see `angular.json`), so specs are not generated automatically — only a few hand-written `.spec.ts` files exist. New tests are opt-in. To run a single test/suite, mark it with Jasmine's `fit`/`fdescribe` — Karma has no built-in name filter via the CLI.
+
+### Browser checks (Playwright MCP)
+
+The Playwright MCP server writes page snapshots, console logs and screenshots into `.playwright-mcp/` at the repo root. **Always delete that folder when you finish using the browser** (`rm -rf .playwright-mcp`), and delete any screenshot you saved elsewhere too. Never commit these artifacts.
 
 ## Architecture
 
